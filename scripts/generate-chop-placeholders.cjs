@@ -8,7 +8,7 @@ const path = require("path");
 const outDir = path.join(__dirname, "../public/images");
 
 const FILES = [
-  "AllCaseBoxesChops.png",
+  "AllCaseBoxesChops.jpg",
   "1gCasePassionFruitChops.png",
   "1gCasePineappleChops.png",
   "1gCaseVanillaChops.png",

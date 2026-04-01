@@ -6,7 +6,7 @@ Real product renders: pull from your shared Cursor assets into this folder with:
 
 Or copy manually into this directory (public/images/):
 
-1. AllCaseBoxesChops.png — multi-flavor master case row (home hero only; not per-SKU PDP)
+1. AllCaseBoxesChops.jpg — multi-flavor master strip (JPEG; optional fallback). Home hero uses four 1g per-flavor master-case PNGs instead.
 2. 1gCasePassionFruitChops.png
 3. 1gCasePineappleChops.png
 4. 1gCaseVanillaChops.png

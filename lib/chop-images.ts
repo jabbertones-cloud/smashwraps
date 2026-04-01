@@ -12,8 +12,8 @@ export const FLAVOR_LOGO: Record<FlavorId, string> = {
   pineapple: "/images/flavor-pineapple.png",
   vanilla: "/images/flavor-vanilla.png",
 };
-/** Multi-flavor master case row — home hero only (not per-SKU PDP). */
-export const CHOP_HERO_ALL_CASE_BOXES = "/images/AllCaseBoxesChops.png";
+/** Multi-flavor master case strip — fallback only; file is JPEG (use .jpg extension). */
+export const CHOP_HERO_ALL_CASE_BOXES = "/images/AllCaseBoxesChops.jpg";
 
 /** Educational graphic: crush capsule in filter (brand art). */
 export const HOW_SMASH_CAPSULE = "/images/how-smash-capsule.png";

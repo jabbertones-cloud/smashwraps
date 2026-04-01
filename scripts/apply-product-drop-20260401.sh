@@ -21,6 +21,6 @@ cp -f "$ASSETS/image-8fef4d94-6f15-4906-a13a-4dedbe168449.png" "$OUT/2gCasePinea
 
 # Master multi-flavor case (hero + PDP first image) — from brand asset pack
 if [[ -f "$ASSETS/AllCaseBoxesChops-1b9b8035-e210-4abe-b9b4-106c248970b1.png" ]]; then
-  cp -f "$ASSETS/AllCaseBoxesChops-1b9b8035-e210-4abe-b9b4-106c248970b1.png" "$OUT/AllCaseBoxesChops.png"
+  cp -f "$ASSETS/AllCaseBoxesChops-1b9b8035-e210-4abe-b9b4-106c248970b1.png" "$OUT/AllCaseBoxesChops.jpg"
 fi
 echo "Applied retail box drop → $OUT"

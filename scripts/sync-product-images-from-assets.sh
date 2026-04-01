@@ -35,7 +35,7 @@ copy() {
 }
 
 # Pack / hero + PDP / shop (filenames must match lib/chop-images.ts)
-copy "AllCaseBoxesChops-1b9b8035-e210-4abe-b9b4-106c248970b1.png" "AllCaseBoxesChops.png"
+copy "AllCaseBoxesChops-1b9b8035-e210-4abe-b9b4-106c248970b1.png" "AllCaseBoxesChops.jpg"
 copy "1gCasePassionFruitChops-730e1ba7-7ea6-4bd2-9a32-eb52dcde021c.png" "1gCasePassionFruitChops.png"
 copy "1gCasePineappleChops-b65a3522-118d-47f7-b13a-8c743fa4eb44.png" "1gCasePineappleChops.png"
 copy "1gCaseVanillaChops-626d1ecb-6173-4289-b126-91e3a4fb8445.png" "1gCaseVanillaChops.png"
