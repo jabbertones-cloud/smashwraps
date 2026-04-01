@@ -43,7 +43,7 @@ function dripCopy(
       ? {
           title: "Still browsing?",
           preheader: "Smash Wraps — flavor in the capsule tip",
-          lead: "<strong>Quick reminder:</strong> each retail box has <strong>three 110mm Chops</strong> — pick a flavor, then <strong>1g or 2g</strong>.",
+          lead: "<strong>Quick reminder:</strong> each retail box has <strong>three 109mm Cali-style Chops</strong> — pick a flavor, then <strong>1g or 2g</strong>.",
           detail:
             "Checkout is secure. Shipping and tax show before you pay.",
         }

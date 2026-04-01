@@ -27,14 +27,26 @@ export function SiteHeader() {
             priority
           />
         </Link>
-        <nav className="flex items-center gap-3 text-legal font-semibold uppercase tracking-wider text-zinc-400 md:gap-8 md:text-sm">
-          <Link href="/shop" className="transition hover:text-white">
+        <nav
+          className="flex items-center gap-3 text-legal font-semibold uppercase tracking-wider text-zinc-400 md:gap-8 md:text-sm"
+          aria-label="Primary"
+        >
+          <Link
+            href="/shop"
+            className="rounded-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-smash-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505]"
+          >
             Shop
           </Link>
-          <Link href="/#how" className="hidden transition hover:text-white sm:inline">
+          <Link
+            href="/#how"
+            className="hidden rounded-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-smash-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505] sm:inline"
+          >
             The Chop
           </Link>
-          <Link href="/faq" className="hidden transition hover:text-white md:inline">
+          <Link
+            href="/faq"
+            className="hidden rounded-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-smash-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505] md:inline"
+          >
             FAQ
           </Link>
           <Button

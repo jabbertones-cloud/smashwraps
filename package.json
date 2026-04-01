@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "gate:baseline": "node ../scripts/claw-baseline-gate.js .",
+    "gate:security": "node ../scripts/claw-security-gate.js .",
     "images:placeholders": "node scripts/generate-chop-placeholders.cjs",
     "images:sync": "bash scripts/sync-product-images-from-assets.sh",
     "images:apply-retail-boxes": "bash scripts/apply-product-drop-20260401.sh",

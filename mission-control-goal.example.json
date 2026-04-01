@@ -1,0 +1,3 @@
+{
+  "goal": "Smash Wraps retail (smashwraps-retail): address repo-completion-gap next_actions — improve observability (structured logs or error boundaries on checkout paths), add one Playwright smoke (home → shop → PDP), re-run capability-factory after webhook/auth hardening; skip full multitenant unless product scope changes. Path: claw-architect/smashwraps-retail."
+}

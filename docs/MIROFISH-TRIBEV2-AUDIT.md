@@ -60,7 +60,7 @@
 
 ### Conversion Copywriter
 
-- **Hero:** Lead with outcome (“Flavor in the tip, not on the paper”) + proof (“3 Chops · 110mm”).
+- **Hero:** Lead with outcome (“Flavor in the tip, not on the paper”) + proof (“3 Chops · 109mm Cali-style”).
 - **Risk:** Superlatives without proof — kept factual; compliance still owns claims.
 
 ### Growth PM

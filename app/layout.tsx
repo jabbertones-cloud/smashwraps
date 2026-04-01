@@ -12,6 +12,7 @@ import { SkipLink } from "@/components/skip-link";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { MarketingTags } from "@/components/analytics/marketing-tags";
 import { shouldSkipAgeGateForUserAgent } from "@/lib/verification-bots";
+import { CHOP_SPECS_GLOBAL_SUMMARY } from "@/lib/products";
 import { getCanonicalSiteUrl } from "@/lib/site-url";
 
 const bebas = Bebas_Neue({
@@ -45,8 +46,7 @@ export const metadata: Metadata = {
     default: "Smash Wraps — The CHOP | Rice paper tubes",
     template: "%s | Smash Wraps",
   },
-  description:
-    "Smash Wraps The CHOP — flavor in the capsule tip, not sprayed on the sheet. 110mm rice paper tubes, 3 Chops per box, four flavors, 1g & 2g. Single retail boxes. Adults 21+ where required.",
+  description: `Smash Wraps The CHOP — flavor in the capsule tip, not sprayed on the sheet. Three 109mm Cali-style tubes per box (${CHOP_SPECS_GLOBAL_SUMMARY}), four flavors, 1g & 2g. Single retail boxes. Adults 21+ where required.`,
   keywords: [
     "Smash Wraps The CHOP",
     "The CHOP rice paper tubes",
@@ -56,7 +56,9 @@ export const metadata: Metadata = {
     "rice paper tubes",
     "flavor capsule",
     "rolling papers alternative",
-    "110mm tubes",
+    "109mm Cali tubes",
+    "109x11",
+    "109x14",
   ],
   robots: {
     index: true,
@@ -69,8 +71,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "Smash Wraps — The CHOP",
     title: "Smash Wraps — The CHOP",
-    description:
-      "Flavor in the capsule tip — Smash Wraps The CHOP. 3 Chops per box · 110mm · four flavors. Single retail boxes.",
+    description: `Flavor in the capsule tip — Smash Wraps The CHOP. 3 Chops per box · ${CHOP_SPECS_GLOBAL_SUMMARY} · four flavors. Single retail boxes.`,
     images: [
       {
         url: `${siteUrl}/images/AllCaseBoxesChops.jpg`,

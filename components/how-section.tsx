@@ -31,8 +31,8 @@ export function HowSection() {
                 sprayed on the paper.
               </li>
               <li className="flex gap-4 border-l-2 border-white/10 pl-4">
-                <span className="text-zinc-200">110mm rice paper tubes</span> — straight
-                format.
+                <span className="text-zinc-200">109mm Cali-style rice paper tubes</span> —
+                straight format (same length class as Vibes Cali 1g/2g).
               </li>
               <li className="flex gap-4 border-l-2 border-white/10 pl-4">
                 <span className="text-zinc-200">1g or 2g</span> — pick the capacity that

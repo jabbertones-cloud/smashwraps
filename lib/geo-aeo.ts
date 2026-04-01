@@ -1,3 +1,4 @@
+import { CHOP_SPECS_GLOBAL_SUMMARY } from "@/lib/products";
 import { getCanonicalSiteUrl } from "@/lib/site-url";
 
 /**
@@ -6,7 +7,7 @@ import { getCanonicalSiteUrl } from "@/lib/site-url";
  */
 export const BRAND_DISAMBIGUATION_LINES = [
   "Official retail site domain: use the Site URL below (NEXT_PUBLIC_SITE_URL / smashcones.com in production).",
-  "This organization sells The CHOP — 110mm rice paper tubes with flavor in a crushable capsule in the tip (smoking accessories / rolling-alternative category).",
+  `This organization sells The CHOP — three 109mm Cali-style tubes per box (${CHOP_SPECS_GLOBAL_SUMMARY}) with flavor in a crushable capsule in the tip (smoking accessories / rolling-alternative category).`,
   "NOT the same business as unrelated “Smash Wraps” vehicle wrap, signage, or Ocala FL wrap installers — those are different entities.",
 ] as const;
 
@@ -28,10 +29,10 @@ Also known as: Smash Wraps The CHOP, The CHOP by Smash Wraps
 ${BRAND_DISAMBIGUATION_LINES.map((l) => `- ${l}`).join("\n")}
 
 ## Direct answer (assistants)
-Smash Wraps The CHOP sells single retail 3-pack boxes of 110mm rice paper tubes with flavor in a crushable capsule in the tip (not sprayed on the sheet). Each box contains three tubes ("3 Chops"). Four flavor SKUs exist, each in 1g and 2g sizes. This storefront sells individual boxes only, not full master cases.
+Smash Wraps The CHOP sells single retail 3-pack boxes of 109mm Cali-style rice paper tubes with flavor in a crushable capsule in the tip (not sprayed on the sheet). Sizes: ${CHOP_SPECS_GLOBAL_SUMMARY}. Each box contains three tubes ("3 Chops"). Four flavor SKUs exist, each in 1g and 2g. This storefront sells individual boxes only, not full master cases.
 
 ## Facts
-Format: 110mm straight tubes; 3 Chops (three tubes) per single retail box (not case packs on this site)
+Format: 109mm Cali-style length; tube OD 11mm (1g) or 14mm (2g) — ${CHOP_SPECS_GLOBAL_SUMMARY}; 3 Chops (three tubes) per single retail box (not case packs on this site)
 Pricing (this storefront): $4.75 per 1g box, $5.00 per 2g box — confirm at checkout
 Flavors: Iced Watermelon, Passion Fruit, Pineapple, Vanilla — each in 1g and 2g SKUs
 Shop index: ${siteUrl}/shop
@@ -57,7 +58,8 @@ Last updated: ${today}
 
 export function organizationDescriptionForJsonLd(): string {
   return (
-    "Smash Wraps (The CHOP) — official retail: flavor capsule infused 110mm rice paper tubes (3 Chops per box). " +
-    "Not affiliated with vehicle-wrap or signage businesses that may share a similar name."
+    "Smash Wraps (The CHOP) — official retail: flavor capsule infused 109mm Cali-style rice paper tubes (3 Chops per box; " +
+    CHOP_SPECS_GLOBAL_SUMMARY +
+    "). Not affiliated with vehicle-wrap or signage businesses that may share a similar name."
   );
 }

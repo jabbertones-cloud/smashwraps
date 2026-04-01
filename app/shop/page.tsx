@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     url: shopUrl,
     title: "Shop The CHOP — Smash Wraps",
     description:
-      "Single retail boxes: 3 Chops per box, 110mm tubes. Flavor in the capsule tip.",
+      "Single retail boxes: 3 Chops per box, 109mm Cali-style tubes. Flavor in the capsule tip.",
   },
 };
 

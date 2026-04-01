@@ -28,7 +28,8 @@ export function Hero() {
           </h1>
           <p className="mt-5 max-w-prose text-lead font-medium text-zinc-200">
             Flavor where you want it — in the capsule tip, not sprayed on the sheet. A
-            consistent 110mm ritual: three Chops per box, your blend, your pace.
+            consistent 109mm Cali-style ritual (same length class as Vibes Cali 1g/2g): three
+            Chops per box, your blend, your pace.
           </p>
           <p className="mt-4 max-w-prose text-body text-zinc-400">
             Straight tubes, four flavor-forward profiles, 1g or 2g. This shop sells single

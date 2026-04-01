@@ -15,7 +15,7 @@ export function buildWelcomeEmailHtml(arm: "a" | "b" = "a"): string {
       : `<p><strong>Welcome.</strong> You’re on the list for <strong>The CHOP</strong> — we’ll share restocks, short product notes, and occasional offers. No fluff.</p>`;
   const body = `
     ${intro}
-    <p>One box = <strong>3 Chops</strong> (110mm tubes). Pick a flavor, then 1g or 2g.</p>
+    <p>One box = <strong>3 Chops</strong> (109mm Cali-style tubes). Pick a flavor, then 1g or 2g.</p>
     ${ctaButton(`${url}/shop`, "Shop all flavors")}
     <p style="font-size:13px;color:#71717a;margin-top:20px;line-height:1.5;">Buying for a store or need case pricing? See the <a href="${url}/wholesale" style="color:#facc15;">wholesale sales sheet</a> (not indexed — link only).</p>
     <p style="font-size:12px;color:#52525b;margin-top:16px;">Adults <strong>21+</strong> where required. Unsubscribe from marketing anytime via the link in those emails.</p>
@@ -214,7 +214,7 @@ export function buildWholesaleInquiryInternalHtml(input: {
 export function buildRemindMeLaterHtml(): string {
   const url = getSiteUrl();
   const body = `
-    <p>No charge was made. When you’re ready, you’ll pick a <strong>flavor</strong> and <strong>1g or 2g</strong> — each retail box has <strong>three 110mm Chops</strong>, flavor in the capsule tip.</p>
+    <p>No charge was made. When you’re ready, you’ll pick a <strong>flavor</strong> and <strong>1g or 2g</strong> — each retail box has <strong>three 109mm Cali-style Chops</strong>, flavor in the capsule tip.</p>
     <p style="font-size:13px;color:#71717a;">Unsure about shipping or eligibility? Read <a href="${url}/faq" style="color:#facc15;">FAQ</a> first.</p>
     ${ctaButton(`${url}/shop`, "Go to shop")}
   `;

@@ -3,6 +3,21 @@ import { chopThreePackImageForSlug } from "@/lib/chop-images";
 export type FlavorId = "iced-watermelon" | "passion-fruit" | "pineapple" | "vanilla";
 export type GramSize = "1g" | "2g";
 
+/** Cali-style length × tube OD — matches retail packaging (109×11 = 1g, 109×14 = 2g). */
+export const CHOP_PHYSICAL_SPEC = {
+  "1g": { lengthMm: 109, tubeOdMm: 11 },
+  "2g": { lengthMm: 109, tubeOdMm: 14 },
+} as const;
+
+/** Short site-wide line for meta / hero (both sizes in one sentence). */
+export const CHOP_SPECS_GLOBAL_SUMMARY =
+  "1g = 109×11mm · 2g = 109×14mm (length × tube OD, Cali-style)";
+
+export function chopRetailBoxCopy(grams: GramSize): string {
+  const s = CHOP_PHYSICAL_SPEC[grams];
+  return `One box = one retail unit with 3 Chops (three 109mm Cali-style tubes; ${s.lengthMm}×${s.tubeOdMm}mm). Flavor in the capsule tip — not sprayed on the sheet. Patent pending. This site sells single boxes only, not by the case.`;
+}
+
 export type Product = {
   slug: string;
   name: string;
@@ -19,9 +34,6 @@ export type Product = {
   stripePriceEnvKey: string;
 };
 
-const pack =
-  "One box = one retail unit with 3 Chops (three 110mm tubes). Flavor in the capsule tip — not sprayed on the sheet. Patent pending. This site sells single boxes only, not by the case.";
-
 export const PRODUCTS: Product[] = [
   {
     slug: "iced-watermelon-1g",
@@ -31,7 +43,7 @@ export const PRODUCTS: Product[] = [
     grams: "1g",
     priceCents: 475,
     currency: "usd",
-    description: `Iced Watermelon flavor. ${pack}`,
+    description: `Iced Watermelon flavor. ${chopRetailBoxCopy("1g")}`,
     image: chopThreePackImageForSlug("iced-watermelon-1g"),
     stripeProductEnvKey: "STRIPE_PRODUCT_ICED_WATERMELON_1G",
     stripePriceEnvKey: "STRIPE_PRICE_ICED_WATERMELON_1G",
@@ -44,7 +56,7 @@ export const PRODUCTS: Product[] = [
     grams: "2g",
     priceCents: 500,
     currency: "usd",
-    description: `Iced Watermelon flavor. ${pack}`,
+    description: `Iced Watermelon flavor. ${chopRetailBoxCopy("2g")}`,
     image: chopThreePackImageForSlug("iced-watermelon-2g"),
     stripeProductEnvKey: "STRIPE_PRODUCT_ICED_WATERMELON_2G",
     stripePriceEnvKey: "STRIPE_PRICE_ICED_WATERMELON_2G",
@@ -57,7 +69,7 @@ export const PRODUCTS: Product[] = [
     grams: "1g",
     priceCents: 475,
     currency: "usd",
-    description: `Passion Fruit flavor. ${pack}`,
+    description: `Passion Fruit flavor. ${chopRetailBoxCopy("1g")}`,
     image: chopThreePackImageForSlug("passion-fruit-1g"),
     stripeProductEnvKey: "STRIPE_PRODUCT_PASSION_FRUIT_1G",
     stripePriceEnvKey: "STRIPE_PRICE_PASSION_FRUIT_1G",
@@ -70,7 +82,7 @@ export const PRODUCTS: Product[] = [
     grams: "2g",
     priceCents: 500,
     currency: "usd",
-    description: `Passion Fruit flavor. ${pack}`,
+    description: `Passion Fruit flavor. ${chopRetailBoxCopy("2g")}`,
     image: chopThreePackImageForSlug("passion-fruit-2g"),
     stripeProductEnvKey: "STRIPE_PRODUCT_PASSION_FRUIT_2G",
     stripePriceEnvKey: "STRIPE_PRICE_PASSION_FRUIT_2G",
@@ -83,7 +95,7 @@ export const PRODUCTS: Product[] = [
     grams: "1g",
     priceCents: 475,
     currency: "usd",
-    description: `Pineapple flavor. ${pack}`,
+    description: `Pineapple flavor. ${chopRetailBoxCopy("1g")}`,
     image: chopThreePackImageForSlug("pineapple-1g"),
     stripeProductEnvKey: "STRIPE_PRODUCT_PINEAPPLE_1G",
     stripePriceEnvKey: "STRIPE_PRICE_PINEAPPLE_1G",
@@ -96,7 +108,7 @@ export const PRODUCTS: Product[] = [
     grams: "2g",
     priceCents: 500,
     currency: "usd",
-    description: `Pineapple flavor. ${pack}`,
+    description: `Pineapple flavor. ${chopRetailBoxCopy("2g")}`,
     image: chopThreePackImageForSlug("pineapple-2g"),
     stripeProductEnvKey: "STRIPE_PRODUCT_PINEAPPLE_2G",
     stripePriceEnvKey: "STRIPE_PRICE_PINEAPPLE_2G",
@@ -109,7 +121,7 @@ export const PRODUCTS: Product[] = [
     grams: "1g",
     priceCents: 475,
     currency: "usd",
-    description: `Vanilla flavor. ${pack}`,
+    description: `Vanilla flavor. ${chopRetailBoxCopy("1g")}`,
     image: chopThreePackImageForSlug("vanilla-1g"),
     stripeProductEnvKey: "STRIPE_PRODUCT_VANILLA_1G",
     stripePriceEnvKey: "STRIPE_PRICE_VANILLA_1G",
@@ -122,7 +134,7 @@ export const PRODUCTS: Product[] = [
     grams: "2g",
     priceCents: 500,
     currency: "usd",
-    description: `Vanilla flavor. ${pack}`,
+    description: `Vanilla flavor. ${chopRetailBoxCopy("2g")}`,
     image: chopThreePackImageForSlug("vanilla-2g"),
     stripeProductEnvKey: "STRIPE_PRODUCT_VANILLA_2G",
     stripePriceEnvKey: "STRIPE_PRICE_VANILLA_2G",
