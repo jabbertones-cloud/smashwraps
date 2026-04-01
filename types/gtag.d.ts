@@ -1,6 +1,6 @@
 /**
- * GA4: gtag.js from `GoogleAnalytics` in `components/analytics/ga4-root.tsx`.
- * Prefer `sendGAEvent` from `@next/third-parties/google` in client code (`lib/analytics/gtag-client.ts`).
+ * GA4 / GTM: see `components/analytics/marketing-tags.tsx` and `lib/analytics/gtag-client.ts`.
+ * Direct GA uses `sendGAEvent`; with `NEXT_PUBLIC_GTM_ID`, events use `sendGTMEvent` (dataLayer).
  */
 export {};
 

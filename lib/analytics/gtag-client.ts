@@ -1,17 +1,24 @@
 "use client";
 
-import { sendGAEvent } from "@next/third-parties/google";
+import { sendGAEvent, sendGTMEvent } from "@next/third-parties/google";
 import type { Ga4Item } from "@/lib/analytics/ga4-ecommerce";
 
+/** When set, all ecommerce/lead events go to GTM dataLayer (configure GA4 tag in GTM). */
+const gtmContainerId = process.env.NEXT_PUBLIC_GTM_ID?.trim();
+
 /**
- * GA4 events via `sendGAEvent` (queues on dataLayer like gtag; works once GoogleAnalytics mounted).
+ * GA4 events — uses `sendGAEvent` (direct gtag) or `sendGTMEvent` (GTM dataLayer) depending on env.
  */
 export function sendGa4Event(
   name: string,
   params?: Record<string, unknown>,
 ): void {
   if (typeof window === "undefined") return;
-  sendGAEvent("event", name, params ?? {});
+  if (gtmContainerId) {
+    sendGTMEvent({ event: name, ...params });
+  } else {
+    sendGAEvent("event", name, params ?? {});
+  }
 }
 
 export function trackViewItemList(items: Ga4Item[], listName: string): void {
@@ -46,13 +53,6 @@ export function trackBeginCheckoutThenRedirect(
   valueCents: number,
   redirect: () => void,
 ): void {
-  const payload: Record<string, unknown> = {
-    currency: "USD",
-    value: valueCents / 100,
-    items,
-    event_callback: redirect,
-  };
-
   if (typeof window === "undefined") {
     redirect();
     return;
@@ -65,10 +65,26 @@ export function trackBeginCheckoutThenRedirect(
     redirect();
   };
 
+  const base = {
+    currency: "USD",
+    value: valueCents / 100,
+    items,
+  };
+
+  if (gtmContainerId) {
+    sendGTMEvent({ event: "begin_checkout", ...base });
+    const fallback = window.setTimeout(() => safeRedirect(), 2000);
+    window.setTimeout(() => {
+      window.clearTimeout(fallback);
+      safeRedirect();
+    }, 300);
+    return;
+  }
+
   const fallback = window.setTimeout(() => safeRedirect(), 2000);
 
   const wrapped: Record<string, unknown> = {
-    ...payload,
+    ...base,
     event_callback: () => {
       window.clearTimeout(fallback);
       safeRedirect();
@@ -95,5 +111,18 @@ export function trackPurchase(payload: PurchasePayload): void {
     tax: payload.tax,
     shipping: payload.shipping,
     items: payload.items,
+  });
+}
+
+/** Newsletter / lead capture — GA4 recommended event. */
+export function trackGenerateLead(input: {
+  source: string;
+  method?: string;
+}): void {
+  sendGa4Event("generate_lead", {
+    currency: "USD",
+    value: 0,
+    lead_source: input.source,
+    method: input.method ?? "email",
   });
 }

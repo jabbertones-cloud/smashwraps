@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { trackGenerateLead } from "@/lib/analytics/gtag-client";
 
 type Source = "footer" | "success" | "cancel" | "cart";
 
@@ -40,6 +41,7 @@ export function EmailCaptureForm({
           ? data.message
           : "Thanks — check your inbox.",
       );
+      trackGenerateLead({ source, method: "email" });
       setEmail("");
     } catch {
       setStatus("err");

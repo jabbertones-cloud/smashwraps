@@ -10,12 +10,9 @@ import { CartDrawer } from "@/components/cart-drawer";
 import { AgeGate } from "@/components/age-gate";
 import { SkipLink } from "@/components/skip-link";
 import { ScrollToTop } from "@/components/scroll-to-top";
-import { Ga4Root } from "@/components/analytics/ga4-root";
+import { MarketingTags } from "@/components/analytics/marketing-tags";
 import { shouldSkipAgeGateForUserAgent } from "@/lib/verification-bots";
 import { getCanonicalSiteUrl } from "@/lib/site-url";
-
-const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
-const gaDebugMode = process.env.NEXT_PUBLIC_GA_DEBUG === "1";
 
 const bebas = Bebas_Neue({
   weight: "400",
@@ -92,9 +89,7 @@ export default async function RootLayout({
         className={`${bebas.variable} ${dm.variable} relative bg-[#050505] font-sans antialiased text-zinc-100 selection:bg-smash-yellow selection:text-black`}
       >
         <Providers>
-          {gaMeasurementId ? (
-            <Ga4Root gaId={gaMeasurementId} debugMode={gaDebugMode} />
-          ) : null}
+          <MarketingTags />
           <ScrollToTop />
           <SkipLink />
           <Noise />
