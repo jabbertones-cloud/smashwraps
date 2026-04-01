@@ -48,7 +48,7 @@ export function CartEmailReminder() {
 
   if (status === "ok") {
     return (
-      <p className="text-xs text-zinc-400" role="status">
+      <p className="text-legal text-zinc-400" role="status">
         {msg}
       </p>
     );
@@ -56,10 +56,10 @@ export function CartEmailReminder() {
 
   return (
     <form onSubmit={onSubmit} className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
-      <p className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+      <p className="text-legal font-medium uppercase tracking-wider text-zinc-500">
         Email my cart
       </p>
-      <p className="mt-1 text-[10px] leading-relaxed text-zinc-600">
+      <p className="mt-1 text-legal leading-relaxed text-zinc-600">
         We will send one reminder with a link to restore these items.
       </p>
       <div className="mt-2 flex gap-2">
@@ -74,12 +74,12 @@ export function CartEmailReminder() {
           onChange={(e) => setEmail(e.target.value)}
           className="min-h-11 min-w-0 flex-1 rounded-lg border border-white/15 bg-black/40 px-3 text-base text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-smash-yellow"
         />
-        <Button type="submit" size="sm" disabled={status === "loading"} className="min-h-11 shrink-0 px-4 text-xs">
+        <Button type="submit" size="sm" disabled={status === "loading"} className="min-h-11 shrink-0 px-4 text-legal">
           {status === "loading" ? "…" : "Send"}
         </Button>
       </div>
       {msg && status === "err" ? (
-        <p className="mt-2 text-[10px] text-red-400">{msg}</p>
+        <p className="mt-2 text-legal text-red-400">{msg}</p>
       ) : null}
     </form>
   );

@@ -51,7 +51,7 @@ export function EmailCaptureForm({
 
   if (status === "ok") {
     return (
-      <p className={`text-sm text-zinc-400 ${className}`} role="status">
+      <p className={`text-body text-zinc-400 ${className}`} role="status">
         {msg}
       </p>
     );
@@ -81,11 +81,11 @@ export function EmailCaptureForm({
         </Button>
       </div>
       {msg && status === "err" ? (
-        <p className="mt-2 text-xs text-red-400" role="alert">
+        <p className="mt-2 text-legal text-red-400" role="alert">
           {msg}
         </p>
       ) : null}
-      <p className="mt-2 text-[10px] text-zinc-600">
+      <p className="mt-2 text-legal text-zinc-600">
         News, restocks, and offers. 21+ where required.{" "}
         <a href="/legal/privacy" className="underline hover:text-zinc-400">
           Privacy

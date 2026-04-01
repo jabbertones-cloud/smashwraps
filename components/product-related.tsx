@@ -15,7 +15,7 @@ export function ProductRelated({ currentSlug }: { currentSlug: string }) {
 
   return (
     <section
-      className="mt-20 border-t border-white/10 pt-16 md:mt-24"
+      className="mt-20 border-t border-white/10 pt-20 md:mt-28 md:pt-28"
       aria-labelledby="related-products-heading"
     >
       <h2
@@ -58,7 +58,7 @@ function RelatedCard({ product }: { product: Product }) {
         />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate font-display text-sm font-semibold tracking-wide text-white group-hover:text-smash-yellow">
+        <p className="truncate font-display text-body font-semibold tracking-wide text-white group-hover:text-smash-yellow">
           {product.flavorLabel}
         </p>
         <p className="text-legal text-zinc-500">{product.grams}</p>

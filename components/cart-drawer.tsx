@@ -97,7 +97,7 @@ export function CartDrawer() {
 
           <div className="flex-1 overflow-y-auto p-6">
             {items.length === 0 ? (
-              <p className="text-sm text-zinc-500">Your cart is empty.</p>
+              <p className="text-body text-zinc-500">Your cart is empty.</p>
             ) : (
               <ul className="space-y-4">
                 {items.map(({ product, quantity }) => (
@@ -118,7 +118,7 @@ export function CartDrawer() {
                       <p className="truncate font-semibold text-white">
                         {product.name}
                       </p>
-                      <p className="text-xs text-zinc-500">
+                      <p className="text-legal text-zinc-500">
                         {new Intl.NumberFormat("en-US", {
                           style: "currency",
                           currency: "USD",
@@ -128,19 +128,19 @@ export function CartDrawer() {
                       <div className="mt-2 flex items-center gap-2">
                         <button
                           type="button"
-                          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded border border-white/20 text-sm text-white hover:bg-white/10"
+                          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded border border-white/20 text-body text-white hover:bg-white/10"
                           onClick={() =>
                             setQty(product.slug, quantity - 1)
                           }
                         >
                           −
                         </button>
-                        <span className="w-6 text-center text-sm text-white">
+                        <span className="w-6 text-center text-body text-white">
                           {quantity}
                         </span>
                         <button
                           type="button"
-                          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded border border-white/20 text-sm text-white hover:bg-white/10"
+                          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded border border-white/20 text-body text-white hover:bg-white/10"
                           onClick={() =>
                             setQty(product.slug, quantity + 1)
                           }
@@ -149,7 +149,7 @@ export function CartDrawer() {
                         </button>
                         <button
                           type="button"
-                          className="ml-auto text-xs text-red-400 hover:underline"
+                          className="ml-auto text-legal text-red-400 hover:underline"
                           onClick={() => remove(product.slug)}
                         >
                           Remove
@@ -165,13 +165,13 @@ export function CartDrawer() {
           <div className="border-t border-white/10 p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
             {items.length > 0 ? (
               <>
-                <div className="mb-2 flex justify-between text-sm text-zinc-400">
+                <div className="mb-2 flex justify-between text-body text-zinc-400">
                   <span>Subtotal</span>
                   <span className="font-mono text-white">{formatted}</span>
                 </div>
                 {subtotalCents > 0 &&
                   subtotalCents < RETAIL_FREE_SHIPPING_THRESHOLD_CENTS && (
-                    <p className="mb-3 rounded-lg border border-smash-yellow/25 bg-smash-yellow/5 px-3 py-2 text-xs leading-snug text-zinc-300">
+                    <p className="mb-3 rounded-lg border border-smash-yellow/25 bg-smash-yellow/5 px-3 py-2 text-legal leading-snug text-zinc-300">
                       Add{" "}
                       <span className="font-mono font-semibold text-white">
                         {money(RETAIL_FREE_SHIPPING_THRESHOLD_CENTS - subtotalCents)}
@@ -180,17 +180,17 @@ export function CartDrawer() {
                       <strong className="text-smash-yellow">free US shipping</strong>.
                     </p>
                   )}
-                <div className="mb-2 flex justify-between text-sm text-zinc-400">
+                <div className="mb-2 flex justify-between text-body text-zinc-400">
                   <span>Shipping (US)</span>
                   <span className="font-mono text-white">
                     {shippingCents === 0 ? "Free" : formattedShipping}
                   </span>
                 </div>
-                <div className="mb-4 flex justify-between text-sm font-medium text-zinc-300">
+                <div className="mb-4 flex justify-between text-body font-medium text-zinc-300">
                   <span>Estimated total</span>
                   <span className="font-mono text-white">{formattedTotal}</span>
                 </div>
-                <p className="mb-4 text-xs text-zinc-500">
+                <p className="mb-4 text-legal text-zinc-500">
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
@@ -208,7 +208,7 @@ export function CartDrawer() {
               <CartEmailReminder />
             </div>
             {error && (
-              <p className="mb-2 text-sm text-red-400" role="alert">
+              <p className="mb-2 text-body text-red-400" role="alert">
                 {error}
               </p>
             )}
@@ -219,19 +219,19 @@ export function CartDrawer() {
             >
               {loading ? "Opening checkout…" : "Checkout"}
             </Button>
-            <p className="mt-2 text-center text-[11px] text-zinc-600">
+            <p className="mt-2 text-center text-legal text-zinc-600">
               Secure checkout with Stripe — no account required.
             </p>
             {items.length > 0 && (
               <button
                 type="button"
-                className="mt-3 w-full text-center text-xs text-zinc-500 hover:text-white"
+                className="mt-3 w-full text-center text-legal text-zinc-500 hover:text-white"
                 onClick={() => clear()}
               >
                 Clear cart
               </button>
             )}
-            <p className="mt-4 text-center text-[10px] text-zinc-600">
+            <p className="mt-4 text-center text-legal text-zinc-600">
               <Link href="/legal/privacy" className="underline hover:text-zinc-400">
                 Privacy
               </Link>
