@@ -113,8 +113,8 @@ export default async function ProductPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
-      <div className="mx-auto max-w-6xl px-4 pb-28 pt-12 md:px-6 md:py-16 lg:pb-12">
-        <nav className="text-xs text-zinc-500" aria-label="Breadcrumb">
+      <div className="section-inner px-4 pb-28 pt-20 md:px-6 md:pt-28 md:pb-16 lg:pb-12">
+        <nav className="text-legal text-zinc-500" aria-label="Breadcrumb">
           <ol className="flex flex-wrap gap-2">
             <li>
               <Link href="/" className="hover:text-white">
@@ -135,7 +135,7 @@ export default async function ProductPage({ params }: Props) {
         <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-6">
             <figure className="space-y-2">
-              <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
+              <div className="panel-premium relative aspect-square bg-zinc-950">
                 <AssetImage
                   src={product.image}
                   alt={`${product.name} — single 3-pack retail box (what we ship)`}
@@ -145,12 +145,12 @@ export default async function ProductPage({ params }: Props) {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              <figcaption className="text-center text-xs text-zinc-500">
+              <figcaption className="text-center text-legal text-zinc-500">
                 What you buy — one 3-pack box ({product.grams})
               </figcaption>
             </figure>
             <figure className="space-y-2">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 md:aspect-[16/10]">
+              <div className="panel-premium relative aspect-[4/3] bg-zinc-950 md:aspect-[16/10]">
                 <AssetImage
                   src={masterCaseSrc}
                   alt={`${product.flavorLabel} — retail master case display reference (${product.grams})`}
@@ -159,7 +159,7 @@ export default async function ProductPage({ params }: Props) {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              <figcaption className="text-center text-xs text-zinc-500">
+              <figcaption className="text-center text-legal text-zinc-500">
                 Store display reference — master case (not sold by the case here)
               </figcaption>
             </figure>
@@ -171,7 +171,7 @@ export default async function ProductPage({ params }: Props) {
             <h1 className="mt-2 font-display text-4xl leading-tight text-white md:text-5xl">
               {product.flavorLabel} · {product.grams}
             </h1>
-            <p className="mt-4 max-w-prose text-base leading-relaxed text-zinc-400 md:text-lg">
+            <p className="mt-4 max-w-prose text-lead text-zinc-400">
               {product.description}
             </p>
             <p className="mt-6 font-mono text-3xl text-white">{price}</p>
@@ -184,17 +184,17 @@ export default async function ProductPage({ params }: Props) {
               per order · free when subtotal is {freeShipMin} or more. Taxes where applicable
               at checkout.
             </p>
-            <p className="mt-3 text-xs text-zinc-600">
+            <p className="mt-3 text-legal text-zinc-600">
               Patent pending · Flavor in the capsule tip for a consistent profile from first
               chop to last.
             </p>
             <div className="mt-8 hidden lg:block">
               <AddToCartButton slug={product.slug} />
             </div>
-            <p className="mt-8 text-xs text-zinc-600">
+            <p className="mt-8 text-legal text-zinc-600">
               Adults 21+ where required. Follow your local laws.
             </p>
-            <p className="mt-4 text-xs text-zinc-600">
+            <p className="mt-4 text-legal text-zinc-600">
               <Link href="/legal/shipping" className="underline hover:text-zinc-400">
                 Shipping
               </Link>

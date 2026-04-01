@@ -12,7 +12,7 @@ const flavorOrder: { id: FlavorId; label: string }[] = [
 export function HowSection() {
   return (
     <section id="how" className="relative border-t border-white/[0.06] bg-[#050505]">
-      <div className="mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-28">
+      <div className="section-inner section-y">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
           <div>
             <p className="font-display text-sm tracking-[0.35em] text-smash-yellow">
@@ -21,7 +21,7 @@ export function HowSection() {
             <h2 className="mt-2 font-display text-4xl leading-tight text-white md:text-5xl">
               FLAVOR IN THE TIP
             </h2>
-            <p className="mt-4 text-zinc-500">
+            <p className="mt-4 max-w-prose text-body text-zinc-500">
               What you buy here is one retail box — tubes, a capsule, and a gram size. No
               case packs on this storefront.
             </p>
@@ -42,7 +42,7 @@ export function HowSection() {
           </div>
 
           <div className="space-y-4">
-            <div className="overflow-hidden rounded-2xl border border-white/12 bg-[#0a0a0a] shadow-2xl ring-1 ring-white/5">
+            <div className="panel-premium bg-[#0a0a0a] shadow-2xl">
               <AssetImage
                 src={HOW_SMASH_CAPSULE}
                 alt="Illustration: hand squeezing the filter to smash the flavor capsule — Smash 4 Flavor, capsule in filter"
@@ -51,7 +51,7 @@ export function HowSection() {
                 className="h-auto w-full object-contain"
               />
             </div>
-            <p className="text-center text-xs leading-relaxed text-zinc-500">
+            <p className="text-center text-legal leading-relaxed text-zinc-500">
               Crush the tip to release flavor — the capsule lives in the filter, not as a
               coating on the paper.
             </p>

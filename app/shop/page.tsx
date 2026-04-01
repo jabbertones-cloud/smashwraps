@@ -28,7 +28,7 @@ function priceLabel(cents: number) {
 export default function ShopPage() {
   const itemListLd = shopItemListJsonLd(PRODUCTS);
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+    <div className="section-inner section-y">
       <Script
         id="ld-shop-itemlist"
         type="application/ld+json"
@@ -36,7 +36,7 @@ export default function ShopPage() {
       />
       <ShopItemListTracker products={PRODUCTS} />
       <h1 className="font-display text-4xl text-white md:text-5xl">Shop</h1>
-      <p className="mt-3 max-w-prose text-base leading-relaxed text-zinc-400">
+      <p className="mt-3 max-w-prose text-body text-zinc-400">
         One product page per SKU — flavor, size, price, and what ships in the box. Pick a
         card to open the full PDP.
       </p>
@@ -45,14 +45,14 @@ export default function ShopPage() {
           <li key={p.slug}>
             <Link
               href={`/products/${p.slug}`}
-              className="group block overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 transition hover:border-smash-yellow/40"
+              className="group block overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 transition-[border-color,box-shadow] hover:border-smash-yellow/35 hover:shadow-lg hover:shadow-black/30"
             >
               <div className="relative aspect-[4/3] bg-black/40">
                 <AssetImage
                   src={p.image}
                   alt=""
                   fill
-                  className="object-contain p-6 transition group-hover:scale-[1.03]"
+                  className="object-contain p-6 transition-opacity group-hover:opacity-95"
                   sizes="(max-width:1024px) 100vw, 33vw"
                 />
               </div>

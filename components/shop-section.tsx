@@ -20,7 +20,7 @@ export function ShopSection() {
 
   return (
     <section id="shop" className="relative bg-[#080808]">
-      <div className="mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-28">
+      <div className="section-inner section-y">
         <div className="mb-14 text-center md:mb-16">
           <p className="font-display text-sm tracking-[0.35em] text-smash-yellow">
             Single box
@@ -28,7 +28,7 @@ export function ShopSection() {
           <h2 className="mt-2 font-display text-4xl text-white md:text-6xl md:tracking-wide">
             3-PACK BOXES
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-zinc-400">
+          <p className="mx-auto mt-4 max-w-prose text-body text-zinc-400">
             One box = one flavor, one size (1g or 2g),{" "}
             <strong className="text-zinc-200">3 Chops</strong> per box — what we ship from
             this shop.{" "}
@@ -40,11 +40,11 @@ export function ShopSection() {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+        <div className="grid section-gap sm:grid-cols-2 lg:grid-cols-4">
           {groups.map(({ flavorId, meta, products }) => (
             <article
               key={flavorId}
-              className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-zinc-950 shadow-xl shadow-black/40 transition duration-300 ${meta.border}`}
+              className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-zinc-950 shadow-xl shadow-black/40 transition-[border-color,box-shadow] duration-300 hover:border-white/25 hover:shadow-black/50 ${meta.border}`}
             >
               <div
                 className="card-shine absolute inset-0 opacity-0 transition group-hover:opacity-100"
@@ -59,7 +59,7 @@ export function ShopSection() {
                   src={products[0].image}
                   alt={`${meta.title} — 1g and 2g boxes`}
                   fill
-                  className="z-10 object-contain p-5 transition duration-500 group-hover:scale-[1.04]"
+                  className="z-10 object-contain p-5 transition-opacity duration-300 group-hover:opacity-95"
                   sizes="(max-width: 1024px) 50vw, 25vw"
                 />
               </div>

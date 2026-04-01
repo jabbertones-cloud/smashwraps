@@ -46,11 +46,35 @@
   }
 }
 
+/* Restrained ambient: yellow hint + neutral depth — avoid competing accent hues */
 .hero-glow {
   background:
-    radial-gradient(ellipse 80% 60% at 70% 20%, rgba(255, 61, 154, 0.22), transparent 50%),
-    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(255, 230, 0, 0.12), transparent 45%),
-    radial-gradient(ellipse 50% 40% at 90% 60%, rgba(163, 88, 223, 0.15), transparent 40%);
+    radial-gradient(ellipse 75% 55% at 72% 18%, rgba(255, 230, 0, 0.07), transparent 52%),
+    radial-gradient(ellipse 55% 45% at 18% 78%, rgba(255, 255, 255, 0.04), transparent 48%),
+    radial-gradient(ellipse 45% 38% at 88% 58%, rgba(24, 24, 27, 0.5), transparent 42%);
+}
+
+/**
+ * Premium surface recipe (use sitewide): border-white/10, ring-white/5, zinc-950/80 base.
+ * One border treatment — do not mix /15 and /10 on the same page without intent.
+ */
+@layer components {
+  .section-y {
+    @apply py-20 md:py-28;
+  }
+
+  .section-inner {
+    @apply mx-auto max-w-6xl px-4 md:px-6;
+  }
+
+  /** Consistent vertical gaps between stacked blocks inside a section */
+  .section-gap {
+    @apply gap-8 md:gap-10;
+  }
+
+  .panel-premium {
+    @apply overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/80 shadow-xl ring-1 ring-white/5;
+  }
 }
 
 .text-gradient-hero {

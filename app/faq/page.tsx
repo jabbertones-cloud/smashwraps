@@ -19,11 +19,11 @@ export default function FaqPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="mx-auto max-w-3xl px-4 py-16 md:px-6 md:py-24">
+      <div className="mx-auto max-w-3xl px-4 md:px-6 section-y">
         <h1 className="font-display text-4xl text-white md:text-5xl">
           Frequently asked questions
         </h1>
-        <p className="mt-4 text-zinc-400">
+        <p className="mt-4 max-w-prose text-body text-zinc-400">
           Quick answers about products, checkout, and policies.
         </p>
         <dl className="mt-12 space-y-10">

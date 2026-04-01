@@ -7,6 +7,22 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        /** H1 marketing — Bebas */
+        display: [
+          "clamp(2.75rem,8vw,5.5rem)",
+          { lineHeight: "0.92", letterSpacing: "0.02em" },
+        ],
+        /** Lead paragraphs — calm, readable */
+        lead: [
+          "clamp(1.125rem,2.2vw,1.375rem)",
+          { lineHeight: "1.35", letterSpacing: "0.01em" },
+        ],
+        /** Body default — ~65ch friendly when paired with max-w-prose */
+        body: ["1rem", { lineHeight: "1.65" }],
+        /** Legal / captions */
+        legal: ["0.75rem", { lineHeight: "1.5" }],
+      },
       fontFamily: {
         display: ["var(--font-bebas)", "system-ui", "sans-serif"],
         sans: ["var(--font-dm)", "system-ui", "sans-serif"],
