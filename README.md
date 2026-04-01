@@ -24,6 +24,8 @@ npm run dev
 
 ## Deploy (Vercel)
 
+**First-time setup:** see **`docs/VERCEL-SETUP.md`** — connect the `jabbertones-cloud` GitHub org to Vercel, import `jabbertones-cloud/smashwraps`, add env vars. The app is configured with root **`vercel.json`**; Cursor/IDE only pushes to GitHub; Vercel deploys from Git.
+
 - Set `NEXT_PUBLIC_SITE_URL` to the production URL.
 - Optional E-E-A-T (Organization JSON-LD on home): `NEXT_PUBLIC_ORG_SAME_AS` (comma-separated URLs), and any of `NEXT_PUBLIC_ORG_CONTACT_EMAIL`, `NEXT_PUBLIC_ORG_CONTACT_PHONE`, `NEXT_PUBLIC_ORG_CONTACT_URL`, `NEXT_PUBLIC_ORG_CONTACT_TYPE`. Redeploy after changing env so static pages pick up the new values.
 - Add `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_CONNECT_ACCOUNT_ID`, and all `STRIPE_PRICE_*` variables.
@@ -48,3 +50,4 @@ Hero and gallery placeholders are documented in `components/optional-media-note.
 - `docs/MIROFISH-TRIBEV2-AUDIT.md` — design/copy case study vs MiroFish + TRIBE v2 framework
 - `docs/SWARM-SEO-RUNBOOK.md` — Mission Control / goal-based SEO research from claw-architect
 - `DEPLOY-GITHUB.md` — push to [jabbertones-cloud/smashwraps](https://github.com/jabbertones-cloud/smashwraps)
+- `docs/VERCEL-SETUP.md` — import repo on Vercel, env vars, webhook, domain

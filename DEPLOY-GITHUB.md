@@ -53,9 +53,11 @@ git push -u origin main
 
 ## Vercel
 
+Repo includes **`vercel.json`** (Next.js build). Full checklist: **`docs/VERCEL-SETUP.md`** (GitHub app for `jabbertones-cloud`, import `smashwraps`, env vars, Stripe webhook, domain).
+
 1. **Import** the GitHub repo in the [Vercel dashboard](https://vercel.com/new).
 2. Root directory: **`.`** (repository root = Next app).
 3. Environment variables: copy from `.env.example` and set production values (see `README.md`).
 4. Production domain: set `NEXT_PUBLIC_SITE_URL` to the live URL.
 
-This assistant **cannot** log into your Vercel or GitHub account; run the commands locally with your credentials.
+Cursor (or any IDE) is **not** the deploy target: push to GitHub, Vercel builds from the repo.
