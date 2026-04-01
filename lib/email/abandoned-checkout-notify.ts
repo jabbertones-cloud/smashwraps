@@ -5,6 +5,7 @@ import { getSiteUrl } from "@/lib/email/site";
 import { sendResendEmail } from "@/lib/email/send-resend";
 import { buildCartReminderEmailHtml } from "@/lib/email/templates/transactional";
 import { findProductByStripePriceId } from "@/lib/products";
+import { findWholesaleProductByStripePriceId } from "@/lib/wholesale-products";
 
 const fmt = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -55,15 +56,24 @@ export async function sendAbandonedStripeCheckoutEmail(input: {
   const lines: RecoveryLine[] = [];
   const rows: { title: string; quantity: number; lineTotal: string }[] = [];
   let subtotalCents = 0;
+  let sawRetail = false;
+  let sawWholesale = false;
 
   for (const li of items) {
     const qty = li.quantity ?? 1;
     const price = li.price;
     const priceId = typeof price === "string" ? price : price?.id;
     if (!priceId) continue;
-    const catalog = findProductByStripePriceId(priceId);
+    const retail = findProductByStripePriceId(priceId);
+    const wholesale = findWholesaleProductByStripePriceId(priceId);
+    const catalog = retail ?? wholesale;
     if (!catalog) continue;
-    lines.push({ slug: catalog.slug, quantity: qty });
+    if (retail) {
+      sawRetail = true;
+      lines.push({ slug: retail.slug, quantity: qty });
+    } else {
+      sawWholesale = true;
+    }
     const lineCents =
       typeof li.amount_total === "number"
         ? li.amount_total
@@ -76,20 +86,36 @@ export async function sendAbandonedStripeCheckoutEmail(input: {
     });
   }
 
-  if (!lines.length) {
+  if (!rows.length) {
     console.info("[email] abandoned_checkout skip: no catalog lines", full.id);
     return;
   }
 
   const site = getSiteUrl();
-  const token = encodeCartRecovery(lines);
-  const recoveryUrl = `${site}/?cart=${encodeURIComponent(token)}`;
+  const wholesaleOnly = sawWholesale && !sawRetail;
+  const mixed = sawWholesale && sawRetail;
+
+  let recoveryUrl: string;
+  let recoveryContext: "retail" | "wholesale";
+  if (mixed || wholesaleOnly) {
+    recoveryUrl = `${site}/wholesale`;
+    recoveryContext = "wholesale";
+  } else {
+    if (!lines.length) {
+      console.info("[email] abandoned_checkout skip: no retail recovery lines", full.id);
+      return;
+    }
+    const token = encodeCartRecovery(lines);
+    recoveryUrl = `${site}/?cart=${encodeURIComponent(token)}`;
+    recoveryContext = "retail";
+  }
 
   const html = buildCartReminderEmailHtml({
     recoveryUrl,
     lines: rows,
     subtotal: fmt.format(subtotalCents / 100),
     reminderSource: "stripe_expired",
+    recoveryContext,
   });
 
   await sendResendEmail({

@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+
+import { isEmailConfigured } from "@/lib/email/site";
+import { persistSubscribeAndAutomate } from "@/lib/email/subscribe-persist";
 import { sendResendEmail } from "@/lib/email/send-resend";
 import { buildWelcomeEmailHtml } from "@/lib/email/templates/transactional";
 
@@ -18,7 +21,38 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, message: "Invalid email" }, { status: 400 });
   }
 
-  const html = buildWelcomeEmailHtml();
+  const persisted = await persistSubscribeAndAutomate({
+    email: body.email,
+    source: body.source,
+  });
+
+  if (persisted.mode === "database") {
+    if (!persisted.isNewContact) {
+      return NextResponse.json({
+        ok: true,
+        configured: isEmailConfigured(),
+        alreadySubscribed: true,
+      });
+    }
+
+    if (!persisted.welcomeSent) {
+      return NextResponse.json({
+        ok: true,
+        configured: false,
+        message:
+          "Thanks. Add RESEND_API_KEY and RESEND_FROM_EMAIL to send confirmation emails. Your signup was saved.",
+        dripsScheduled: false,
+      });
+    }
+
+    return NextResponse.json({
+      ok: true,
+      configured: true,
+      dripsScheduled: Boolean(process.env.INNGEST_EVENT_KEY?.trim()),
+    });
+  }
+
+  const html = buildWelcomeEmailHtml("a");
   const result = await sendResendEmail({
     to: body.email,
     subject: "You're on the list — Smash Wraps",

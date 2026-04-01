@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { sendResendEmail } from "@/lib/email/send-resend";
 import { buildOrderThankYouEmailHtml } from "@/lib/email/templates/transactional";
 import { findProductByStripePriceId } from "@/lib/products";
+import { findWholesaleProductByStripePriceId } from "@/lib/wholesale-products";
 
 const fmt = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -55,13 +56,17 @@ export async function sendPostPurchaseThankYou(input: {
   }
 
   const lines: { title: string; quantity: number; lineTotal: string }[] = [];
+  let anyWholesale = false;
 
   for (const li of items) {
     const qty = li.quantity ?? 1;
     const price = li.price;
     const priceId = typeof price === "string" ? price : price?.id;
     if (!priceId) continue;
-    const product = findProductByStripePriceId(priceId);
+    const retail = findProductByStripePriceId(priceId);
+    const wholesale = findWholesaleProductByStripePriceId(priceId);
+    if (wholesale) anyWholesale = true;
+    const product = retail ?? wholesale;
     const title = product?.name ?? "Item";
     const lineCents =
       typeof li.amount_total === "number"
@@ -85,11 +90,14 @@ export async function sendPostPurchaseThankYou(input: {
     lines,
     subtotal,
     sessionId: full.id,
+    orderKind: anyWholesale ? "wholesale" : "retail",
   });
 
   await sendResendEmail({
     to: email,
-    subject: "We got your order — Smash Wraps",
+    subject: anyWholesale
+      ? "We got your wholesale order — Smash Wraps"
+      : "We got your order — Smash Wraps",
     html,
     tags: [
       { name: "category", value: "transactional" },

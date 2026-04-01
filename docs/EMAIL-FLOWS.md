@@ -15,6 +15,11 @@ Templates in `lib/email/templates/transactional.ts` are written for the same **w
 | `RESEND_API_KEY` | Resend API key (Dashboard → API Keys). |
 | `RESEND_FROM_EMAIL` | Verified sender, e.g. `Smash Wraps <orders@yourdomain.com>`. |
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL for links in email (`?cart=` recovery, shop links). |
+| `DATABASE_URL` | Optional — Neon Postgres; enables contact storage + drips. |
+| `INNGEST_EVENT_KEY` | Optional — schedule welcome drips; sync app URL to Inngest (`/api/inngest`). |
+| `INNGEST_SIGNING_KEY` | Inngest Cloud verifies requests to `/api/inngest` (set in Vercel). |
+| `EMAIL_UNSUBSCRIBE_SECRET` | Optional — HMAC for one-click unsubscribe in drip emails. |
+| `EMAIL_AB_SALT` | Optional — change A/B assignment salt without code deploy. |
 
 See root `docs/EMAIL_RESEND_MIGRATION.md` for domain verification.
 
@@ -63,7 +68,7 @@ flowchart TD
 
 **Stripe Dashboard:** Add **`checkout.session.expired`** to the webhook (same endpoint as `checkout.session.completed`). Connect: listen on connected accounts if checkout runs on Connect.
 
-**Not included (typical Klaviyo / Iterable scope):** multi-step drips (1h/24h/72h), segments, A/B tests — need external automation or a job store + Postgres.
+**Drips + list state (optional):** When **`DATABASE_URL`** is set, subscribe persists **`email_contacts`** (traits JSON for segments, **`ab_arm`** for A/B) and **`email_sends`** (one row per successful send). With **`INNGEST_EVENT_KEY`** and a successful welcome send, Inngest runs **`email/welcome-drip.scheduled`** → **1h / 24h / 72h** drips (`lib/inngest/functions/welcome-drip.ts`), Resend transport unchanged. **`EMAIL_UNSUBSCRIBE_SECRET`** signs links to **`GET /api/email/unsubscribe`**. Without DB/Inngest, behavior matches the original Resend-only path.
 
 ## Messages
 

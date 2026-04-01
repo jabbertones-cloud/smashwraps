@@ -2,6 +2,14 @@ import "server-only";
 import type { Product } from "@/lib/products";
 import Stripe from "stripe";
 
+/** Shared shape for retail + wholesale catalog rows validated against Stripe Price. */
+export type StripeCatalogRow = {
+  slug: string;
+  priceCents: number;
+  stripeProductEnvKey: string;
+  stripePriceEnvKey: string;
+};
+
 export function getStripe(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) {
@@ -26,11 +34,11 @@ export function getStripeConnectRequestOptions():
  * Confirms the Stripe Price belongs to the expected Product, amount, and currency.
  * Requires both `prod_…` and `price_…` in env so a swapped Price ID cannot point at another Product.
  */
-export async function assertStripePriceMatchesCatalog(
+export async function assertStripePriceMatchesCatalogRow(
   stripe: Stripe,
   priceId: string,
   expectedProductId: string,
-  product: Product,
+  row: StripeCatalogRow,
   requestOptions?: Stripe.RequestOptions,
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   const price = await stripe.prices.retrieve(priceId, requestOptions);
@@ -39,7 +47,7 @@ export async function assertStripePriceMatchesCatalog(
   if (!linkedProductId || linkedProductId !== expectedProductId) {
     return {
       ok: false,
-      message: `Stripe Price ${priceId} is not attached to Product ${expectedProductId} (linked: ${linkedProductId ?? "none"}). Fix ${product.stripePriceEnvKey} / ${product.stripeProductEnvKey}.`,
+      message: `Stripe Price ${priceId} is not attached to Product ${expectedProductId} (linked: ${linkedProductId ?? "none"}). Fix ${row.stripePriceEnvKey} / ${row.stripeProductEnvKey}.`,
     };
   }
   if (price.currency !== "usd") {
@@ -48,11 +56,32 @@ export async function assertStripePriceMatchesCatalog(
   if (price.recurring) {
     return { ok: false, message: "Subscription prices are not allowed for this storefront." };
   }
-  if (price.unit_amount !== product.priceCents) {
+  if (price.unit_amount !== row.priceCents) {
     return {
       ok: false,
-      message: `Stripe Price ${priceId} (${price.unit_amount ?? "?"}¢) does not match catalog for ${product.slug} (${product.priceCents}¢). Fix env or Stripe.`,
+      message: `Stripe Price ${priceId} (${price.unit_amount ?? "?"}¢) does not match catalog for ${row.slug} (${row.priceCents}¢). Fix env or Stripe.`,
     };
   }
   return { ok: true };
+}
+
+export async function assertStripePriceMatchesCatalog(
+  stripe: Stripe,
+  priceId: string,
+  expectedProductId: string,
+  product: Product,
+  requestOptions?: Stripe.RequestOptions,
+): Promise<{ ok: true } | { ok: false; message: string }> {
+  return assertStripePriceMatchesCatalogRow(
+    stripe,
+    priceId,
+    expectedProductId,
+    {
+      slug: product.slug,
+      priceCents: product.priceCents,
+      stripeProductEnvKey: product.stripeProductEnvKey,
+      stripePriceEnvKey: product.stripePriceEnvKey,
+    },
+    requestOptions,
+  );
 }

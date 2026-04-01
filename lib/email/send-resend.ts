@@ -21,6 +21,7 @@ export async function sendResendEmail(input: {
    * Use stable keys like `stripe_evt_<eventId>_post_purchase`.
    */
   idempotencyKey?: string;
+  replyTo?: string;
 }): Promise<SendResult> {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   const from = getResendFrom();
@@ -39,6 +40,7 @@ export async function sendResendEmail(input: {
       subject: input.subject,
       html: input.html,
       tags: input.tags,
+      ...(input.replyTo ? { reply_to: input.replyTo } : {}),
     },
     input.idempotencyKey
       ? { idempotencyKey: input.idempotencyKey.slice(0, 256) }
