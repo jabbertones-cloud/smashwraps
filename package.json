@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "images:placeholders": "node scripts/generate-chop-placeholders.cjs"
+    "images:placeholders": "node scripts/generate-chop-placeholders.cjs",
+    "images:sync": "bash scripts/sync-product-images-from-assets.sh",
+    "images:apply-retail-boxes": "bash scripts/apply-product-drop-20260401.sh"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.4",

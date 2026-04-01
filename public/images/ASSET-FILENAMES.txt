@@ -1,6 +1,10 @@
-Committed placeholders (900×900 neutral PNG) — replace with your photography, same filenames:
+Real product renders: pull from your shared Cursor assets into this folder with:
 
-Or copy from your asset folder into this directory (public/images/):
+  npm run images:sync
+
+(Optional env: SMASHWRAP_ASSETS_SOURCE=/path/to/folder npm run images:sync)
+
+Or copy manually into this directory (public/images/):
 
 1. AllCaseBoxesChops.png
 2. 1gCasePassionFruitChops.png
@@ -17,6 +21,14 @@ Or copy from your asset folder into this directory (public/images/):
 13. VanillaChops.png
 
 Filenames must match exactly (case-sensitive on Vercel).
+
+Retail box renders (8 SKUs + hero + PDP “flat” row):
+  npm run images:apply-retail-boxes
+  (runs scripts/apply-product-drop-20260401.sh — UUID sources in Cursor assets)
+
+AllCaseBoxesChops.png (hero) currently reuses Iced Watermelon 1g until a dedicated 4-flavor hero exists.
+
+If Pineapple 1g/2g look identical, replace one source UUID file and re-run the script above.
 
 Brand logo (header, footer, favicon — see lib/brand.ts):
   smash-wraps-logo.png
