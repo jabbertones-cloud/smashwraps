@@ -62,7 +62,7 @@ export function ShopSection() {
               </div>
               <div className="relative flex flex-1 flex-col border-t border-white/[0.06] p-5 pt-6">
                 <div className="mb-4 flex justify-center">
-                  <div className="rounded-xl border border-white/10 bg-white p-3 shadow-inner ring-1 ring-black/10">
+                  <div className="rounded-xl border border-white/10 bg-zinc-950/60 p-3 ring-1 ring-white/5">
                     <AssetImage
                       src={FLAVOR_LOGO[flavorId]}
                       alt={`${meta.title} flavor logo`}

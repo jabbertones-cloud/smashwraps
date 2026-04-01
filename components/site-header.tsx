@@ -16,14 +16,14 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 md:px-6">
         <Link
           href="/"
-          className="group flex max-w-[min(100%,min(85vw,320px))] shrink-0 items-center rounded-lg bg-white p-2 shadow-[0_4px_24px_rgba(0,0,0,0.45)] ring-1 ring-black/10 transition hover:ring-smash-yellow/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-smash-yellow md:p-2.5"
+          className="group flex max-w-[min(100%,min(85vw,320px))] shrink-0 items-center rounded-lg p-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-smash-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505]"
         >
           <AssetImage
             src={BRAND_LOGO_SRC}
             alt="Smash Wraps"
             width={400}
             height={298}
-            className="h-12 w-auto object-contain object-left sm:h-14 md:h-[4.25rem]"
+            className="h-12 w-auto object-contain object-left drop-shadow-[0_2px_20px_rgba(0,0,0,0.9)] sm:h-14 md:h-[4.25rem]"
             priority
           />
         </Link>

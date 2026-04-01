@@ -48,7 +48,7 @@ export default function ShopPage() {
               </div>
               <div className="border-t border-white/10 p-5">
                 <div className="mb-3 flex items-center gap-3">
-                  <div className="shrink-0 rounded-lg border border-white/10 bg-white p-1.5">
+                  <div className="shrink-0 rounded-lg border border-white/10 bg-zinc-950/60 p-1.5">
                     <AssetImage
                       src={FLAVOR_LOGO[p.flavorId]}
                       alt=""

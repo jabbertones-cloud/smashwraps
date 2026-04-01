@@ -66,7 +66,7 @@ export function HowSection() {
             {flavorOrder.map(({ id, label }) => (
               <div
                 key={id}
-                className="flex flex-col items-center overflow-hidden rounded-xl border border-white/10 bg-white p-3 shadow-lg ring-1 ring-black/20"
+                className="flex flex-col items-center overflow-hidden rounded-xl border border-white/10 bg-zinc-950/80 p-3 shadow-lg ring-1 ring-white/5"
               >
                 <AssetImage
                   src={FLAVOR_LOGO[id]}
@@ -75,7 +75,7 @@ export function HowSection() {
                   height={280}
                   className="h-auto w-full max-h-28 object-contain sm:max-h-32"
                 />
-                <span className="mt-2 text-center text-[10px] font-semibold uppercase tracking-wider text-zinc-800">
+                <span className="mt-2 text-center text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
                   {label}
                 </span>
               </div>

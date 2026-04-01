@@ -30,14 +30,15 @@ PDP shows master case first, then the single 3-pack for that SKU (per-flavor box
 
 If Pineapple 1g/2g look identical, replace one source UUID file and re-run the script above.
 
-Brand logo (header, footer, favicon — see lib/brand.ts):
+Brand logo (header, footer, favicon — see lib/brand.ts; dark-background–friendly):
   smash-wraps-logo.png
+  (sync: image-afea60f7-8e37-4963-a5d7-044b2d61e088.png → smash-wraps-logo.png)
 
 How-it-works illustration (see lib/chop-images.ts HOW_SMASH_CAPSULE):
   how-smash-capsule.png
 
-Flavor logos (see lib/chop-images.ts FLAVOR_LOGO):
-  flavor-iced-watermelon.png
-  flavor-passion-fruit.png
-  flavor-pineapple.png
-  flavor-vanilla.png
+Flavor logos (see lib/chop-images.ts FLAVOR_LOGO; black-background variants):
+  flavor-iced-watermelon.png  (image-8620f140-…)
+  flavor-passion-fruit.png    (image-e41dd7cb-…)
+  flavor-pineapple.png        (image-47177dcc-…)
+  flavor-vanilla.png          (image-2e0d3e8c-…)
