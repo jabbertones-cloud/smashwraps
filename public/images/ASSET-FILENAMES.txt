@@ -6,7 +6,7 @@ Real product renders: pull from your shared Cursor assets into this folder with:
 
 Or copy manually into this directory (public/images/):
 
-1. AllCaseBoxesChops.png — multi-flavor master case (hero + PDP top); not a single SKU
+1. AllCaseBoxesChops.png — multi-flavor master case row (home hero only; not per-SKU PDP)
 2. 1gCasePassionFruitChops.png
 3. 1gCasePineappleChops.png
 4. 1gCaseVanillaChops.png
@@ -26,7 +26,8 @@ Retail box renders (8 SKUs + hero + PDP “flat” row):
   npm run images:apply-retail-boxes
   (runs scripts/apply-product-drop-20260401.sh — UUID sources in Cursor assets)
 
-PDP shows master case first, then the single 3-pack for that SKU (per-flavor box PNGs).
+PDP: flavor-specific master case first (e.g. 1gIcedWatermelonChopsCase.png for iced-watermelon-1g),
+then the single 3-pack for that flavor (e.g. IcedWatermelonChops.png). Shop/cart/OG use the 3-pack image.
 
 If Pineapple 1g/2g look identical, replace one source UUID file and re-run the script above.
 

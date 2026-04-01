@@ -4,7 +4,7 @@ import { AssetImage } from "@/components/asset-image";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import { AddToCartButton } from "@/components/add-to-cart-button";
-import { PDP_MASTER_CASE_IMAGE } from "@/lib/chop-images";
+import { chopMasterCaseImageForSlug } from "@/lib/chop-images";
 import { PRODUCTS, getProductBySlug } from "@/lib/products";
 import { productJsonLd } from "@/lib/json-ld";
 
@@ -48,6 +48,7 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound();
 
   const jsonLd = productJsonLd(product);
+  const masterCaseSrc = chopMasterCaseImageForSlug(product.slug);
   const breadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -114,8 +115,8 @@ export default async function ProductPage({ params }: Props) {
             <figure className="space-y-2">
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 md:aspect-[16/10]">
                 <AssetImage
-                  src={PDP_MASTER_CASE_IMAGE}
-                  alt="Master case display — four Smash Wraps The CHOP flavors"
+                  src={masterCaseSrc}
+                  alt={`${product.flavorLabel} — retail master case (${product.grams})`}
                   fill
                   className="object-contain p-4 md:p-6"
                   priority
@@ -123,7 +124,7 @@ export default async function ProductPage({ params }: Props) {
                 />
               </div>
               <figcaption className="text-center text-xs text-zinc-500">
-                Master case — multi-flavor retail display
+                Master case — {product.flavorLabel} retail display ({product.grams})
               </figcaption>
             </figure>
             <figure className="space-y-2">

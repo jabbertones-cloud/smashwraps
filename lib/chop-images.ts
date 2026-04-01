@@ -12,17 +12,17 @@ export const FLAVOR_LOGO: Record<FlavorId, string> = {
   pineapple: "/images/flavor-pineapple.png",
   vanilla: "/images/flavor-vanilla.png",
 };
-/** Multi-flavor master case / display (same asset on home hero + PDP first image). */
+/** Multi-flavor master case row — home hero only (not per-SKU PDP). */
 export const CHOP_HERO_ALL_CASE_BOXES = "/images/AllCaseBoxesChops.png";
-
-/** PDP: large master case shot — not the DTC line item; pairs with per-SKU 3-pack image. */
-export const PDP_MASTER_CASE_IMAGE = CHOP_HERO_ALL_CASE_BOXES;
 
 /** Educational graphic: crush capsule in filter (brand art). */
 export const HOW_SMASH_CAPSULE = "/images/how-smash-capsule.png";
 
-/** Box / product shot per product slug (1g vs 2g); filenames from legacy asset names. */
-export const CHOP_PACK_IMAGE_BY_SLUG: Record<string, string> = {
+/**
+ * Retail display / master case for this SKU (1g vs 2g) — top image on PDP.
+ * Not the multi-flavor `AllCaseBoxesChops` strip.
+ */
+export const CHOP_MASTER_CASE_BY_SLUG: Record<string, string> = {
   "iced-watermelon-1g": "/images/1gIcedWatermelonChopsCase.png",
   "iced-watermelon-2g": "/images/2gIcedWatermelonChopsCase.png",
   "passion-fruit-1g": "/images/1gCasePassionFruitChops.png",
@@ -33,6 +33,31 @@ export const CHOP_PACK_IMAGE_BY_SLUG: Record<string, string> = {
   "vanilla-2g": "/images/2gCaseVanillaChops.png",
 };
 
+/**
+ * Single 3-pack box (what the customer buys) — cart, OG, shop cards, bottom PDP.
+ * One art file per flavor; shared for 1g/2g unless you add separate assets later.
+ */
+export const CHOP_THREE_PACK_BY_SLUG: Record<string, string> = {
+  "iced-watermelon-1g": "/images/IcedWatermelonChops.png",
+  "iced-watermelon-2g": "/images/IcedWatermelonChops.png",
+  "passion-fruit-1g": "/images/PassionFruitChops.png",
+  "passion-fruit-2g": "/images/PassionFruitChops.png",
+  "pineapple-1g": "/images/PineappleChops.png",
+  "pineapple-2g": "/images/PineappleChops.png",
+  "vanilla-1g": "/images/VanillaChops.png",
+  "vanilla-2g": "/images/VanillaChops.png",
+};
+
+export function chopMasterCaseImageForSlug(slug: string): string {
+  return CHOP_MASTER_CASE_BY_SLUG[slug] ?? CHOP_HERO_ALL_CASE_BOXES;
+}
+
+/** Primary product photo: one 3-pack box (not the floor display case). */
+export function chopThreePackImageForSlug(slug: string): string {
+  return CHOP_THREE_PACK_BY_SLUG[slug] ?? CHOP_HERO_ALL_CASE_BOXES;
+}
+
+/** @deprecated Use chopThreePackImageForSlug — name kept for older imports. */
 export function chopPackImageForSlug(slug: string): string {
-  return CHOP_PACK_IMAGE_BY_SLUG[slug] ?? "/images/AllCaseBoxesChops.png";
+  return chopThreePackImageForSlug(slug);
 }
