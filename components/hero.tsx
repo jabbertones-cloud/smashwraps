@@ -79,14 +79,16 @@ export function Hero() {
               className="absolute -inset-6 rounded-3xl bg-gradient-to-br from-fuchsia-500/30 via-transparent to-yellow-400/10 blur-3xl"
               aria-hidden
             />
-            <AssetImage
-              src={CHOP_HERO_ALL_CASE_BOXES}
-              alt="Smash Wraps The CHOP — four flavors, single 3-pack boxes"
-              width={640}
-              height={640}
-              className="relative z-10 h-auto w-full drop-shadow-[0_25px_60px_rgba(0,0,0,0.85)]"
-              priority
-            />
+            <div className="relative z-10 overflow-hidden rounded-2xl border border-white/15 bg-zinc-900/60 p-3 shadow-2xl ring-1 ring-white/10 md:p-4">
+              <AssetImage
+                src={CHOP_HERO_ALL_CASE_BOXES}
+                alt="Smash Wraps The CHOP — four flavors, single 3-pack boxes"
+                width={640}
+                height={640}
+                className="h-auto w-full rounded-lg object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.85)]"
+                priority
+              />
+            </div>
           </div>
         </div>
       </div>

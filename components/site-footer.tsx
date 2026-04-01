@@ -8,13 +8,15 @@ export function SiteFooter() {
     <footer className="border-t border-white/[0.08] bg-[#030303] py-14">
       <div className="mx-auto max-w-6xl px-4 text-center md:px-6">
         <div className="flex justify-center">
-          <AssetImage
-            src={BRAND_LOGO_SRC}
-            alt="Smash Wraps"
-            width={240}
-            height={179}
-            className="mx-auto h-14 w-auto opacity-90 md:h-16"
-          />
+          <div className="inline-flex rounded-xl bg-white p-3 shadow-lg ring-1 ring-white/10 md:p-4">
+            <AssetImage
+              src={BRAND_LOGO_SRC}
+              alt="Smash Wraps"
+              width={480}
+              height={357}
+              className="mx-auto h-20 w-auto object-contain md:h-24"
+            />
+          </div>
         </div>
         <p className="mt-3 text-sm text-zinc-500">
           Patent pending · Flavor capsule infused
