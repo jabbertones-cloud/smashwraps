@@ -27,7 +27,7 @@ export function SiteHeader() {
             priority
           />
         </Link>
-        <nav className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-zinc-400 md:gap-8 md:text-sm">
+        <nav className="flex items-center gap-3 text-legal font-semibold uppercase tracking-wider text-zinc-400 md:gap-8 md:text-sm">
           <Link href="/shop" className="transition hover:text-white">
             Shop
           </Link>

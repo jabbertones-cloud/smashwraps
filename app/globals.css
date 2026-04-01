@@ -57,6 +57,7 @@
 /**
  * Premium surface recipe (use sitewide): border-white/10, ring-white/5, zinc-950/80 base.
  * One border treatment — do not mix /15 and /10 on the same page without intent.
+ * Shop flavor cards: per-flavor border/accent hovers live in lib/flavors.ts (intentional exception).
  */
 @layer components {
   .section-y {

@@ -44,7 +44,7 @@ export function ShopSection() {
           {groups.map(({ flavorId, meta, products }) => (
             <article
               key={flavorId}
-              className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-zinc-950 shadow-xl shadow-black/40 transition-[border-color,box-shadow] duration-300 hover:border-white/25 hover:shadow-black/50 ${meta.border}`}
+              className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-zinc-950 shadow-xl shadow-black/40 transition-[border-color,box-shadow] duration-300 ${meta.border}`}
             >
               <div
                 className="card-shine absolute inset-0 opacity-0 transition group-hover:opacity-100"
@@ -80,7 +80,7 @@ export function ShopSection() {
                 >
                   {meta.title}
                 </h3>
-                <p className="mt-1 text-xs uppercase tracking-wider text-zinc-500">
+                <p className="mt-1 text-legal uppercase tracking-wider text-zinc-500">
                   Capsule infused · 3 per box
                 </p>
                 <div className="mt-5 flex gap-2">
@@ -92,13 +92,13 @@ export function ShopSection() {
                       >
                         {p.grams}
                       </Link>
-                      <span className="text-center text-[10px] text-zinc-500">
+                      <span className="text-center text-legal text-zinc-500">
                         {priceLabel(p.priceCents)}
                       </span>
                       <Button
                         type="button"
                         size="sm"
-                        className="w-full text-[11px]"
+                        className="w-full text-legal"
                         onClick={() => add(p.slug, 1)}
                       >
                         Add
@@ -111,7 +111,7 @@ export function ShopSection() {
           ))}
         </div>
 
-        <p className="mt-14 text-center text-sm text-zinc-500">
+        <p className="mt-14 text-center text-body text-zinc-500">
           <Link href="/shop" className="text-smash-yellow underline hover:text-yellow-300">
             View all products
           </Link>{" "}

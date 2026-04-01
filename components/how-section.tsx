@@ -59,7 +59,7 @@ export function HowSection() {
         </div>
 
         <div>
-          <p className="mb-4 text-center font-display text-xs tracking-[0.35em] text-zinc-500">
+          <p className="mb-4 text-center font-display text-legal tracking-[0.35em] text-zinc-500">
             Flavors
           </p>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
@@ -75,7 +75,7 @@ export function HowSection() {
                   height={280}
                   className="h-auto w-full max-h-28 object-contain sm:max-h-32"
                 />
-                <span className="mt-2 text-center text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+                <span className="mt-2 text-center text-legal font-semibold uppercase tracking-wider text-zinc-400">
                   {label}
                 </span>
               </div>

@@ -37,15 +37,15 @@ export function AgeGate({ suppress }: { suppress?: boolean }) {
       aria-modal="true"
       aria-labelledby="age-gate-title"
     >
-      <div className="max-w-lg rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 shadow-2xl">
+      <div className="panel-premium max-w-lg bg-[#0a0a0a] p-6 shadow-2xl">
         <h2 id="age-gate-title" className="font-display text-2xl tracking-wide text-white">
           Adults only
         </h2>
-        <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+        <p className="mt-3 text-body leading-relaxed text-zinc-400">
           This site is for adults. You must meet the age and eligibility rules for this
           product where you live. If you are not eligible, please leave.
         </p>
-        <p className="mt-2 text-xs text-zinc-500">
+        <p className="mt-2 text-legal text-zinc-500">
           More detail:{" "}
           <Link href="/legal/compliance" className="text-smash-yellow underline">
             Compliance

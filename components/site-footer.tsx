@@ -34,7 +34,7 @@ export function SiteFooter() {
           </p>
           <EmailCaptureForm source="footer" />
         </div>
-    <nav className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-legal text-zinc-500">
+        <nav className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-legal text-zinc-500">
           <Link href="/legal/shipping" className="hover:text-zinc-300">
             Shipping
           </Link>
