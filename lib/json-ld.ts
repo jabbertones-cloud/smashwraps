@@ -2,6 +2,54 @@ import type { Product } from "@/lib/products";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smashwraps.com";
 
+function parseOrgSameAs(raw: string | undefined): string[] {
+  if (!raw?.trim()) return [];
+  return raw
+    .split(/[,\n]/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .filter((s) => {
+      try {
+        const u = new URL(s);
+        return u.protocol === "http:" || u.protocol === "https:";
+      } catch {
+        return false;
+      }
+    });
+}
+
+/** Optional single ContactPoint for E-E-A-T; omit if no contact fields set. */
+function buildOrgContactPoint():
+  | {
+      "@type": "ContactPoint";
+      contactType: string;
+      email?: string;
+      telephone?: string;
+      url?: string;
+    }
+  | undefined {
+  const email = process.env.NEXT_PUBLIC_ORG_CONTACT_EMAIL?.trim();
+  const telephone = process.env.NEXT_PUBLIC_ORG_CONTACT_PHONE?.trim();
+  const url = process.env.NEXT_PUBLIC_ORG_CONTACT_URL?.trim();
+  const contactType =
+    process.env.NEXT_PUBLIC_ORG_CONTACT_TYPE?.trim() || "customer support";
+  if (!email && !telephone && !url) return undefined;
+  const cp: {
+    "@type": "ContactPoint";
+    contactType: string;
+    email?: string;
+    telephone?: string;
+    url?: string;
+  } = {
+    "@type": "ContactPoint",
+    contactType,
+  };
+  if (email) cp.email = email;
+  if (telephone) cp.telephone = telephone;
+  if (url) cp.url = url;
+  return cp;
+}
+
 export function productJsonLd(product: Product) {
   const url = `${siteUrl}/products/${product.slug}`;
   return {
@@ -29,6 +77,9 @@ export function productJsonLd(product: Product) {
 }
 
 export function organizationJsonLd() {
+  const sameAs = parseOrgSameAs(process.env.NEXT_PUBLIC_ORG_SAME_AS);
+  const contactPoint = buildOrgContactPoint();
+
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -40,6 +91,8 @@ export function organizationJsonLd() {
       "@type": "Brand",
       name: "Smash Wraps",
     },
+    ...(sameAs.length ? { sameAs } : {}),
+    ...(contactPoint ? { contactPoint } : {}),
   };
 }
 
