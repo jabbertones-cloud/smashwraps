@@ -1,13 +1,21 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { z } from "zod";
-import { getStripe, getStripeConnectRequestOptions } from "@/lib/stripe-server";
-import { getProductBySlug, getStripePriceId } from "@/lib/products";
+import {
+  assertStripePriceMatchesCatalog,
+  getStripe,
+  getStripeConnectRequestOptions,
+} from "@/lib/stripe-server";
+import {
+  getProductBySlug,
+  getStripePriceId,
+  PRODUCT_SLUGS,
+} from "@/lib/products";
 
 const bodySchema = z.object({
   lineItems: z.array(
     z.object({
-      slug: z.string(),
+      slug: z.enum(PRODUCT_SLUGS),
       quantity: z.number().int().min(1).max(99),
     }),
   ),
@@ -36,6 +44,10 @@ export async function POST(req: Request) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const lineItems: { price: string; quantity: number }[] = [];
 
+  const stripe = getStripe();
+  const connectOpts = getStripeConnectRequestOptions();
+  const verifiedPriceKeys = new Set<string>();
+
   for (const line of parsed.lineItems) {
     const product = getProductBySlug(line.slug);
     if (!product) {
@@ -53,11 +65,21 @@ export async function POST(req: Request) {
         { status: 400 },
       );
     }
+    const verifyKey = `${product.slug}:${price}`;
+    if (!verifiedPriceKeys.has(verifyKey)) {
+      verifiedPriceKeys.add(verifyKey);
+      const check = await assertStripePriceMatchesCatalog(
+        stripe,
+        price,
+        product,
+        connectOpts,
+      );
+      if (!check.ok) {
+        return NextResponse.json({ error: check.message }, { status: 500 });
+      }
+    }
     lineItems.push({ price, quantity: line.quantity });
   }
-
-  const stripe = getStripe();
-  const connectOpts = getStripeConnectRequestOptions();
 
   const sessionPayload: Stripe.Checkout.SessionCreateParams = {
     mode: "payment",

@@ -8,7 +8,11 @@ import {
   useMemo,
   useState,
 } from "react";
-import { getProductBySlug, type Product } from "@/lib/products";
+import {
+  getProductBySlug,
+  PRODUCT_SLUG_SET,
+  type Product,
+} from "@/lib/products";
 
 export type CartLine = { slug: string; quantity: number };
 
@@ -35,7 +39,16 @@ function loadLines(): CartLine[] {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw) as CartLine[];
-    return Array.isArray(parsed) ? parsed : [];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (line) =>
+        line &&
+        typeof line.slug === "string" &&
+        PRODUCT_SLUG_SET.has(line.slug) &&
+        typeof line.quantity === "number" &&
+        line.quantity >= 1 &&
+        line.quantity <= 99,
+    );
   } catch {
     return [];
   }
@@ -55,26 +68,33 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [lines]);
 
   const add = useCallback((slug: string, qty = 1) => {
+    if (!PRODUCT_SLUG_SET.has(slug)) return;
+    const q = Math.min(99, Math.max(1, Math.floor(qty)));
     setLines((prev) => {
       const i = prev.findIndex((l) => l.slug === slug);
-      if (i === -1) return [...prev, { slug, quantity: qty }];
+      if (i === -1) return [...prev, { slug, quantity: q }];
       const next = [...prev];
-      next[i] = { ...next[i], quantity: next[i].quantity + qty };
+      next[i] = {
+        ...next[i],
+        quantity: Math.min(99, next[i].quantity + q),
+      };
       return next;
     });
     setCartOpen(true);
   }, []);
 
   const setQty = useCallback((slug: string, qty: number) => {
+    if (!PRODUCT_SLUG_SET.has(slug)) return;
     if (qty < 1) {
       setLines((prev) => prev.filter((l) => l.slug !== slug));
       return;
     }
+    const q = Math.min(99, Math.max(1, Math.floor(qty)));
     setLines((prev) => {
       const i = prev.findIndex((l) => l.slug === slug);
-      if (i === -1) return [...prev, { slug, quantity: qty }];
+      if (i === -1) return [...prev, { slug, quantity: q }];
       const next = [...prev];
-      next[i] = { slug, quantity: qty };
+      next[i] = { slug, quantity: q };
       return next;
     });
   }, []);

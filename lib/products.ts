@@ -119,6 +119,11 @@ export const PRODUCTS: Product[] = [
   },
 ];
 
+/** Allowlisted slugs — checkout only accepts these; Stripe Price IDs come from server env per slug. */
+export const PRODUCT_SLUGS = PRODUCTS.map((p) => p.slug) as [string, ...string[]];
+
+export const PRODUCT_SLUG_SET: ReadonlySet<string> = new Set(PRODUCTS.map((p) => p.slug));
+
 const bySlug = new Map(PRODUCTS.map((p) => [p.slug, p]));
 
 export function getProductBySlug(slug: string): Product | undefined {

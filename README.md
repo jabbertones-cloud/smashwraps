@@ -29,6 +29,14 @@ npm run stripe:seed:dry
 
 If a secret key was ever pasted into chat or a ticket, **rotate it** in the Dashboard.
 
+### Payments security (Stripe)
+
+- **Secrets stay server-side:** `STRIPE_SECRET_KEY` and all `STRIPE_PRICE_*` values are **never** exposed to the browser — only read in API routes.
+- **No client-chosen prices:** Checkout accepts **only** known product `slug` + quantity. The server maps each slug → allowlisted Stripe Price ID from env; clients cannot pass arbitrary `price_…` IDs.
+- **Catalog vs Stripe:** On each checkout, the server **retrieves** each Price from Stripe and checks **amount + USD + one-time** match `lib/products.ts`. Wrong env mapping fails closed with HTTP 500 (fix env or Stripe before taking orders).
+- **Webhooks:** `/api/webhooks/stripe` verifies the **`Stripe-Signature`** with `STRIPE_WEBHOOK_SECRET` — do not disable signature verification.
+- **Cart storage:** `localStorage` lines are sanitized to known slugs and quantity caps so tampered data cannot create odd client state (the server still enforces on checkout).
+
 ```bash
 npm install
 npm run dev
