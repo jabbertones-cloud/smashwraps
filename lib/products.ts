@@ -18,7 +18,7 @@ export type Product = {
 };
 
 const pack =
-  "One box = one retail pack with 3 Chops (three 110mm tubes). Flavor in the capsule tip — not sprayed on the sheet. Patent pending. This site sells single boxes only, not by the case.";
+  "One box = one retail unit with 3 Chops (three 110mm tubes). Flavor in the capsule tip — not sprayed on the sheet. Patent pending. This site sells single boxes only, not by the case.";
 
 export const PRODUCTS: Product[] = [
   {
@@ -39,7 +39,7 @@ export const PRODUCTS: Product[] = [
     flavorLabel: "ICED WATERMELON",
     flavorId: "iced-watermelon",
     grams: "2g",
-    priceCents: 1400,
+    priceCents: 500,
     currency: "usd",
     description: `Iced Watermelon flavor. ${pack}`,
     image: chopPackImageForSlug("iced-watermelon-2g"),
@@ -63,7 +63,7 @@ export const PRODUCTS: Product[] = [
     flavorLabel: "PASSION FRUIT",
     flavorId: "passion-fruit",
     grams: "2g",
-    priceCents: 1400,
+    priceCents: 500,
     currency: "usd",
     description: `Passion Fruit flavor. ${pack}`,
     image: chopPackImageForSlug("passion-fruit-2g"),
@@ -87,7 +87,7 @@ export const PRODUCTS: Product[] = [
     flavorLabel: "PINEAPPLE",
     flavorId: "pineapple",
     grams: "2g",
-    priceCents: 1400,
+    priceCents: 500,
     currency: "usd",
     description: `Pineapple flavor. ${pack}`,
     image: chopPackImageForSlug("pineapple-2g"),
@@ -111,7 +111,7 @@ export const PRODUCTS: Product[] = [
     flavorLabel: "VANILLA",
     flavorId: "vanilla",
     grams: "2g",
-    priceCents: 1400,
+    priceCents: 500,
     currency: "usd",
     description: `Vanilla flavor. ${pack}`,
     image: chopPackImageForSlug("vanilla-2g"),

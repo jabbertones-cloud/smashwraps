@@ -4,7 +4,7 @@ export const FAQ_ITEMS = [
   {
     question: "What is Smash Wraps The CHOP?",
     answer:
-      "The CHOP is our retail format: flavor sealed in a capsule at the tip of a straight rice paper tube — not flavor sprayed on the paper. Each pack has 3 Chops (three tubes), 110mm length. Final marketing claims must match your product classification memo.",
+      "The CHOP is our retail format: flavor sealed in a capsule at the tip of a straight rice paper tube — not flavor sprayed on the paper. Each single box has 3 Chops (three tubes), 110mm length. This site sells one box at a time to consumers, not by the case. Final marketing claims must match your product classification memo.",
   },
   {
     question: "What is the difference between 1g and 2g?",
@@ -12,14 +12,14 @@ export const FAQ_ITEMS = [
       "Both sizes are the same 110mm tube format; the gram label reflects capsule capacity. Choose the size that matches how you use the product. Exact specifications on the PDP match what is printed on retail packaging.",
   },
   {
-    question: "What comes in one pack?",
+    question: "What comes in one box?",
     answer:
-      "One retail pack includes 3 Chops (three tubes), one flavor, one size (1g or 2g). See each product page for the current price and imagery.",
+      "One retail box includes 3 Chops (three tubes), one flavor, one size (1g or 2g). Pricing on this storefront is $4.75 per 1g box and $5.00 per 2g box unless otherwise stated. Stripe Checkout uses the prices configured for each SKU.",
   },
   {
     question: "How do I check out?",
     answer:
-      "Add packs to your cart and pay with Stripe Checkout. You will receive email confirmation from Stripe. Taxes and shipping are shown before you complete payment.",
+      "Add boxes to your cart and pay with Stripe Checkout. You will receive email confirmation from Stripe. Taxes and shipping are shown before you complete payment.",
   },
   {
     question: "Do you ship to my state?",
@@ -39,6 +39,6 @@ export const FAQ_ITEMS = [
   {
     question: "Do you sell to stores or wholesale?",
     answer:
-      "This site is set up for retail checkout. For wholesale or retail accounts, use the contact path on the About page (add your buyer email and process).",
+      "This checkout sells single 3-pack boxes to consumers only. For stores, distributors, or case quantities, use the contact path on the About page (add your buyer email and process).",
   },
 ];

@@ -86,7 +86,7 @@ export function organizationJsonLd() {
     name: "Smash Wraps",
     url: siteUrl,
     description:
-      "Smash Wraps makes The CHOP — flavor capsule infused rice paper tubes (3 Chops per pack, 110mm). Flavors include Iced Watermelon, Passion Fruit, Pineapple, and Vanilla in 1g and 2g sizes.",
+      "Smash Wraps makes The CHOP — flavor capsule infused rice paper tubes (3 Chops per retail box, 110mm). Flavors include Iced Watermelon, Passion Fruit, Pineapple, and Vanilla in 1g and 2g sizes.",
     brand: {
       "@type": "Brand",
       name: "Smash Wraps",

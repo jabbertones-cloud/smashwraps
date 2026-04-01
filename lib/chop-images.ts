@@ -1,10 +1,10 @@
 /**
- * PNG pack from `png/3d files/1 & 2 Gram chop/` — copy all 13 files into `public/images/`
- * using these exact filenames (case-sensitive on Linux/Vercel).
+ * Product art paths — PNGs in `public/images/` (committed placeholders OK; replace with final photography).
+ * Filenames match the asset pack from `png/3d files/1 & 2 Gram chop/` (case-sensitive on Linux/Vercel).
  */
 export const CHOP_HERO_ALL_CASE_BOXES = "/images/AllCaseBoxesChops.png";
 
-/** Case/pack shot per product slug (1g vs 2g). */
+/** Box / product shot per product slug (1g vs 2g); filenames from legacy asset names. */
 export const CHOP_PACK_IMAGE_BY_SLUG: Record<string, string> = {
   "iced-watermelon-1g": "/images/1gIcedWatermelonChopsCase.png",
   "iced-watermelon-2g": "/images/2gIcedWatermelonChopsCase.png",

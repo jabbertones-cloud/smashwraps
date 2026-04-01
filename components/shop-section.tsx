@@ -22,15 +22,17 @@ export function ShopSection() {
       <div className="mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-28">
         <div className="mb-14 text-center md:mb-16">
           <p className="font-display text-sm tracking-[0.35em] text-smash-yellow">
-            Retail
+            Single box
           </p>
           <h2 className="mt-2 font-display text-4xl text-white md:text-6xl md:tracking-wide">
-            SINGLE PACKS
+            3-PACK BOXES
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-zinc-400">
-            Pick a flavor, then 1g or 2g. Every pack is{" "}
-            <strong className="text-zinc-200">3 Chops</strong> — three 110mm rice paper
-            tubes. Prices shown; open a product for full PDP details and structured data.
+            One box = one flavor, one size (1g or 2g),{" "}
+            <strong className="text-zinc-200">3 Chops</strong> inside.{" "}
+            <span className="text-zinc-300">$4.75</span> (1g) ·{" "}
+            <span className="text-zinc-300">$5.00</span> (2g) per box — not sold by the
+            case here. Open a product for details.
           </p>
         </div>
 
@@ -51,7 +53,7 @@ export function ShopSection() {
                 />
                 <AssetImage
                   src={products[0].image}
-                  alt={`${meta.title} — 1g and 2g packs`}
+                  alt={`${meta.title} — 1g and 2g boxes`}
                   fill
                   className="z-10 object-contain p-5 transition duration-500 group-hover:scale-[1.04]"
                   sizes="(max-width: 1024px) 50vw, 25vw"
@@ -64,7 +66,7 @@ export function ShopSection() {
                   {meta.title}
                 </h3>
                 <p className="mt-1 text-xs uppercase tracking-wider text-zinc-500">
-                  Capsule infused · 3 per pack
+                  Capsule infused · 3 per box
                 </p>
                 <div className="mt-5 flex gap-2">
                   {products.map((p) => (

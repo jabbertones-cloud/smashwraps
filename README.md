@@ -39,9 +39,9 @@ npm run dev
 
 Headlines use **Bebas Neue** and body **DM Sans** via `next/font` (Google). For a licensed SMASH wordmark font, add files under `public/fonts` and register with `next/font/local` in `app/layout.tsx`.
 
-## Optional media (content-media todo)
+## Optional media
 
-Hero and gallery placeholders are documented in `components/optional-media-note.tsx` and the How section. Add lifestyle or macro loops when assets exist.
+Hero and How tiles can swap to video or lifestyle photography when assets exist (`optional-media-note.tsx`, `how-section.tsx`).
 
 ## Docs
 

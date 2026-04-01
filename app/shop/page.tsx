@@ -4,12 +4,13 @@ import { AssetImage } from "@/components/asset-image";
 import { PRODUCTS } from "@/lib/products";
 
 export const metadata: Metadata = {
-  title: "Shop — Single packs",
+  title: "Shop — Single 3-pack boxes",
   description:
-    "Pick a flavor and size (1g or 2g). 3 Chops per pack — 110mm rice paper tubes.",
+    "Pick a flavor and size (1g or 2g). One box = 3 Chops. $4.75 (1g) and $5.00 (2g) per box — not sold by the case.",
   openGraph: {
     title: "Shop — Smash Wraps",
-    description: "Flavor capsule infused rice paper tubes.",
+    description:
+      "Single retail boxes: 3 Chops per box, 110mm rice paper tubes. $4.75 / $5.00.",
   },
 };
 

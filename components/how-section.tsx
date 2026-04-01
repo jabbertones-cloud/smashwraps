@@ -1,12 +1,12 @@
 const tiles = [
-  { label: "Pineapple pack", tone: "from-lime-500/20 to-transparent" },
-  { label: "Passion pack", tone: "from-purple-500/20 to-transparent" },
-  { label: "Watermelon pack", tone: "from-pink-500/20 to-transparent" },
-  { label: "Vanilla pack", tone: "from-amber-500/20 to-transparent" },
-  { label: "Case / shelf", tone: "from-zinc-500/10 to-transparent" },
-  { label: "Case / shelf", tone: "from-zinc-500/10 to-transparent" },
-  { label: "Case / shelf", tone: "from-zinc-500/10 to-transparent" },
-  { label: "Case / shelf", tone: "from-zinc-500/10 to-transparent" },
+  { label: "Pineapple", tone: "from-lime-500/20 to-transparent" },
+  { label: "Passion", tone: "from-purple-500/20 to-transparent" },
+  { label: "Watermelon", tone: "from-pink-500/20 to-transparent" },
+  { label: "Vanilla", tone: "from-amber-500/20 to-transparent" },
+  { label: "Single box", tone: "from-zinc-500/10 to-transparent" },
+  { label: "3 Chops", tone: "from-zinc-500/10 to-transparent" },
+  { label: "1g or 2g", tone: "from-zinc-500/10 to-transparent" },
+  { label: "Ships to you", tone: "from-zinc-500/10 to-transparent" },
 ];
 
 export function HowSection() {
@@ -22,8 +22,8 @@ export function HowSection() {
               FLAVOR IN THE TIP
             </h2>
             <p className="mt-4 text-zinc-500">
-              Same story on every PDP: what you are buying is a tube, a capsule, and a
-              gram size — no hidden steps.
+              Same story on every PDP: what you are buying is one retail box — a tube, a
+              capsule, and a gram size. No case packs on this storefront.
             </p>
             <ul className="mt-10 space-y-5 text-zinc-400">
               <li className="flex gap-4 border-l-2 border-smash-yellow/50 pl-4">
@@ -36,7 +36,7 @@ export function HowSection() {
               </li>
               <li className="flex gap-4 border-l-2 border-white/10 pl-4">
                 <span className="text-zinc-200">1g or 2g</span> — pick the capacity that
-                fits you; both sizes are 3 Chops per pack.
+                fits you; both sizes are 3 Chops per box.
               </li>
             </ul>
           </div>
@@ -53,7 +53,7 @@ export function HowSection() {
           </div>
         </div>
         <p className="mt-10 text-center text-xs text-zinc-600">
-          Case photography placeholders — swap in pack/case assets from brand library.
+          Tiles are labels only — add lifestyle or shelf photography when assets are ready.
         </p>
       </div>
     </section>

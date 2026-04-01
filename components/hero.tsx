@@ -35,7 +35,7 @@ export function Hero() {
           </p>
           <p className="mt-4 text-lg leading-relaxed text-zinc-400 md:text-xl">
             Straight 110mm rice paper tubes.{" "}
-            <span className="font-medium text-zinc-200">3 Chops per pack</span>
+            <span className="font-medium text-zinc-200">3 Chops per box</span>
             <span className="mt-2 block text-sm text-zinc-500">
               Patent pending · Four flavors · 1g or 2g
             </span>
@@ -60,7 +60,7 @@ export function Hero() {
               <span className="font-display text-2xl text-white">2</span> sizes
             </div>
             <div>
-              <span className="font-display text-2xl text-white">3</span> chops / pack
+              <span className="font-display text-2xl text-white">3</span> chops / box
             </div>
           </div>
           <p className="mt-8 text-xs text-zinc-600">

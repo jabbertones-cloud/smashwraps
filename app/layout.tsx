@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: "%s | Smash Wraps",
   },
   description:
-    "Smash Wraps The CHOP: flavor in the capsule tip — rice paper tubes, 3 Chops per pack, 110mm. Iced Watermelon, Passion Fruit, Pineapple, Vanilla. 1g & 2g.",
+    "Smash Wraps The CHOP: flavor in the capsule tip — rice paper tubes, 3 Chops per box, 110mm. Iced Watermelon, Passion Fruit, Pineapple, Vanilla. 1g & 2g. Single retail boxes, not by the case.",
   keywords: [
     "Smash Wraps",
     "The CHOP",
@@ -48,13 +48,13 @@ export const metadata: Metadata = {
     siteName: "Smash Wraps",
     title: "Smash Wraps — The CHOP",
     description:
-      "Flavor in the tip — Smash Wraps The CHOP. 3 Chops per pack · 110mm · four flavors.",
+      "Flavor in the tip — Smash Wraps The CHOP. 3 Chops per box · 110mm · four flavors.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Smash Wraps — The CHOP",
     description:
-      "Smash Wraps The CHOP — rice paper tubes, flavor in the capsule. 3 Chops per pack.",
+      "Smash Wraps The CHOP — rice paper tubes, flavor in the capsule. 3 Chops per box.",
   },
 };
 
