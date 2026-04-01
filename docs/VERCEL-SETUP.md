@@ -2,6 +2,15 @@
 
 **Cursor** (or any editor) only edits code and talks to **GitHub**. Deployments are **GitHub → Vercel**: Vercel clones the repo and runs `npm install` + `npm run build`. Nothing in Cursor needs to be “connected” to Vercel for this to work.
 
+## Project created (Vercel CLI)
+
+A Vercel project **`smashwraps`** exists under team **`scott-mantheys-projects`** (the account your local `vercel login` uses). The repo root is linked via **`.vercel/project.json`** (committed so others get the same project).
+
+- **Dashboard:** `https://vercel.com/scott-mantheys-projects/smashwraps`
+- **GitHub auto-deploy:** not wired yet from CLI — connect GitHub in the dashboard (**Project → Git**) or add a [Login Connection](https://vercel.com/docs/accounts/create-an-account#login-methods-and-connections) for GitHub on that Vercel account, then run `vercel git connect https://github.com/jabbertones-cloud/smashwraps.git` from this folder.
+
+If the Cursor **Vercel integration** shows a different team (e.g. **SMAT Designs**), that is a separate OAuth session. Use **one** account consistently: either deploy under the team your CLI uses, or run `vercel switch` / re-login and recreate the project under the desired team.
+
 ## 1. One-time: link GitHub to Vercel
 
 1. Sign in at [vercel.com](https://vercel.com) (GitHub SSO is fine).

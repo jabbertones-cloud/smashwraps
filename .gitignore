@@ -28,3 +28,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Vercel — commit project.json so the team shares the same project link
+.vercel/*
+!.vercel/project.json
