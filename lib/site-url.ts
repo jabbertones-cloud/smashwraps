@@ -3,7 +3,8 @@
  * `new URL()` and metadataBase require a full origin with scheme.
  */
 
-const DEFAULT_CANONICAL = "https://smashwraps.com";
+/** Default when NEXT_PUBLIC_SITE_URL is unset — production retail is smashcones.com. */
+const DEFAULT_CANONICAL = "https://smashcones.com";
 
 /** Ensures a usable absolute URL; prepends https:// when the env is host-only. */
 export function normalizePublicSiteUrl(raw: string): string {

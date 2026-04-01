@@ -1,4 +1,5 @@
 import type { Product } from "@/lib/products";
+import { organizationDescriptionForJsonLd } from "@/lib/geo-aeo";
 import { getCanonicalSiteUrl } from "@/lib/site-url";
 
 function parseOrgSameAs(raw: string | undefined): string[] {
@@ -81,18 +82,23 @@ export function organizationJsonLd() {
   const siteUrl = getCanonicalSiteUrl();
   const sameAs = parseOrgSameAs(process.env.NEXT_PUBLIC_ORG_SAME_AS);
   const contactPoint = buildOrgContactPoint();
+  const orgId = `${siteUrl}#organization`;
 
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": orgId,
     name: "Smash Wraps",
+    alternateName: [
+      "Smash Wraps The CHOP",
+      "The CHOP by Smash Wraps",
+    ],
     url: siteUrl,
     logo: {
       "@type": "ImageObject",
       url: `${siteUrl}/images/smash-wraps-logo.png`,
     },
-    description:
-      "Smash Wraps makes The CHOP — flavor capsule infused rice paper tubes (3 Chops per retail box, 110mm). Flavors include Iced Watermelon, Passion Fruit, Pineapple, and Vanilla in 1g and 2g sizes.",
+    description: organizationDescriptionForJsonLd(),
     brand: {
       "@type": "Brand",
       name: "Smash Wraps",
@@ -105,19 +111,19 @@ export function organizationJsonLd() {
 /** Home page — pairs with Organization for SEO/AEO. */
 export function websiteJsonLd() {
   const siteUrl = getCanonicalSiteUrl();
+  const orgId = `${siteUrl}#organization`;
+
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Smash Wraps",
+    "@id": `${siteUrl}#website`,
+    name: "Smash Wraps — The CHOP",
+    alternateName: ["Smash Wraps official store", "The CHOP retail"],
     url: siteUrl,
     description:
       "Official Smash Wraps store: The CHOP rice paper tubes with flavor in the capsule tip. Secure checkout on site.",
     inLanguage: "en-US",
-    publisher: {
-      "@type": "Organization",
-      name: "Smash Wraps",
-      url: siteUrl,
-    },
+    publisher: { "@id": orgId },
   };
 }
 

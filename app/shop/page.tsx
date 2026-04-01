@@ -6,12 +6,18 @@ import { FLAVOR_LOGO } from "@/lib/chop-images";
 import { PRODUCTS } from "@/lib/products";
 import { shopItemListJsonLd } from "@/lib/json-ld";
 import { ShopItemListTracker } from "@/components/analytics/shop-item-list-tracker";
+import { getCanonicalSiteUrl } from "@/lib/site-url";
+
+const siteUrl = getCanonicalSiteUrl();
+const shopUrl = `${siteUrl}/shop`;
 
 export const metadata: Metadata = {
   title: "Shop The CHOP — rice paper tubes (1g & 2g) | Smash Wraps",
   description:
     "Browse all Smash Wraps The CHOP SKUs: four flavors, 1g or 2g, one 3-pack retail box per order. $4.75 / $5.00 · not sold by the case.",
+  alternates: { canonical: shopUrl },
   openGraph: {
+    url: shopUrl,
     title: "Shop The CHOP — Smash Wraps",
     description:
       "Single retail boxes: 3 Chops per box, 110mm tubes. Flavor in the capsule tip.",

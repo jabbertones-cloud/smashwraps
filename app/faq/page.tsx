@@ -2,12 +2,16 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { FAQ_ITEMS } from "@/lib/faq-data";
 import { faqPageJsonLd } from "@/lib/json-ld";
+import { getCanonicalSiteUrl } from "@/lib/site-url";
+
+const faqUrl = `${getCanonicalSiteUrl()}/faq`;
 
 export const metadata: Metadata = {
   title: "FAQ",
   description:
     "Answers about The CHOP, checkout, shipping, returns, and eligibility — Smash Wraps.",
-  openGraph: { title: "FAQ — Smash Wraps" },
+  alternates: { canonical: faqUrl },
+  openGraph: { title: "FAQ — Smash Wraps", url: faqUrl },
 };
 
 export default function FaqPage() {

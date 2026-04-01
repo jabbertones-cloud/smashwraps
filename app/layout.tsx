@@ -40,6 +40,7 @@ export const viewport: Viewport = {
 /** Favicons: `app/icon.png` + `app/apple-icon.png` (brand logo; see `lib/brand.ts`). */
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  applicationName: "Smash Wraps — The CHOP",
   title: {
     default: "Smash Wraps — The CHOP | Rice paper tubes",
     template: "%s | Smash Wraps",
@@ -47,6 +48,9 @@ export const metadata: Metadata = {
   description:
     "Smash Wraps The CHOP — flavor in the capsule tip, not sprayed on the sheet. 110mm rice paper tubes, 3 Chops per box, four flavors, 1g & 2g. Single retail boxes. Adults 21+ where required.",
   keywords: [
+    "Smash Wraps The CHOP",
+    "The CHOP rice paper tubes",
+    "smashcones",
     "Smash Wraps",
     "The CHOP",
     "rice paper tubes",
@@ -54,11 +58,16 @@ export const metadata: Metadata = {
     "rolling papers alternative",
     "110mm tubes",
   ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    siteName: "Smash Wraps",
+    siteName: "Smash Wraps — The CHOP",
     title: "Smash Wraps — The CHOP",
     description:
       "Flavor in the capsule tip — Smash Wraps The CHOP. 3 Chops per box · 110mm · four flavors. Single retail boxes.",
