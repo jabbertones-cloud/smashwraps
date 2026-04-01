@@ -10,12 +10,19 @@ From **this directory** (`smashwraps-retail`):
 git init
 git branch -M main
 git remote add origin git@github.com:jabbertones-cloud/smashwraps.git
-# or: https://github.com/jabbertones-cloud/smashwraps.git
 
 git add .
 git commit -m "feat: Smash Wraps Next.js storefront, MiroFish/TRIBE v2 audit pass, SEO/AEO/GEO"
 git push -u origin main
 ```
+
+If the remote was added as HTTPS, switch to SSH:
+
+```bash
+git remote set-url origin git@github.com:jabbertones-cloud/smashwraps.git
+```
+
+If push fails with **“You must verify your email address”**, confirm your email at [github.com/settings/emails](https://github.com/settings/emails), then run `git push -u origin main` again.
 
 If the remote already has a README commit:
 
