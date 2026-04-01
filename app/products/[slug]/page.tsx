@@ -6,7 +6,8 @@ import Script from "next/script";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { ProductViewTracker } from "@/components/analytics/product-view-tracker";
 import { chopMasterCaseImageForSlug } from "@/lib/chop-images";
-import { PRODUCTS, getProductBySlug } from "@/lib/products";
+import { ProductRelated } from "@/components/product-related";
+import { PRODUCTS, getProductBySlug, type Product } from "@/lib/products";
 import { productJsonLd } from "@/lib/json-ld";
 import { getCanonicalSiteUrl } from "@/lib/site-url";
 import { ProductMobileStickyCta } from "@/components/product-mobile-sticky-cta";
@@ -19,6 +20,13 @@ const siteUrl = getCanonicalSiteUrl();
 
 type Props = { params: Promise<{ slug: string }> };
 
+function buildProductMetaDescription(product: Product): string {
+  const first = product.description.split(".")[0]?.trim() ?? product.name;
+  const suffix = " Single 3-pack box · Secure US checkout.";
+  const combined = `${first}.${suffix}`;
+  return combined.length > 158 ? `${combined.slice(0, 155)}…` : combined;
+}
+
 export function generateStaticParams() {
   return PRODUCTS.map((p) => ({ slug: p.slug }));
 }
@@ -28,21 +36,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = getProductBySlug(slug);
   if (!product) return { title: "Product" };
   const url = `${siteUrl}/products/${product.slug}`;
+  const title = `${product.flavorLabel} ${product.grams} · The CHOP rice paper tubes | Smash Wraps`;
+  const description = buildProductMetaDescription(product);
   return {
-    title: product.name,
-    description: product.description,
+    title,
+    description,
     alternates: { canonical: url },
     openGraph: {
-      title: product.name,
-      description: product.description,
+      title,
+      description,
       url,
       images: [{ url: `${siteUrl}${product.image}`, width: 800, height: 800 }],
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: product.name,
-      description: product.description,
+      title,
+      description,
       images: [`${siteUrl}${product.image}`],
     },
   };
@@ -184,8 +194,22 @@ export default async function ProductPage({ params }: Props) {
             <p className="mt-8 text-xs text-zinc-600">
               Adults 21+ where required. Follow your local laws.
             </p>
+            <p className="mt-4 text-xs text-zinc-600">
+              <Link href="/legal/shipping" className="underline hover:text-zinc-400">
+                Shipping
+              </Link>
+              {" · "}
+              <Link href="/legal/returns" className="underline hover:text-zinc-400">
+                Returns
+              </Link>
+              {" · "}
+              <Link href="/faq" className="underline hover:text-zinc-400">
+                FAQ
+              </Link>
+            </p>
           </div>
         </div>
+        <ProductRelated currentSlug={product.slug} />
       </div>
       <ProductMobileStickyCta
         slug={product.slug}

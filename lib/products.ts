@@ -140,6 +140,19 @@ export function getProductBySlug(slug: string): Product | undefined {
   return bySlug.get(slug);
 }
 
+/** PDP internal linking: same flavor (other gram) first, then other flavors. */
+export function getRelatedProducts(slug: string, limit = 4): Product[] {
+  const current = getProductBySlug(slug);
+  if (!current) return [];
+  const sameFlavorOtherGram = PRODUCTS.filter(
+    (p) => p.flavorId === current.flavorId && p.slug !== slug,
+  );
+  const otherFlavors = PRODUCTS.filter(
+    (p) => p.flavorId !== current.flavorId && p.slug !== slug,
+  );
+  return [...sameFlavorOtherGram, ...otherFlavors].slice(0, limit);
+}
+
 export function getStripeProductId(product: Product): string | undefined {
   const v = process.env[product.stripeProductEnvKey];
   return v && v.startsWith("prod_") ? v : undefined;

@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Script from "next/script";
 import { AssetImage } from "@/components/asset-image";
 import { FLAVOR_LOGO } from "@/lib/chop-images";
 import { PRODUCTS } from "@/lib/products";
+import { shopItemListJsonLd } from "@/lib/json-ld";
 import { ShopItemListTracker } from "@/components/analytics/shop-item-list-tracker";
 
 export const metadata: Metadata = {
-  title: "Shop — Single 3-pack boxes",
+  title: "Shop The CHOP — rice paper tubes (1g & 2g) | Smash Wraps",
   description:
-    "Pick a flavor and size (1g or 2g). One box = 3 Chops. $4.75 (1g) and $5.00 (2g) per box — not sold by the case.",
+    "Browse all Smash Wraps The CHOP SKUs: four flavors, 1g or 2g, one 3-pack retail box per order. $4.75 / $5.00 · not sold by the case.",
   openGraph: {
-    title: "Shop — Smash Wraps",
+    title: "Shop The CHOP — Smash Wraps",
     description:
-      "Single retail boxes: 3 Chops per box, 110mm rice paper tubes. $4.75 / $5.00.",
+      "Single retail boxes: 3 Chops per box, 110mm tubes. Flavor in the capsule tip.",
   },
 };
 
@@ -24,13 +26,19 @@ function priceLabel(cents: number) {
 }
 
 export default function ShopPage() {
+  const itemListLd = shopItemListJsonLd(PRODUCTS);
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+      <Script
+        id="ld-shop-itemlist"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
+      />
       <ShopItemListTracker products={PRODUCTS} />
       <h1 className="font-display text-4xl text-white md:text-5xl">Shop</h1>
-      <p className="mt-3 max-w-2xl text-zinc-400">
-        Every SKU is a dedicated product page with structured data for search and
-        assistants.
+      <p className="mt-3 max-w-prose text-base leading-relaxed text-zinc-400">
+        One product page per SKU — flavor, size, price, and what ships in the box. Pick a
+        card to open the full PDP.
       </p>
       <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {PRODUCTS.map((p) => (

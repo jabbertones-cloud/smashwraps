@@ -55,6 +55,7 @@ export function productJsonLd(product: Product) {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
+    sku: product.slug,
     name: product.name,
     description: product.description,
     image: `${siteUrl}${product.image}`,
@@ -86,6 +87,10 @@ export function organizationJsonLd() {
     "@type": "Organization",
     name: "Smash Wraps",
     url: siteUrl,
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/images/smash-wraps-logo.png`,
+    },
     description:
       "Smash Wraps makes The CHOP — flavor capsule infused rice paper tubes (3 Chops per retail box, 110mm). Flavors include Iced Watermelon, Passion Fruit, Pineapple, and Vanilla in 1g and 2g sizes.",
     brand: {
@@ -113,6 +118,23 @@ export function websiteJsonLd() {
       name: "Smash Wraps",
       url: siteUrl,
     },
+  };
+}
+
+/** Shop index — helps search engines and answer engines discover all PDP URLs. */
+export function shopItemListJsonLd(products: Product[]) {
+  const siteUrl = getCanonicalSiteUrl();
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Smash Wraps — The CHOP retail SKUs",
+    numberOfItems: products.length,
+    itemListElement: products.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: p.name,
+      item: `${siteUrl}/products/${p.slug}`,
+    })),
   };
 }
 

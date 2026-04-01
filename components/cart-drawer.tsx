@@ -169,6 +169,17 @@ export function CartDrawer() {
                   <span>Subtotal</span>
                   <span className="font-mono text-white">{formatted}</span>
                 </div>
+                {subtotalCents > 0 &&
+                  subtotalCents < RETAIL_FREE_SHIPPING_THRESHOLD_CENTS && (
+                    <p className="mb-3 rounded-lg border border-smash-yellow/25 bg-smash-yellow/5 px-3 py-2 text-xs leading-snug text-zinc-300">
+                      Add{" "}
+                      <span className="font-mono font-semibold text-white">
+                        {money(RETAIL_FREE_SHIPPING_THRESHOLD_CENTS - subtotalCents)}
+                      </span>{" "}
+                      more for{" "}
+                      <strong className="text-smash-yellow">free US shipping</strong>.
+                    </p>
+                  )}
                 <div className="mb-2 flex justify-between text-sm text-zinc-400">
                   <span>Shipping (US)</span>
                   <span className="font-mono text-white">
