@@ -67,6 +67,11 @@
     @apply mx-auto max-w-6xl px-4 md:px-6;
   }
 
+  /** Legal / policy / About — same vertical rhythm as section-y, ~65ch-friendly column */
+  .page-narrow {
+    @apply mx-auto max-w-3xl px-4 md:px-6 section-y;
+  }
+
   /** Consistent vertical gaps between stacked blocks inside a section */
   .section-gap {
     @apply gap-8 md:gap-10;

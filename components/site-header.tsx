@@ -13,7 +13,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-[100] border-b border-white/[0.08] bg-[#050505]/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl backdrop-saturate-150">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 md:px-6">
+      <div className="section-inner flex items-center justify-between py-3.5">
         <Link
           href="/"
           className="group flex max-w-[min(100%,min(85vw,320px))] shrink-0 items-center rounded-lg p-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-smash-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505]"

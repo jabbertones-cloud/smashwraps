@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function ShippingPage() {
   return (
-    <div className="mx-auto max-w-3xl space-y-6 px-4 py-16 text-zinc-400 md:px-6 md:py-24">
+    <div className="page-narrow space-y-6 text-zinc-400">
       <h1 className="font-display text-4xl text-white">Shipping policy</h1>
       <p>
         Processing times, carriers, and delivery options for your order are shown at

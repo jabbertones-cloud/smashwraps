@@ -19,7 +19,7 @@ export default function FaqPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="mx-auto max-w-3xl px-4 md:px-6 section-y">
+      <div className="page-narrow">
         <h1 className="font-display text-4xl text-white md:text-5xl">
           Frequently asked questions
         </h1>

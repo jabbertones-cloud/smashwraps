@@ -88,7 +88,7 @@ export function ShopSection() {
                     <div key={p.slug} className="flex flex-1 flex-col gap-1">
                       <Link
                         href={`/products/${p.slug}`}
-                        className="rounded-xl border border-white/15 bg-white/[0.03] py-2.5 text-center text-sm font-bold text-white transition hover:bg-white/10"
+                        className="rounded-xl border border-white/10 bg-white/[0.03] py-2.5 text-center text-sm font-bold text-white transition hover:bg-white/10"
                       >
                         {p.grams}
                       </Link>

@@ -12,14 +12,14 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 md:px-6 md:py-24">
+    <div className="page-narrow">
       <h1 className="font-display text-4xl text-white md:text-5xl">About Smash Wraps</h1>
-      <p className="mt-6 text-lg leading-relaxed text-zinc-400">
+      <p className="mt-6 max-w-prose text-lead text-zinc-400">
         Smash Wraps makes The CHOP — straight rice paper tubes with flavor in the capsule
         tip, not sprayed on the sheet. We built this format for a consistent taste that
         matches the label.
       </p>
-      <p className="mt-6 leading-relaxed text-zinc-500">
+      <p className="mt-6 max-w-prose text-body text-zinc-500">
         This site is the official place to buy single 3-pack boxes online. For order help
         or business inquiries, use the contact options below.
       </p>

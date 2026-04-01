@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function CompliancePage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 md:px-6 md:py-24">
+    <div className="page-narrow">
       <h1 className="font-display text-4xl text-white">Compliance</h1>
       <p className="mt-4 text-zinc-400">
         This page summarizes how we approach age verification and product eligibility on
@@ -20,7 +20,7 @@ export default function CompliancePage() {
         where you live. Orders are subject to verification, carrier rules, and
         applicable law.
       </p>
-      <p className="mt-8 text-sm text-zinc-500">
+      <p className="mt-8 text-body text-zinc-500">
         More questions? See the{" "}
         <Link href="/faq" className="text-smash-yellow underline">
           FAQ

@@ -14,7 +14,7 @@ export function ProductMobileStickyCta({
 }) {
   return (
     <div className="fixed inset-x-0 bottom-0 z-[90] border-t border-white/10 bg-[#050505]/95 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl lg:hidden">
-      <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
+      <div className="section-inner flex items-center gap-3 py-3">
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium text-white">{label}</p>
           <p className="font-mono text-sm text-zinc-300">{priceFormatted}</p>

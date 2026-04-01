@@ -49,7 +49,7 @@ export function Hero() {
 
           <TrustStrip />
 
-          <div className="mt-12 flex flex-wrap gap-8 border-t border-white/[0.06] pt-8 text-sm text-zinc-500">
+          <div className="mt-12 flex flex-wrap gap-8 border-t border-white/[0.06] pt-8 text-body text-zinc-500">
             <div>
               <span className="font-display text-2xl text-white">4</span> flavors
             </div>

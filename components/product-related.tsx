@@ -15,7 +15,7 @@ export function ProductRelated({ currentSlug }: { currentSlug: string }) {
 
   return (
     <section
-      className="mt-16 border-t border-white/10 pt-12"
+      className="mt-20 border-t border-white/10 pt-16 md:mt-24"
       aria-labelledby="related-products-heading"
     >
       <h2
@@ -24,7 +24,7 @@ export function ProductRelated({ currentSlug }: { currentSlug: string }) {
       >
         More flavors &amp; sizes
       </h2>
-      <p className="mt-2 max-w-prose text-sm text-zinc-500">
+      <p className="mt-2 max-w-prose text-body text-zinc-500">
         Same retail format — one 3-pack box per SKU.{" "}
         <Link href="/shop" className="text-smash-yellow underline hover:text-yellow-300">
           Shop all products
@@ -61,8 +61,8 @@ function RelatedCard({ product }: { product: Product }) {
         <p className="truncate font-display text-sm font-semibold tracking-wide text-white group-hover:text-smash-yellow">
           {product.flavorLabel}
         </p>
-        <p className="text-xs text-zinc-500">{product.grams}</p>
-        <p className="mt-1 font-mono text-xs text-zinc-300">
+        <p className="text-legal text-zinc-500">{product.grams}</p>
+        <p className="mt-1 font-mono text-legal text-zinc-300">
           {priceLabel(product.priceCents)}
         </p>
       </div>
