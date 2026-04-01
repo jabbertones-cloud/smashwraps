@@ -46,14 +46,24 @@ Optional org JSON-LD: `NEXT_PUBLIC_ORG_*` — see `README.md`.
 
 Redeploy after changing env vars so static pages pick up `NEXT_PUBLIC_*` values.
 
-## 4. Stripe webhook
+## 4. Stripe webhooks
 
 In [Stripe Dashboard](https://dashboard.stripe.com) (platform account):
 
+**Primary endpoint**
+
 1. **Developers → Webhooks → Add endpoint**
 2. URL: `https://<your-production-domain>/api/webhooks/stripe`
-3. Copy the **Signing secret** into `STRIPE_WEBHOOK_SECRET` on Vercel.
-4. Enable events needed for your checkout flow; for Connect, include connected-account events if you use them.
+3. Copy the **Signing secret** into **`STRIPE_WEBHOOK_SECRET`** on Vercel.
+
+**Optional second endpoint** (same handler logic, separate secret — e.g. different event selection or destination name)
+
+1. URL: `https://<your-production-domain>/api/webhooks/stripe/thin`
+2. Copy that destination’s signing secret into **`STRIPE_WEBHOOK_SECRET_THIN`** on Vercel.
+
+Enable events needed for your checkout flow; for Connect, include **Listen to events on Connected accounts** when you use connected-account checkouts.
+
+Never commit `whsec_…` values; set them only in Vercel (Production).
 
 ## 5. Custom domain
 

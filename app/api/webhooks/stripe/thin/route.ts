@@ -4,11 +4,15 @@ import { constructStripeEventOrResponse } from "@/lib/stripe-webhook-verify";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * Second webhook endpoint (e.g. fewer events or separate signing secret in Stripe Dashboard).
+ * Set `STRIPE_WEBHOOK_SECRET_THIN` to this destination’s signing secret.
+ */
 export async function POST(req: Request) {
-  const whSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const whSecret = process.env.STRIPE_WEBHOOK_SECRET_THIN;
   if (!whSecret) {
     return NextResponse.json(
-      { error: "STRIPE_WEBHOOK_SECRET not configured" },
+      { error: "STRIPE_WEBHOOK_SECRET_THIN not configured" },
       { status: 503 },
     );
   }

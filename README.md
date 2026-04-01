@@ -35,7 +35,7 @@ If a secret key was ever pasted into chat or a ticket, **rotate it** in the Dash
 - **Secrets stay server-side:** `STRIPE_SECRET_KEY` and all `STRIPE_PRODUCT_*` / `STRIPE_PRICE_*` values are **never** exposed to the browser — only read in API routes.
 - **No client-chosen prices:** Checkout accepts **only** known product `slug` + quantity. The server maps each slug → allowlisted **Product + Price** IDs from env; clients cannot pass arbitrary `price_…` or amounts.
 - **Catalog vs Stripe:** On each checkout, the server **retrieves** each Price, confirms it is attached to the expected **Product** (`prod_…`), then checks **amount + USD + one-time** match `lib/products.ts`. Wrong or swapped env fails closed (fix env or Stripe before taking orders).
-- **Webhooks:** `/api/webhooks/stripe` verifies the **`Stripe-Signature`** with `STRIPE_WEBHOOK_SECRET` — do not disable signature verification.
+- **Webhooks:** `/api/webhooks/stripe` uses **`STRIPE_WEBHOOK_SECRET`**; optional **`/api/webhooks/stripe/thin`** uses **`STRIPE_WEBHOOK_SECRET_THIN`** (same handler). Both verify **`Stripe-Signature`** — do not disable verification.
 - **Cart storage:** `localStorage` lines are sanitized to known slugs and quantity caps so tampered data cannot create odd client state (the server still enforces on checkout).
 
 ```bash
@@ -64,9 +64,14 @@ Headlines use **Bebas Neue** and body **DM Sans** via `next/font` (Google). For 
 
 Hero and How tiles can swap to video or lifestyle photography when assets exist (`how-section.tsx`).
 
+## Email (Resend)
+
+Optional but recommended for launch: **welcome** (footer + success page), **cart recovery** (link restores cart via `?cart=`), **checkout-cancel nudge**, and **post-purchase thank-you** (Stripe webhook). Configure `RESEND_API_KEY` and `RESEND_FROM_EMAIL` (verified domain). Optional: **`RESEND_WEBHOOK_SECRET`** for `POST /api/webhooks/resend` (delivery events; Svix-signed). See **`docs/EMAIL-FLOWS.md`**.
+
 ## Docs
 
 - `docs/compliance-age-gating.md` — counsel / Stripe checklist
+- `docs/EMAIL-FLOWS.md` — funnels, cart abandonment, post-purchase, env
 - `docs/seo-research-brief.md` — SERP research template
 - `docs/MIROFISH-TRIBEV2-AUDIT.md` — design/copy case study vs MiroFish + TRIBE v2 framework
 - `docs/SWARM-SEO-RUNBOOK.md` — Mission Control / goal-based SEO research from claw-architect
