@@ -1,13 +1,21 @@
 import Link from "next/link";
+import { AssetImage } from "@/components/asset-image";
+import { BRAND_LOGO_SRC } from "@/lib/brand";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
   return (
     <footer className="border-t border-white/[0.08] bg-[#030303] py-14">
       <div className="mx-auto max-w-6xl px-4 text-center md:px-6">
-        <p className="font-display text-2xl tracking-[0.2em] text-zinc-300">
-          SMASH WRAPS
-        </p>
+        <div className="flex justify-center">
+          <AssetImage
+            src={BRAND_LOGO_SRC}
+            alt="Smash Wraps"
+            width={240}
+            height={179}
+            className="mx-auto h-14 w-auto opacity-90 md:h-16"
+          />
+        </div>
         <p className="mt-3 text-sm text-zinc-500">
           Patent pending · Flavor capsule infused
         </p>

@@ -17,3 +17,6 @@ Or copy from your asset folder into this directory (public/images/):
 13. VanillaChops.png
 
 Filenames must match exactly (case-sensitive on Vercel).
+
+Brand logo (header, footer, favicon — see lib/brand.ts):
+  smash-wraps-logo.png

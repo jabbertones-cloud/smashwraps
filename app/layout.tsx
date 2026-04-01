@@ -56,6 +56,10 @@ export const metadata: Metadata = {
     description:
       "Smash Wraps The CHOP — rice paper tubes, flavor in the capsule. 3 Chops per box.",
   },
+  icons: {
+    icon: [{ url: "/images/smash-wraps-logo.png", type: "image/png" }],
+    apple: "/images/smash-wraps-logo.png",
+  },
 };
 
 export default function RootLayout({

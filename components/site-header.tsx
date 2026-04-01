@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "@/contexts/cart-context";
 import { Button } from "@/components/ui/button";
+import { AssetImage } from "@/components/asset-image";
+import { BRAND_LOGO_SRC } from "@/lib/brand";
 
 export function SiteHeader() {
   const { items, openCart } = useCart();
@@ -12,11 +14,18 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-[100] border-b border-white/[0.08] bg-[#050505]/80 backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 md:px-6">
-        <Link href="/" className="group font-display text-2xl tracking-[0.08em] text-white md:text-3xl">
-          <span className="border-b-2 border-transparent transition group-hover:border-smash-yellow">
-            SMASH
-          </span>
-          <span className="text-zinc-500"> WRAPS</span>
+        <Link
+          href="/"
+          className="group flex shrink-0 items-center rounded-md ring-offset-2 ring-offset-[#050505] transition hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-smash-yellow"
+        >
+          <AssetImage
+            src={BRAND_LOGO_SRC}
+            alt="Smash Wraps"
+            width={200}
+            height={149}
+            className="h-9 w-auto md:h-10"
+            priority
+          />
         </Link>
         <nav className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-zinc-400 md:gap-8 md:text-sm">
           <Link href="/shop" className="transition hover:text-white">
