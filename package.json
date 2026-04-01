@@ -17,6 +17,7 @@
     "stripe:images": "node scripts/stripe-attach-product-images.mjs",
     "stripe:images:dry": "node scripts/stripe-attach-product-images.mjs --dry-run",
     "stripe:seed:wholesale": "node scripts/stripe-seed-wholesale-products.mjs",
+    "stripe:seed:wholesale:all": "bash scripts/seed-stripe-wholesale-catalog.sh",
     "stripe:seed:wholesale:dry": "node scripts/stripe-seed-wholesale-products.mjs --dry-run",
     "stripe:print-env:wholesale": "node scripts/print-stripe-wholesale-env.mjs",
     "stripe:images:wholesale": "node scripts/stripe-attach-wholesale-images.mjs",

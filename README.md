@@ -41,11 +41,13 @@ npm run stripe:images       # PATCH each Product.images on Stripe (STRIPE_SECRET
 
 ### Wholesale (`/wholesale`)
 
+**Wholesale Stripe objects are not created by `npm run stripe:seed` (retail only).** You must run **`npm run stripe:seed:wholesale`** once with `STRIPE_SECRET_KEY` (+ `STRIPE_CONNECT_ACCOUNT_ID` if you use Connect), then **`npm run stripe:print-env:wholesale`** and add the printed `STRIPE_WHOLESALE_*` vars to Vercel / `.env.local`. Until those env vars are set, `/wholesale` checkout returns 400.
+
 **Not in the sitemap** — page uses `robots: { index: false }` and is omitted from `app/sitemap.ts` (share link / buyers only). UI matches the rest of the site (dark, Bebas, flavor logos); the Skyn Patch repo was not in this workspace, so layout follows the existing retail shop patterns.
 
 - **Catalog:** `lib/wholesale-products.ts` — 8 case SKUs (12 retail boxes per case). Example wholesale: **$42 / case (1g)**, **$45 / case (2g)**; suggested retail / case shown for reference.
 - **Stripe:** `STRIPE_WHOLESALE_PRODUCT_*` + `STRIPE_WHOLESALE_PRICE_*` in `.env.example`. Create with:
-  - `npm run stripe:seed:wholesale:dry` / `npm run stripe:seed:wholesale`
+  - `npm run stripe:seed:wholesale:dry` / `npm run stripe:seed:wholesale` (or `npm run stripe:seed:wholesale:all` — checks `.env.local`)
   - `npm run stripe:print-env:wholesale` — dump IDs from an existing account
   - `npm run stripe:images:wholesale:dry` / `npm run stripe:images:wholesale` — same live `/images/...` URLs as retail, on wholesale Products
 - **Checkout:** `POST /api/checkout/wholesale` (allowlisted wholesale slugs only).
