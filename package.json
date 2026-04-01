@@ -11,7 +11,9 @@
     "images:sync": "bash scripts/sync-product-images-from-assets.sh",
     "images:apply-retail-boxes": "bash scripts/apply-product-drop-20260401.sh",
     "stripe:seed": "node scripts/stripe-seed-chop-products.mjs",
-    "stripe:seed:dry": "node scripts/stripe-seed-chop-products.mjs --dry-run"
+    "stripe:seed:all": "bash scripts/seed-stripe-catalog.sh",
+    "stripe:seed:dry": "node scripts/stripe-seed-chop-products.mjs --dry-run",
+    "stripe:print-env": "node scripts/print-stripe-catalog-env.mjs"
   },
   "dependencies": {
     "@next/third-parties": "^15.5.14",
@@ -25,8 +27,10 @@
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "resend": "^4.8.0",
     "server-only": "^0.0.1",
     "stripe": "^17.5.0",
+    "svix": "^1.89.0",
     "tailwind-merge": "^2.6.0",
     "zod": "^3.24.1"
   },

@@ -84,6 +84,24 @@
 
 ---
 
+## Email flows (Resend) — TRIBE + MiroFish pass (2026-04-01)
+
+**Orchestrator:** Mission Control `/api/goal` was **unavailable** (no listener on `127.0.0.1:4051`); this pass was completed **inline** against the same framework targets (website surface).
+
+| TRIBE cohort / signal | Email template | Mitigation |
+|----------------------|----------------|----------------|
+| `new_b2b_buyers` · trust_barriers | Welcome | Wholesale pointer → **About**; policies linked in footer shell. |
+| `returning_buyers` · cognitive_load | Post-purchase | Short line recap + **Shop again**; order reference for support. |
+| `mobile_first_users` · interaction_latency | Cart reminder | CTA copy assumes thumb-first (“Open site & restore cart”); recovery link. |
+| `accessibility_needs` · onboarding_ambiguity | All | Plain sentences, one primary CTA, table for line items; footer links text-labeled (not color-only). |
+| MiroFish · trust near pay | Cart / Post-purchase | States **Stripe** secure checkout / receipt; shipping & returns linked in thank-you. |
+| Abandoned Checkout (server) | `checkout.session.expired` | Auto email when session dies with email on file + catalog line items; **Resend idempotency** per Stripe event. |
+| Compliance | Welcome / Cancel nudge | **21+** in welcome; cancel email states **no charge**; no medical or unverified claims. |
+
+**Files:** `lib/email/templates/transactional.ts`, `lib/email/templates/wrap.ts` (footer: Shipping · Returns · FAQ · Privacy).
+
+---
+
 ## Re-measure checklist
 
 1. Lighthouse (mobile) on `/`, `/shop`, sample PDP.
@@ -93,4 +111,4 @@
 
 ---
 
-*Last updated: 2026-04-01*
+*Last updated: 2026-04-01 (email flows section added)*

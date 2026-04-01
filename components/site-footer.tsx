@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
+import { EmailCaptureForm } from "@/components/email-capture-form";
 import { BRAND_LOGO_SRC } from "@/lib/brand";
 
 export function SiteFooter() {
@@ -27,7 +28,13 @@ export function SiteFooter() {
           </Link>
           .
         </p>
-        <nav className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-zinc-500">
+        <div className="mx-auto mt-10 max-w-md text-left">
+          <p className="mb-3 text-center font-display text-xs tracking-[0.25em] text-zinc-500">
+            Stay in the loop
+          </p>
+          <EmailCaptureForm source="footer" />
+        </div>
+    <nav className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-zinc-500">
           <Link href="/legal/shipping" className="hover:text-zinc-300">
             Shipping
           </Link>

@@ -149,3 +149,11 @@ export function getStripePriceId(product: Product): string | undefined {
   const v = process.env[product.stripePriceEnvKey];
   return v && v.startsWith("price_") ? v : undefined;
 }
+
+/** Resolve catalog product from Stripe Price id (webhooks / checkout lines). */
+export function findProductByStripePriceId(priceId: string): Product | undefined {
+  for (const p of PRODUCTS) {
+    if (getStripePriceId(p) === priceId) return p;
+  }
+  return undefined;
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { GaPurchaseTracker } from "@/components/analytics/ga-purchase-tracker";
+import { EmailCaptureForm } from "@/components/email-capture-form";
 
 export const metadata: Metadata = {
   title: "Order confirmed",
@@ -21,7 +22,8 @@ export default async function CheckoutSuccessPage({ searchParams }: Props) {
       </p>
       <h1 className="mt-4 font-display text-4xl text-white">Order received</h1>
       <p className="mt-4 text-zinc-400">
-        You will receive a confirmation email from Stripe when payment is complete.
+        You will receive a payment receipt from Stripe. We may also send a short branded
+        confirmation when email is configured on the server.
         {sessionId ? (
           <>
             {" "}
@@ -31,8 +33,8 @@ export default async function CheckoutSuccessPage({ searchParams }: Props) {
         ) : null}
       </p>
       <p className="mt-6 text-sm text-zinc-500">
-        Fulfillment emails and inventory sync can be wired to the webhook handler in
-        production.
+        We will email you if we need anything else for your order. Keep your confirmation
+        email for your records.
       </p>
       <Link
         href="/shop"
@@ -40,6 +42,12 @@ export default async function CheckoutSuccessPage({ searchParams }: Props) {
       >
         Continue shopping
       </Link>
+      <div className="mt-14 border-t border-white/10 pt-10 text-left">
+        <p className="mb-3 text-center font-display text-xs tracking-[0.25em] text-zinc-500">
+          Get restock &amp; drop alerts
+        </p>
+        <EmailCaptureForm source="success" />
+      </div>
     </div>
   );
 }

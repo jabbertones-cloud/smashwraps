@@ -24,6 +24,8 @@ npm run stripe:seed:dry
 
 # needs STRIPE_SECRET_KEY in .env.local (and usually STRIPE_CONNECT_ACCOUNT_ID)
 npm run stripe:seed
+# equivalent: checks .env.local exists or key is exported, then seeds all SKUs
+npm run stripe:seed:all
 ```
 
 The script creates one Product + one one-time USD Price per SKU (1g = $4.75, 2g = $5.00), prints **`STRIPE_PRODUCT_*=prod_…`** and **`STRIPE_PRICE_*=price_…`** for Vercel or `.env.local`, and uses idempotency keys so a partial failure can be retried safely.
@@ -50,7 +52,7 @@ npm run dev
 - Set `NEXT_PUBLIC_SITE_URL` to the production URL (on Vercel: `https://smashwraps.vercel.app` until a custom domain is attached).
 - Optional E-E-A-T (Organization JSON-LD on home): `NEXT_PUBLIC_ORG_SAME_AS` (comma-separated URLs), and any of `NEXT_PUBLIC_ORG_CONTACT_EMAIL`, `NEXT_PUBLIC_ORG_CONTACT_PHONE`, `NEXT_PUBLIC_ORG_CONTACT_URL`, `NEXT_PUBLIC_ORG_CONTACT_TYPE`. Redeploy after changing env so static pages pick up the new values.
 - Add `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_CONNECT_ACCOUNT_ID`, and all `STRIPE_PRICE_*` variables.
-- Configure a **platform** webhook pointing to `https://<your-domain>/api/webhooks/stripe` and use its signing secret as `STRIPE_WEBHOOK_SECRET`. In the webhook destination settings, enable events from **connected accounts** if you want `checkout.session.completed` for Connect checkouts (see Stripe Connect webhook docs).
+- Configure a **platform** webhook pointing to `https://<your-domain>/api/webhooks/stripe` and use its signing secret as `STRIPE_WEBHOOK_SECRET`. Subscribe at least to **`checkout.session.completed`** and **`checkout.session.expired`** (abandoned Checkout email). In the webhook destination settings, enable events from **connected accounts** if you want those events for Connect checkouts (see Stripe Connect webhook docs).
 
 ## Images
 
@@ -66,7 +68,7 @@ Hero and How tiles can swap to video or lifestyle photography when assets exist 
 
 ## Email (Resend)
 
-Optional but recommended for launch: **welcome** (footer + success page), **cart recovery** (link restores cart via `?cart=`), **checkout-cancel nudge**, and **post-purchase thank-you** (Stripe webhook). Configure `RESEND_API_KEY` and `RESEND_FROM_EMAIL` (verified domain). Optional: **`RESEND_WEBHOOK_SECRET`** for `POST /api/webhooks/resend` (delivery events; Svix-signed). See **`docs/EMAIL-FLOWS.md`**.
+Optional but recommended for launch: **welcome** (footer + success page), **cart recovery** (link restores cart via `?cart=`), **checkout-cancel nudge**, and **post-purchase thank-you** (Stripe webhook). Configure `RESEND_API_KEY` and `RESEND_FROM_EMAIL` (verified domain). Optional: **`RESEND_WEBHOOK_SECRET`** for `POST /api/webhooks/resend` (delivery events; Svix-signed). Stripe webhooks should include **`checkout.session.completed`** and **`checkout.session.expired`** (abandoned Checkout → recovery email when email was entered). See **`docs/EMAIL-FLOWS.md`**.
 
 ## Docs
 

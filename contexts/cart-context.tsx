@@ -13,6 +13,7 @@ import {
   PRODUCT_SLUG_SET,
   type Product,
 } from "@/lib/products";
+import type { RecoveryLine } from "@/lib/cart-recovery";
 
 export type CartLine = { slug: string; quantity: number };
 
@@ -27,6 +28,8 @@ type CartContextValue = {
   openCart: () => void;
   closeCart: () => void;
   cartOpen: boolean;
+  /** Replace cart from email recovery link (`?cart=`). */
+  importRecovery: (lines: RecoveryLine[]) => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -105,6 +108,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clear = useCallback(() => setLines([]), []);
 
+  const importRecovery = useCallback((incoming: RecoveryLine[]) => {
+    const next = incoming
+      .filter(
+        (l) =>
+          l &&
+          typeof l.slug === "string" &&
+          PRODUCT_SLUG_SET.has(l.slug) &&
+          typeof l.quantity === "number",
+      )
+      .map((l) => ({
+        slug: l.slug,
+        quantity: Math.min(99, Math.max(1, Math.floor(l.quantity))),
+      }));
+    if (!next.length) return;
+    setLines(next);
+    setCartOpen(true);
+  }, []);
+
   const items = useMemo(() => {
     const out: { product: Product; quantity: number }[] = [];
     for (const line of lines) {
@@ -135,8 +156,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       openCart: () => setCartOpen(true),
       closeCart: () => setCartOpen(false),
       cartOpen,
+      importRecovery,
     }),
-    [lines, add, setQty, remove, clear, items, subtotalCents, cartOpen],
+    [lines, add, setQty, remove, clear, importRecovery, items, subtotalCents, cartOpen],
   );
 
   return (

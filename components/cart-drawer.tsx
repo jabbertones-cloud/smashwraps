@@ -6,6 +6,7 @@ import { AssetImage } from "@/components/asset-image";
 import { useState } from "react";
 import { useCart } from "@/contexts/cart-context";
 import { Button } from "@/components/ui/button";
+import { CartEmailReminder } from "@/components/cart-email-reminder";
 import { cartToGa4Items } from "@/lib/analytics/ga4-ecommerce";
 import { trackBeginCheckoutThenRedirect } from "@/lib/analytics/gtag-client";
 
@@ -156,6 +157,9 @@ export function CartDrawer() {
             <p className="mb-4 text-xs text-zinc-500">
               Shipping and taxes calculated at checkout.
             </p>
+            <div className="mb-4">
+              <CartEmailReminder />
+            </div>
             {error && (
               <p className="mb-2 text-sm text-red-400" role="alert">
                 {error}

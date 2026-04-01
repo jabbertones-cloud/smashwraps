@@ -1,6 +1,7 @@
 import "server-only";
 
 import type Stripe from "stripe";
+import { sendAbandonedStripeCheckoutEmail } from "@/lib/email/abandoned-checkout-notify";
 import { sendPostPurchaseThankYou } from "@/lib/email/post-order-notify";
 import { getStripe } from "@/lib/stripe-server";
 
@@ -23,9 +24,25 @@ export async function handleStripeWebhookEvent(event: Stripe.Event): Promise<voi
           session,
           stripe,
           stripeAccount: event.account ?? undefined,
+          stripeEventId: event.id,
         });
       } catch (e) {
         console.error("[email] post_purchase failed", e);
+      }
+      break;
+    }
+    case "checkout.session.expired": {
+      const session = event.data.object as Stripe.Checkout.Session;
+      console.info("[stripe] checkout.session.expired", session.id);
+      try {
+        await sendAbandonedStripeCheckoutEmail({
+          session,
+          stripe,
+          stripeAccount: event.account ?? undefined,
+          stripeEventId: event.id,
+        });
+      } catch (e) {
+        console.error("[email] abandoned_checkout failed", e);
       }
       break;
     }

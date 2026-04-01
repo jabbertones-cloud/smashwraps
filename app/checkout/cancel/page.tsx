@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CheckoutCancelRemind } from "@/components/checkout-cancel-remind";
 
 export const metadata: Metadata = {
   title: "Checkout cancelled",
@@ -11,7 +12,8 @@ export default function CheckoutCancelPage() {
     <div className="mx-auto max-w-lg px-4 py-24 text-center md:px-6">
       <h1 className="font-display text-4xl text-white">Checkout cancelled</h1>
       <p className="mt-4 text-zinc-400">
-        No charge was made. Your cart is still available — open the cart to try again.
+        No charge was made. Your cart is still saved in this browser — open the bag icon
+        to finish checkout, or keep browsing.
       </p>
       <Link
         href="/shop"
@@ -19,6 +21,7 @@ export default function CheckoutCancelPage() {
       >
         Back to shop
       </Link>
+      <CheckoutCancelRemind />
     </div>
   );
 }
