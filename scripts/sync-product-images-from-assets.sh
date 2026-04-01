@@ -53,4 +53,10 @@ copy "VanillaChops-55690dd6-74e8-404f-b60b-ad6d290333bd.png" "VanillaChops.png"
 copy "Screenshot_2026-04-01_at_12.41.23_AM-6c1a004b-8d52-43de-9ffa-3f22461f790b.png" "how-smash-capsule.png"
 copy "image-d1f40155-a6f2-4df6-820c-6a91688ef471.png" "smash-wraps-logo.png"
 
+# Flavor logos (lib/chop-images FLAVOR_LOGO)
+copy "iced_watermelon-652564b1-b4e3-482b-9cb2-5e879f1482cf.png" "flavor-iced-watermelon.png"
+copy "passion_fruit-5cb45cab-75cd-4e3d-b788-a07c1d9c2165.png" "flavor-passion-fruit.png"
+copy "pineapple-ff60d602-f093-4a56-824b-d5fdeed18912.png" "flavor-pineapple.png"
+copy "vanilla-c8ece250-065b-4c00-924b-2ad555fc3b70.png" "flavor-vanilla.png"
+
 echo "Done. Commit public/images if files changed, then deploy."

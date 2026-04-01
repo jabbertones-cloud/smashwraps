@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
 import { getFlavorGroups } from "@/lib/flavors";
+import { FLAVOR_LOGO } from "@/lib/chop-images";
 import { useCart } from "@/contexts/cart-context";
 import { Button } from "@/components/ui/button";
 
@@ -60,8 +61,19 @@ export function ShopSection() {
                 />
               </div>
               <div className="relative flex flex-1 flex-col border-t border-white/[0.06] p-5 pt-6">
+                <div className="mb-4 flex justify-center">
+                  <div className="rounded-xl border border-white/10 bg-white p-3 shadow-inner ring-1 ring-black/10">
+                    <AssetImage
+                      src={FLAVOR_LOGO[flavorId]}
+                      alt={`${meta.title} flavor logo`}
+                      width={200}
+                      height={200}
+                      className="mx-auto h-12 w-auto object-contain sm:h-14"
+                    />
+                  </div>
+                </div>
                 <h3
-                  className={`font-display text-2xl tracking-[0.06em] ${meta.accent}`}
+                  className={`text-center font-display text-2xl tracking-[0.06em] ${meta.accent}`}
                 >
                   {meta.title}
                 </h3>

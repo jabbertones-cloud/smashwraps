@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
+import { FLAVOR_LOGO } from "@/lib/chop-images";
 import { PRODUCTS } from "@/lib/products";
 
 export const metadata: Metadata = {
@@ -46,7 +47,19 @@ export default function ShopPage() {
                 />
               </div>
               <div className="border-t border-white/10 p-5">
-                <p className="font-display text-lg text-white">{p.name}</p>
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="shrink-0 rounded-lg border border-white/10 bg-white p-1.5">
+                    <AssetImage
+                      src={FLAVOR_LOGO[p.flavorId]}
+                      alt=""
+                      width={80}
+                      height={80}
+                      className="h-10 w-10 object-contain"
+                      aria-hidden
+                    />
+                  </div>
+                  <p className="font-display text-lg text-white">{p.name}</p>
+                </div>
                 <p className="mt-1 text-sm text-zinc-500">{priceLabel(p.priceCents)}</p>
               </div>
             </Link>

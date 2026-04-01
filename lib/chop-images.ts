@@ -1,8 +1,22 @@
+import type { FlavorId } from "@/lib/products";
+
 /**
  * Product art paths — PNGs in `public/images/` (case-sensitive on Linux/Vercel).
  * Replace files in place to update photography; paths stay stable for SEO and PDPs.
  */
+
+/** Flavor logos for shop / how sections (often white background in source art). */
+export const FLAVOR_LOGO: Record<FlavorId, string> = {
+  "iced-watermelon": "/images/flavor-iced-watermelon.png",
+  "passion-fruit": "/images/flavor-passion-fruit.png",
+  pineapple: "/images/flavor-pineapple.png",
+  vanilla: "/images/flavor-vanilla.png",
+};
+/** Multi-flavor master case / display (same asset on home hero + PDP first image). */
 export const CHOP_HERO_ALL_CASE_BOXES = "/images/AllCaseBoxesChops.png";
+
+/** PDP: large master case shot — not the DTC line item; pairs with per-SKU 3-pack image. */
+export const PDP_MASTER_CASE_IMAGE = CHOP_HERO_ALL_CASE_BOXES;
 
 /** Educational graphic: crush capsule in filter (brand art). */
 export const HOW_SMASH_CAPSULE = "/images/how-smash-capsule.png";
@@ -17,17 +31,6 @@ export const CHOP_PACK_IMAGE_BY_SLUG: Record<string, string> = {
   "pineapple-2g": "/images/2gCasePineappleChops.png",
   "vanilla-1g": "/images/1gCaseVanillaChops.png",
   "vanilla-2g": "/images/2gCaseVanillaChops.png",
-};
-
-/** Flavor “flat” chop product shots (no case) — one per flavor. */
-export const CHOP_FLAVOR_FLAT_IMAGE: Record<
-  "iced-watermelon" | "passion-fruit" | "pineapple" | "vanilla",
-  string
-> = {
-  "iced-watermelon": "/images/IcedWatermelonChops.png",
-  "passion-fruit": "/images/PassionFruitChops.png",
-  pineapple: "/images/PineappleChops.png",
-  vanilla: "/images/VanillaChops.png",
 };
 
 export function chopPackImageForSlug(slug: string): string {

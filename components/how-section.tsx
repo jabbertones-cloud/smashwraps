@@ -1,11 +1,12 @@
 import { AssetImage } from "@/components/asset-image";
-import { HOW_SMASH_CAPSULE } from "@/lib/chop-images";
+import { FLAVOR_LOGO, HOW_SMASH_CAPSULE } from "@/lib/chop-images";
+import type { FlavorId } from "@/lib/products";
 
-const flavorTiles = [
-  { label: "Pineapple", tone: "from-lime-500/20 to-transparent" },
-  { label: "Passion", tone: "from-purple-500/20 to-transparent" },
-  { label: "Watermelon", tone: "from-pink-500/20 to-transparent" },
-  { label: "Vanilla", tone: "from-amber-500/20 to-transparent" },
+const flavorOrder: { id: FlavorId; label: string }[] = [
+  { id: "iced-watermelon", label: "Iced Watermelon" },
+  { id: "passion-fruit", label: "Passion Fruit" },
+  { id: "pineapple", label: "Pineapple" },
+  { id: "vanilla", label: "Vanilla" },
 ];
 
 export function HowSection() {
@@ -57,15 +58,29 @@ export function HowSection() {
           </div>
         </div>
 
-        <div className="mt-14 grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
-          {flavorTiles.map((t, i) => (
-            <div
-              key={`how-flavor-${i}`}
-              className={`flex aspect-square items-end justify-center rounded-lg border border-white/[0.07] bg-gradient-to-br ${t.tone} p-3 text-center text-[10px] font-medium uppercase tracking-wider text-zinc-500`}
-            >
-              {t.label}
-            </div>
-          ))}
+        <div>
+          <p className="mb-4 text-center font-display text-xs tracking-[0.35em] text-zinc-500">
+            Flavors
+          </p>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+            {flavorOrder.map(({ id, label }) => (
+              <div
+                key={id}
+                className="flex flex-col items-center overflow-hidden rounded-xl border border-white/10 bg-white p-3 shadow-lg ring-1 ring-black/20"
+              >
+                <AssetImage
+                  src={FLAVOR_LOGO[id]}
+                  alt={`${label} flavor`}
+                  width={280}
+                  height={280}
+                  className="h-auto w-full max-h-28 object-contain sm:max-h-32"
+                />
+                <span className="mt-2 text-center text-[10px] font-semibold uppercase tracking-wider text-zinc-800">
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
