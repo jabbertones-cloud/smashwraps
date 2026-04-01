@@ -12,25 +12,25 @@ export const FLAVOR_LOGO: Record<FlavorId, string> = {
   pineapple: "/images/flavor-pineapple.png",
   vanilla: "/images/flavor-vanilla.png",
 };
-/** Multi-flavor master case strip — fallback only; file is JPEG (use .jpg extension). */
+/** Full retail strip: all flavors × 1g + 2g master cases — home hero only. */
 export const CHOP_HERO_ALL_CASE_BOXES = "/images/AllCaseBoxesChops.jpg";
 
 /** Educational graphic: crush capsule in filter (brand art). */
 export const HOW_SMASH_CAPSULE = "/images/how-smash-capsule.png";
 
 /**
- * Retail display / master case for this SKU (1g vs 2g) — top image on PDP.
- * Not the multi-flavor `AllCaseBoxesChops` strip.
+ * Retail display / master case for this SKU — top image on PDP (matches hero strip crops).
+ * JPEG assets use `.jpg` so Next/Image optimizes correctly.
  */
 export const CHOP_MASTER_CASE_BY_SLUG: Record<string, string> = {
-  "iced-watermelon-1g": "/images/1gIcedWatermelonChopsCase.png",
-  "iced-watermelon-2g": "/images/2gIcedWatermelonChopsCase.png",
-  "passion-fruit-1g": "/images/1gCasePassionFruitChops.png",
-  "passion-fruit-2g": "/images/2gCasePassionFruitChops.png",
-  "pineapple-1g": "/images/1gCasePineappleChops.png",
-  "pineapple-2g": "/images/2gCasePineappleChops.png",
-  "vanilla-1g": "/images/1gCaseVanillaChops.png",
-  "vanilla-2g": "/images/2gCaseVanillaChops.png",
+  "iced-watermelon-1g": "/images/1gIcedWatermelonChopsCase.jpg",
+  "iced-watermelon-2g": "/images/2gIcedWatermelonChopsCase.jpg",
+  "passion-fruit-1g": "/images/1gCasePassionFruitChops.jpg",
+  "passion-fruit-2g": "/images/2gCasePassionFruitChops.jpg",
+  "pineapple-1g": "/images/1gCasePineappleChops.jpg",
+  "pineapple-2g": "/images/2gCasePineappleChops.jpg",
+  "vanilla-1g": "/images/1gCaseVanillaChops.jpg",
+  "vanilla-2g": "/images/2gCaseVanillaChops.jpg",
 };
 
 /**

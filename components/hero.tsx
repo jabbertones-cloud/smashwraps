@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
-import { chopMasterCaseImageForSlug } from "@/lib/chop-images";
-import { PRODUCTS } from "@/lib/products";
+import { CHOP_HERO_ALL_CASE_BOXES } from "@/lib/chop-images";
 import { Button } from "@/components/ui/button";
 import { OptionalMediaNote } from "@/components/optional-media-note";
 import { TrustStrip } from "@/components/trust-strip";
-
-/** Same master-case art as the top image on each flavor’s PDP (1g row). */
-const HERO_MASTER_CASES_1G = PRODUCTS.filter((p) => p.grams === "1g");
 
 export function Hero() {
   return (
@@ -84,25 +80,16 @@ export function Hero() {
               aria-hidden
             />
             <div className="relative z-10 overflow-hidden rounded-2xl border border-white/15 bg-zinc-900/60 p-3 shadow-2xl ring-1 ring-white/10 md:p-4">
-              <div className="grid grid-cols-2 gap-2 md:gap-3">
-                {HERO_MASTER_CASES_1G.map((p, i) => (
-                  <figure
-                    key={p.slug}
-                    className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10 bg-zinc-950"
-                  >
-                    <AssetImage
-                      src={chopMasterCaseImageForSlug(p.slug)}
-                      alt={`${p.flavorLabel} — retail master case (1g)`}
-                      fill
-                      className="object-contain p-1.5 md:p-2"
-                      sizes="(max-width: 768px) 42vw, 280px"
-                      priority={i === 0}
-                    />
-                  </figure>
-                ))}
-              </div>
+              <AssetImage
+                src={CHOP_HERO_ALL_CASE_BOXES}
+                alt="Smash Wraps The CHOP — all flavors, 1g and 2g retail master cases"
+                width={1024}
+                height={576}
+                className="h-auto w-full rounded-lg object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.85)]"
+                priority
+              />
               <p className="mt-3 text-center text-[11px] text-zinc-500">
-                All flavors — retail master cases (1g)
+                All flavors — 1g &amp; 2g master case displays
               </p>
             </div>
           </div>

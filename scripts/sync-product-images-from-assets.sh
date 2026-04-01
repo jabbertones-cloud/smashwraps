@@ -34,16 +34,18 @@ copy() {
   echo "ok $dest"
 }
 
-# Pack / hero + PDP / shop (filenames must match lib/chop-images.ts)
-copy "AllCaseBoxesChops-1b9b8035-e210-4abe-b9b4-106c248970b1.png" "AllCaseBoxesChops.jpg"
-copy "1gCasePassionFruitChops-730e1ba7-7ea6-4bd2-9a32-eb52dcde021c.png" "1gCasePassionFruitChops.png"
-copy "1gCasePineappleChops-b65a3522-118d-47f7-b13a-8c743fa4eb44.png" "1gCasePineappleChops.png"
-copy "1gCaseVanillaChops-626d1ecb-6173-4289-b126-91e3a4fb8445.png" "1gCaseVanillaChops.png"
-copy "1gIcedWatermelonChopsCase-400ee8b8-a7f9-4e0d-9236-0339a248a781.png" "1gIcedWatermelonChopsCase.png"
-copy "2gCasePassionFruitChops-33291e49-9f6b-4410-ac1d-0a44fee5d38a.png" "2gCasePassionFruitChops.png"
-copy "2gCasePineappleChops-45ff8399-a620-4b29-9fe2-dffd792b3f84.png" "2gCasePineappleChops.png"
-copy "2gCaseVanillaChops-ac7ee087-1596-4414-a36c-e8c11b8dd8db.png" "2gCaseVanillaChops.png"
-copy "2gIcedWatermelonChopsCase-dfe0c1ca-4e9a-45a6-b251-e358100960fd.png" "2gIcedWatermelonChopsCase.png"
+# Hero strip + PDP master cases (JPEG → .jpg; lib/chop-images.ts)
+copy "AllCaseBoxesChops_2-06b5f723-5238-4e3f-8cc0-1b3bd80d883b.png" "AllCaseBoxesChops.jpg"
+copy "1gIcedWatermelonChopsCase-b1982a98-921d-444b-ac2b-b6b31d0e31e6.png" "1gIcedWatermelonChopsCase.jpg"
+copy "2gIcedWatermelonChopsCase-c15846c4-7e69-459e-b72c-076281f9a84f.png" "2gIcedWatermelonChopsCase.jpg"
+copy "1gCasePassionFruitChops-3556e936-c59d-4606-8a0a-38e027e172a3.png" "1gCasePassionFruitChops.jpg"
+copy "2gCasePassionFruitChops-45932d90-df7b-4d17-bd4c-e93296c8c41c.png" "2gCasePassionFruitChops.jpg"
+copy "1gCasePineappleChops-5b1b5907-08dd-424c-a2da-0dc13080ef08.png" "1gCasePineappleChops.jpg"
+copy "2gCasePineappleChops-ef2a5a1e-20ac-4fc8-895a-46ef9b77ae2c.png" "2gCasePineappleChops.jpg"
+copy "1gCaseVanillaChops-9753df2c-6334-4387-bb63-3ee866b9752c.png" "1gCaseVanillaChops.jpg"
+copy "2gCaseVanillaChops-008eb0ef-8737-4876-be97-4455e2e8f0ca.png" "2gCaseVanillaChops.jpg"
+
+# 3-pack box shots (single unit the customer buys)
 copy "IcedWatermelonChops-aa20dc6c-5a40-4bdc-93bd-cf4620686a5f.png" "IcedWatermelonChops.png"
 copy "PassionFruitChops-10182ecc-82d0-4472-9fd6-dda0273e4a41.png" "PassionFruitChops.png"
 copy "PineappleChops-2cbf61d8-104e-4cb1-9dcd-957ee0378887.png" "PineappleChops.png"
