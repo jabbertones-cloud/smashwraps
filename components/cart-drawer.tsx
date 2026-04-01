@@ -1,8 +1,8 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import Image from "next/image";
 import Link from "next/link";
+import { AssetImage } from "@/components/asset-image";
 import { useState } from "react";
 import { useCart } from "@/contexts/cart-context";
 import { Button } from "@/components/ui/button";
@@ -84,7 +84,7 @@ export function CartDrawer() {
                     className="flex gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-3"
                   >
                     <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-zinc-900">
-                      <Image
+                      <AssetImage
                         src={product.image}
                         alt={product.name}
                         fill

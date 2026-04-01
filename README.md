@@ -51,3 +51,4 @@ Hero and gallery placeholders are documented in `components/optional-media-note.
 - `docs/SWARM-SEO-RUNBOOK.md` — Mission Control / goal-based SEO research from claw-architect
 - `DEPLOY-GITHUB.md` — push to [jabbertones-cloud/smashwraps](https://github.com/jabbertones-cloud/smashwraps)
 - `docs/VERCEL-SETUP.md` — import repo on Vercel, env vars, webhook, domain
+- `docs/CLOUDFLARE-SMASHCONES.md` — DNS + SSL for `smashcones.com` on Cloudflare with Vercel

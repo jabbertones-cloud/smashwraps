@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import { AssetImage } from "@/components/asset-image";
 import { getFlavorGroups } from "@/lib/flavors";
 import { useCart } from "@/contexts/cart-context";
 import { Button } from "@/components/ui/button";
@@ -49,13 +49,12 @@ export function ShopSection() {
                   className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition group-hover:opacity-100"
                   aria-hidden
                 />
-                <Image
+                <AssetImage
                   src={products[0].image}
                   alt={`${meta.title} — 1g and 2g packs`}
                   fill
-                  className="relative z-10 object-contain p-5 transition duration-500 group-hover:scale-[1.04]"
+                  className="z-10 object-contain p-5 transition duration-500 group-hover:scale-[1.04]"
                   sizes="(max-width: 1024px) 50vw, 25vw"
-                  unoptimized
                 />
               </div>
               <div className="relative flex flex-1 flex-col border-t border-white/[0.06] p-5 pt-6">

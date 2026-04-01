@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import { AssetImage } from "@/components/asset-image";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import { AddToCartButton } from "@/components/add-to-cart-button";
@@ -110,13 +110,12 @@ export default async function ProductPage({ params }: Props) {
 
         <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
-            <Image
+            <AssetImage
               src={product.image}
               alt={product.name}
               fill
               className="object-contain p-8"
               priority
-              unoptimized
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </div>

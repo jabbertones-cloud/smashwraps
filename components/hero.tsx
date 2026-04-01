@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { AssetImage } from "@/components/asset-image";
 import { Button } from "@/components/ui/button";
 import { OptionalMediaNote } from "@/components/optional-media-note";
 import { TrustStrip } from "@/components/trust-strip";
@@ -78,14 +78,13 @@ export function Hero() {
               className="absolute -inset-6 rounded-3xl bg-gradient-to-br from-fuchsia-500/30 via-transparent to-yellow-400/10 blur-3xl"
               aria-hidden
             />
-            <Image
+            <AssetImage
               src="/images/hero-all-flavors.svg"
               alt="Smash Wraps The CHOP — four flavor retail displays"
               width={640}
               height={640}
-              className="relative z-10 w-full drop-shadow-[0_25px_60px_rgba(0,0,0,0.85)]"
+              className="relative z-10 h-auto w-full drop-shadow-[0_25px_60px_rgba(0,0,0,0.85)]"
               priority
-              unoptimized
             />
           </div>
         </div>
