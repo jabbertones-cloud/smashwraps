@@ -14,6 +14,16 @@ export default function ShippingPage() {
         checkout. Adult signature or other requirements may apply depending on the
         product and destination.
       </p>
+      <h2 className="font-display text-2xl text-white">Rates (US)</h2>
+      <p>
+        <strong className="text-zinc-200">Retail:</strong> $4.99 shipping per order. Orders with a
+        merchandise subtotal of $50 or more qualify for free standard shipping (before shipping is
+        added).
+      </p>
+      <p>
+        <strong className="text-zinc-200">Wholesale (master cases):</strong> $1.50 shipping per
+        master case on the wholesale sales sheet.
+      </p>
       <h2 className="font-display text-2xl text-white">Processing</h2>
       <p>Orders typically ship within [X] business days unless noted otherwise.</p>
       <h2 className="font-display text-2xl text-white">Carriers</h2>

@@ -31,7 +31,16 @@ export async function GET(req: Request) {
     }
 
     const lineItems = session.line_items?.data ?? [];
-    const items = lineItems.map((li) => {
+
+    let shippingFromLinesCents = 0;
+    const items: {
+      item_id: string;
+      item_name: string;
+      price: number;
+      quantity: number;
+    }[] = [];
+
+    for (const li of lineItems) {
       const price = li.price;
       const product = price?.product;
       let itemName = li.description ?? "Item";
@@ -39,24 +48,37 @@ export async function GET(req: Request) {
         itemName = (product as Stripe.Product).name || itemName;
       }
       const unitAmount = price?.unit_amount ?? 0;
-      return {
+      const qty = li.quantity ?? 1;
+      const lineCents = unitAmount * qty;
+      const isShipping =
+        /shipping/i.test(itemName) ||
+        /shipping/i.test(li.description ?? "");
+
+      if (isShipping) {
+        shippingFromLinesCents += lineCents;
+        continue;
+      }
+
+      items.push({
         item_id: price?.id ?? "unknown",
         item_name: itemName,
         price: unitAmount / 100,
-        quantity: li.quantity ?? 1,
-      };
-    });
+        quantity: qty,
+      });
+    }
 
     const amountTotal = session.amount_total ?? 0;
     const tax = session.total_details?.amount_tax ?? 0;
-    const shipping = session.total_details?.amount_shipping ?? 0;
+    const shippingFromStripe = session.total_details?.amount_shipping ?? 0;
+    const shippingCents =
+      shippingFromStripe > 0 ? shippingFromStripe : shippingFromLinesCents;
 
     return NextResponse.json({
       transaction_id: session.id,
       value: amountTotal / 100,
       currency: (session.currency ?? "usd").toUpperCase(),
       tax: tax / 100,
-      shipping: shipping / 100,
+      shipping: shippingCents / 100,
       items,
     });
   } catch {

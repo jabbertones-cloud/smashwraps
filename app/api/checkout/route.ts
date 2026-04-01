@@ -12,6 +12,10 @@ import {
   getStripeProductId,
   PRODUCT_SLUGS,
 } from "@/lib/products";
+import {
+  computeRetailShippingCents,
+  RETAIL_SHIPPING_LINE_NAME,
+} from "@/lib/shipping";
 import { getCheckoutSiteOrigin } from "@/lib/site-url";
 
 const bodySchema = z.object({
@@ -45,6 +49,7 @@ export async function POST(req: Request) {
 
   const siteUrl = getCheckoutSiteOrigin();
   const lineItems: { price: string; quantity: number }[] = [];
+  let subtotalCents = 0;
 
   const stripe = getStripe();
   const connectOpts = getStripeConnectRequestOptions();
@@ -83,11 +88,32 @@ export async function POST(req: Request) {
       }
     }
     lineItems.push({ price, quantity: line.quantity });
+    subtotalCents += product.priceCents * line.quantity;
+  }
+
+  const shippingCents = computeRetailShippingCents(subtotalCents);
+
+  const sessionLineItems: Stripe.Checkout.SessionCreateParams["line_items"] = [
+    ...lineItems.map((li) => ({ price: li.price, quantity: li.quantity })),
+  ];
+  if (shippingCents > 0) {
+    sessionLineItems.push({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: RETAIL_SHIPPING_LINE_NAME,
+          description:
+            "Flat rate per order · free shipping on orders of $50 or more (before shipping)",
+        },
+        unit_amount: shippingCents,
+      },
+      quantity: 1,
+    });
   }
 
   const sessionPayload: Stripe.Checkout.SessionCreateParams = {
     mode: "payment",
-    line_items: lineItems,
+    line_items: sessionLineItems,
     success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${siteUrl}/checkout/cancel`,
     automatic_tax: { enabled: false },
@@ -96,6 +122,8 @@ export async function POST(req: Request) {
     phone_number_collection: { enabled: true },
     metadata: {
       source: "smashwraps-retail",
+      retail_subtotal_cents: String(subtotalCents),
+      retail_shipping_cents: String(shippingCents),
     },
   };
 

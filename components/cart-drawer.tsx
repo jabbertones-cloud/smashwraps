@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { CartEmailReminder } from "@/components/cart-email-reminder";
 import { cartToGa4Items } from "@/lib/analytics/ga4-ecommerce";
 import { trackBeginCheckoutThenRedirect } from "@/lib/analytics/gtag-client";
+import { computeRetailShippingCents } from "@/lib/shipping";
 
 export function CartDrawer() {
   const {
@@ -45,7 +46,7 @@ export function CartDrawer() {
       if (data.url) {
         trackBeginCheckoutThenRedirect(
           cartToGa4Items(items),
-          subtotalCents,
+          orderTotalCents,
           () => {
             window.location.href = data.url!;
           },
@@ -60,10 +61,18 @@ export function CartDrawer() {
     }
   }
 
-  const formatted = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(subtotalCents / 100);
+  const shippingCents = computeRetailShippingCents(subtotalCents);
+  const orderTotalCents = subtotalCents + shippingCents;
+
+  const money = (cents: number) =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(cents / 100);
+
+  const formatted = money(subtotalCents);
+  const formattedShipping = money(shippingCents);
+  const formattedTotal = money(orderTotalCents);
 
   return (
     <Dialog.Root open={cartOpen} onOpenChange={(o) => !o && closeCart()}>
@@ -150,13 +159,28 @@ export function CartDrawer() {
           </div>
 
           <div className="border-t border-white/10 p-6">
-            <div className="mb-4 flex justify-between text-sm text-zinc-400">
-              <span>Subtotal</span>
-              <span className="font-mono text-white">{formatted}</span>
-            </div>
-            <p className="mb-4 text-xs text-zinc-500">
-              Shipping and taxes calculated at checkout.
-            </p>
+            {items.length > 0 ? (
+              <>
+                <div className="mb-2 flex justify-between text-sm text-zinc-400">
+                  <span>Subtotal</span>
+                  <span className="font-mono text-white">{formatted}</span>
+                </div>
+                <div className="mb-2 flex justify-between text-sm text-zinc-400">
+                  <span>Shipping (US)</span>
+                  <span className="font-mono text-white">
+                    {shippingCents === 0 ? "Free" : formattedShipping}
+                  </span>
+                </div>
+                <div className="mb-4 flex justify-between text-sm font-medium text-zinc-300">
+                  <span>Estimated total</span>
+                  <span className="font-mono text-white">{formattedTotal}</span>
+                </div>
+                <p className="mb-4 text-xs text-zinc-500">
+                  $4.99 shipping per order; free when subtotal is $50+. Tax shown at payment if
+                  applicable.
+                </p>
+              </>
+            ) : null}
             <div className="mb-4">
               <CartEmailReminder />
             </div>

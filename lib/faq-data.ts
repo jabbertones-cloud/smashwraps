@@ -19,7 +19,7 @@ export const FAQ_ITEMS = [
   {
     question: "How do I check out?",
     answer:
-      "Add boxes to your cart and use Checkout to pay. You’ll get email confirmation. Taxes and shipping are shown before you complete payment.",
+      "Add boxes to your cart and use Checkout to pay. Retail shipping is $4.99 per order, or free when your subtotal is $50 or more. Wholesale master-case orders add $1.50 shipping per case. You’ll get email confirmation. Tax (if any) is shown before you complete payment.",
   },
   {
     question: "Do you ship to my state?",

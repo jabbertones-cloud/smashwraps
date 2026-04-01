@@ -13,6 +13,11 @@ import {
   normalizeWholesaleSlug,
   WHOLESALE_PRODUCT_SLUGS,
 } from "@/lib/wholesale-products";
+import {
+  computeWholesaleShippingCents,
+  sumWholesaleMasterCases,
+  WHOLESALE_SHIPPING_LINE_NAME,
+} from "@/lib/shipping";
 import { getCheckoutSiteOrigin } from "@/lib/site-url";
 
 const bodySchema = z.object({
@@ -99,9 +104,29 @@ export async function POST(req: Request) {
     lineItems.push({ price, quantity: line.quantity });
   }
 
+  const masterCaseCount = sumWholesaleMasterCases(parsed.lineItems);
+  const shippingCents = computeWholesaleShippingCents(masterCaseCount);
+
+  const sessionLineItems: Stripe.Checkout.SessionCreateParams["line_items"] = [
+    ...lineItems.map((li) => ({ price: li.price, quantity: li.quantity })),
+  ];
+  if (shippingCents > 0) {
+    sessionLineItems.push({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: WHOLESALE_SHIPPING_LINE_NAME,
+          description: `${masterCaseCount} master case${masterCaseCount === 1 ? "" : "s"} × $1.50`,
+        },
+        unit_amount: shippingCents,
+      },
+      quantity: 1,
+    });
+  }
+
   const sessionPayload: Stripe.Checkout.SessionCreateParams = {
     mode: "payment",
-    line_items: lineItems,
+    line_items: sessionLineItems,
     success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${siteUrl}/wholesale`,
     automatic_tax: { enabled: false },
@@ -111,6 +136,8 @@ export async function POST(req: Request) {
     metadata: {
       source: "smashwraps-retail",
       channel: "wholesale",
+      wholesale_master_cases: String(masterCaseCount),
+      wholesale_shipping_cents: String(shippingCents),
     },
   };
 

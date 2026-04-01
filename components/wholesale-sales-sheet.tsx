@@ -4,6 +4,10 @@ import { useMemo, useState } from "react";
 import { AssetImage } from "@/components/asset-image";
 import { Button } from "@/components/ui/button";
 import {
+  computeWholesaleShippingCents,
+  sumWholesaleMasterCases,
+} from "@/lib/shipping";
+import {
   CHOPS_PER_MASTER_CASE,
   RETAIL_THREE_PACK_BOXES_PER_MASTER_CASE,
   TUBES_PER_RETAIL_BOX,
@@ -51,6 +55,16 @@ export function WholesaleSalesSheet() {
     }
     return t;
   }, [qty]);
+
+  const masterCaseCount = useMemo(
+    () => sumWholesaleMasterCases(lineItems),
+    [lineItems],
+  );
+  const shippingCents = useMemo(
+    () => computeWholesaleShippingCents(masterCaseCount),
+    [masterCaseCount],
+  );
+  const estimatedTotalCents = estimatedCents + shippingCents;
 
   async function checkout() {
     setError(null);
@@ -148,15 +162,40 @@ export function WholesaleSalesSheet() {
 
       <div className="mt-8 rounded-2xl border border-white/10 bg-zinc-950/70 p-4 md:p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-              Estimated subtotal
-            </p>
-            <p className="mt-1 text-xl font-semibold text-white">{money(estimatedCents)}</p>
+          <div className="space-y-2">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                Estimated subtotal
+              </p>
+              <p className="mt-1 text-lg font-semibold text-white">{money(estimatedCents)}</p>
+            </div>
+            {masterCaseCount > 0 && (
+              <>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                    Shipping (US)
+                  </p>
+                  <p className="mt-1 text-lg font-semibold text-white">
+                    {money(shippingCents)}
+                    <span className="ml-2 text-xs font-normal text-zinc-500">
+                      ({masterCaseCount} master case{masterCaseCount === 1 ? "" : "s"} × $1.50)
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                    Estimated total
+                  </p>
+                  <p className="mt-1 text-xl font-semibold text-white">
+                    {money(estimatedTotalCents)}
+                  </p>
+                </div>
+              </>
+            )}
             {lineItems.length > 0 && (
-              <p className="mt-0.5 text-xs text-zinc-500">
-                {lineItems.length} line{lineItems.length === 1 ? "" : "s"} · shipping &amp; tax at
-                payment
+              <p className="text-xs text-zinc-500">
+                {lineItems.length} line{lineItems.length === 1 ? "" : "s"} · tax at payment if
+                applicable
               </p>
             )}
           </div>

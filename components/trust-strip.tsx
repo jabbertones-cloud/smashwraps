@@ -13,7 +13,9 @@ export function TrustStrip() {
       </li>
       <li className="flex items-center gap-2">
         <Package className="h-4 w-4 shrink-0 text-smash-yellow" aria-hidden />
-        <span>Shipping &amp; tax shown before you pay</span>
+        <span>
+          Shipping: $4.99 flat retail (free when subtotal is $50+), $1.50 per wholesale master case
+        </span>
       </li>
       <li className="flex items-center gap-2">
         <Shield className="h-4 w-4 shrink-0 text-smash-yellow" aria-hidden />

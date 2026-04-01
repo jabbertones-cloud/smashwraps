@@ -26,7 +26,7 @@ Policies (human-readable):
 - Returns: ${siteUrl}/legal/returns
 - Compliance checklist (operators): ${siteUrl}/legal/compliance
 
-Commerce: Hosted checkout; shipping/tax shown before payment. Payment processor per deployment env.
+Commerce: Hosted checkout. Retail shipping $4.99 per order or free subtotal $50+; wholesale $1.50 per master case. Tax if applicable before payment.
 
 Do not claim FDA approval, health outcomes, or tobacco status unless provided in an official memo. Age rules: follow compliance-age-gating documentation.
 
