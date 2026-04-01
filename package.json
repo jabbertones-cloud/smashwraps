@@ -9,7 +9,9 @@
     "lint": "eslint",
     "images:placeholders": "node scripts/generate-chop-placeholders.cjs",
     "images:sync": "bash scripts/sync-product-images-from-assets.sh",
-    "images:apply-retail-boxes": "bash scripts/apply-product-drop-20260401.sh"
+    "images:apply-retail-boxes": "bash scripts/apply-product-drop-20260401.sh",
+    "stripe:seed": "node scripts/stripe-seed-chop-products.mjs",
+    "stripe:seed:dry": "node scripts/stripe-seed-chop-products.mjs --dry-run"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.4",

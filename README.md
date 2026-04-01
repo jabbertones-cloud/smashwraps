@@ -13,7 +13,19 @@ Add to `.env.local` (never commit):
 
 - **`STRIPE_SECRET_KEY`** — your **platform** secret key (`sk_live_...` or `sk_test_...`) from the Stripe Dashboard. Use the standard secret key format from **Developers → API keys** (not third-party `apikey_...` strings unless that is your documented integration format).
 - **`STRIPE_CONNECT_ACCOUNT_ID`** — Smash Wraps connected account: `acct_1THIPiIokkmXI2SV`. Checkout runs on this account so revenue lands there.
-- **`STRIPE_PRICE_*`** — Price IDs for each SKU. With Connect enabled, create Products/Prices **while viewing the connected account** in the Dashboard (or via API with `Stripe-Account`), then paste those `price_...` values into env.
+- **`STRIPE_PRICE_*`** — Price IDs for each SKU (`price_...`). With Connect enabled, those prices must live on the **connected account** (same as checkout).
+
+**Create products & prices via the Stripe API (recommended):** put `STRIPE_SECRET_KEY` (and usually `STRIPE_CONNECT_ACCOUNT_ID`) in `.env.local`, then:
+
+```bash
+npm run stripe:seed
+```
+
+The script creates one Product + one one-time USD Price per SKU (1g = $4.75, 2g = $5.00), prints the eight `STRIPE_PRICE_*=price_...` lines for Vercel, and uses idempotency keys so a partial failure can be retried safely. Preview without calling Stripe:
+
+```bash
+npm run stripe:seed:dry
+```
 
 If a secret key was ever pasted into chat or a ticket, **rotate it** in the Dashboard.
 
