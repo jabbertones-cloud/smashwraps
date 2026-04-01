@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -10,6 +11,7 @@ import { AgeGate } from "@/components/age-gate";
 import { SkipLink } from "@/components/skip-link";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { shouldSkipAgeGateForUserAgent } from "@/lib/verification-bots";
 
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
@@ -53,12 +55,21 @@ export const metadata: Metadata = {
     title: "Smash Wraps — The CHOP",
     description:
       "Flavor in the tip — Smash Wraps The CHOP. 3 Chops per box · 110mm · four flavors.",
+    images: [
+      {
+        url: `${siteUrl}/images/AllCaseBoxesChops.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Smash Wraps The CHOP — retail master cases, all flavors",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Smash Wraps — The CHOP",
     description:
       "Smash Wraps The CHOP — rice paper tubes, flavor in the capsule. 3 Chops per box.",
+    images: [`${siteUrl}/images/AllCaseBoxesChops.jpg`],
   },
   icons: {
     icon: [{ url: "/images/smash-wraps-logo.png", type: "image/png" }],
@@ -66,11 +77,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const h = await headers();
+  const suppressAgeGate = shouldSkipAgeGateForUserAgent(h.get("user-agent"));
+
   return (
     <html lang="en" className="scroll-smooth">
       <body
@@ -83,7 +97,7 @@ export default function RootLayout({
           <ScrollToTop />
           <SkipLink />
           <Noise />
-          <AgeGate />
+          <AgeGate suppress={suppressAgeGate} />
           <SiteHeader />
           <main id="main-content" tabIndex={-1}>
             {children}

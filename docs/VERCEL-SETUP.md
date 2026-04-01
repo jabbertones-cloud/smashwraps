@@ -70,6 +70,23 @@ vercel env pull .env.local   # optional: copy env to local dev
 
 The live site still deploys from **git pushes** if Git integration is enabled; CLI is for previews and env sync.
 
+## 7. Stripe: “Business website” URL (activation / verification)
+
+Stripe checks that the URL you enter is reachable over **HTTPS**, **public** (no login or HTTP basic auth), and shows a real business presence. If you see **“This URL couldn’t be reached”**, fix these **before** changing app code:
+
+| Check | Action |
+|--------|--------|
+| DNS | Domain **A/AAAA/CNAME** point to Vercel; propagation can take time. Test with `dig` / [DNS checker](https://dnschecker.org). |
+| SSL | Certificate valid on the exact host (`smashcones.com` vs `www`). Set one canonical URL in Vercel and redirect the other. |
+| Deploy | Production deployment succeeds; `NEXT_PUBLIC_SITE_URL` matches the URL you give Stripe (including `https://`). |
+| Firewall | If using **Cloudflare**, avoid blocking Stripe or unknown datacenter IPs (Bot Fight / country rules can break automated fetches). See `docs/CLOUDFLARE-SMASHCONES.md`. |
+
+Official FAQ: [Business website for account activation](https://support.stripe.com/express/questions/business-website-for-account-activation-faq).
+
+This app’s **age attestation** overlay is skipped for **known crawler / preview User-Agents** (see `lib/verification-bots.ts`) so automated checks see the storefront without a modal. Stripe does not publish a fixed User-Agent; if verification still fails after DNS/SSL are green, contact Stripe Support with the exact URL and time.
+
+**AEO / `llms.txt`:** Served at `/llms.txt` (allowed by `app/robots.ts`). No extra “bot allow list” is required unless you add edge rules that block by IP or UA outside this repo.
+
 ## Troubleshooting
 
 - **Build fails on “tracing” / missing files:** This repo sets `outputFileTracingRoot` only when **not** on Vercel (local monorepo). Standalone GitHub deploys use the default tracing.

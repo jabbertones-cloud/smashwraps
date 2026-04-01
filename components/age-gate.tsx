@@ -6,17 +6,18 @@ import { Button } from "@/components/ui/button";
 
 const KEY = "smashwraps_age_attested_v1";
 
-export function AgeGate() {
+export function AgeGate({ suppress }: { suppress?: boolean }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    if (suppress) return;
     try {
       if (typeof window === "undefined") return;
       if (!localStorage.getItem(KEY)) setOpen(true);
     } catch {
       setOpen(true);
     }
-  }, []);
+  }, [suppress]);
 
   function confirm() {
     try {
@@ -27,7 +28,7 @@ export function AgeGate() {
     setOpen(false);
   }
 
-  if (!open) return null;
+  if (suppress || !open) return null;
 
   return (
     <div
