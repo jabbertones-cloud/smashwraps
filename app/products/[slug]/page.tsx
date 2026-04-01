@@ -4,7 +4,7 @@ import { AssetImage } from "@/components/asset-image";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import { AddToCartButton } from "@/components/add-to-cart-button";
-import { CHOP_FLAVOR_FLAT_IMAGE } from "@/lib/chop-images";
+import { PDP_MASTER_CASE_IMAGE } from "@/lib/chop-images";
 import { PRODUCTS, getProductBySlug } from "@/lib/products";
 import { productJsonLd } from "@/lib/json-ld";
 
@@ -110,26 +110,36 @@ export default async function ProductPage({ params }: Props) {
         </nav>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="space-y-4">
-            <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
-              <AssetImage
-                src={product.image}
-                alt={`${product.name} — single box (3-pack)`}
-                fill
-                className="object-contain p-8"
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-            <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
-              <AssetImage
-                src={CHOP_FLAVOR_FLAT_IMAGE[product.flavorId]}
-                alt={`${product.flavorLabel} — The CHOP product`}
-                fill
-                className="object-contain p-8"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
+          <div className="space-y-6">
+            <figure className="space-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 md:aspect-[16/10]">
+                <AssetImage
+                  src={PDP_MASTER_CASE_IMAGE}
+                  alt="Master case display — four Smash Wraps The CHOP flavors"
+                  fill
+                  className="object-contain p-4 md:p-6"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+              <figcaption className="text-center text-xs text-zinc-500">
+                Master case — multi-flavor retail display
+              </figcaption>
+            </figure>
+            <figure className="space-y-2">
+              <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
+                <AssetImage
+                  src={product.image}
+                  alt={`${product.name} — single 3-pack retail box`}
+                  fill
+                  className="object-contain p-8"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+              <figcaption className="text-center text-xs text-zinc-500">
+                What you buy here — one 3-pack box ({product.grams})
+              </figcaption>
+            </figure>
           </div>
           <div>
             <p className="font-display text-sm tracking-[0.35em] text-smash-yellow">
