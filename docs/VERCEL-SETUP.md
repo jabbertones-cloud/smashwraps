@@ -2,14 +2,15 @@
 
 **Cursor** (or any editor) only edits code and talks to **GitHub**. Deployments are **GitHub → Vercel**: Vercel clones the repo and runs `npm install` + `npm run build`. Nothing in Cursor needs to be “connected” to Vercel for this to work.
 
-## Project created (Vercel CLI)
+## Live project
 
-A Vercel project **`smashwraps`** exists under team **`scott-mantheys-projects`** (the account your local `vercel login` uses). The repo root is linked via **`.vercel/project.json`** (committed so others get the same project).
+- **Production:** [https://smashwraps.vercel.app](https://smashwraps.vercel.app)
+- **Dashboard:** [scott-mantheys-projects / smashwraps](https://vercel.com/scott-mantheys-projects/smashwraps)
+- **`.vercel/project.json`** is committed so the repo points at this project.
 
-- **Dashboard:** `https://vercel.com/scott-mantheys-projects/smashwraps`
-- **GitHub auto-deploy:** not wired yet from CLI — connect GitHub in the dashboard (**Project → Git**) or add a [Login Connection](https://vercel.com/docs/accounts/create-an-account#login-methods-and-connections) for GitHub on that Vercel account, then run `vercel git connect https://github.com/jabbertones-cloud/smashwraps.git` from this folder.
+`NEXT_PUBLIC_SITE_URL` is set to `https://smashwraps.vercel.app` for **Production** (redeploy after changing).
 
-If the Cursor **Vercel integration** shows a different team (e.g. **SMAT Designs**), that is a separate OAuth session. Use **one** account consistently: either deploy under the team your CLI uses, or run `vercel switch` / re-login and recreate the project under the desired team.
+If **`vercel git connect`** errors about Login Connection: your CLI is logged in as a different Vercel user than the browser (`vercel whoami`). Run `vercel logout`, then `vercel login` with the same email as [vercel.com/account](https://vercel.com/account), then run `vercel git connect` again — or connect the repo under **Project → Git** in the dashboard (works with GitHub `jabbertones-cloud` already linked).
 
 ## 1. One-time: link GitHub to Vercel
 
