@@ -142,9 +142,39 @@ export function WholesaleSalesSheet() {
         ({RETAIL_THREE_PACK_BOXES_PER_MASTER_CASE} × {TUBES_PER_RETAIL_BOX} tubes ={" "}
         {CHOPS_PER_MASTER_CASE} Chops). Wholesale: <strong className="text-zinc-200">$19</strong>{" "}
         per master case (1g) and <strong className="text-zinc-200">$20</strong> (2g), all flavors.
-        MOQ: confirm with your rep — checkout allows quantity per line below. Stripe checkout; this
-        page is not indexed.
+        MOQ: confirm with your rep. Set quantities per line below, then continue to payment. This page
+        is not indexed.
       </p>
+
+      <div className="mt-8 rounded-2xl border border-white/10 bg-zinc-950/70 p-4 md:p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+              Estimated subtotal
+            </p>
+            <p className="mt-1 text-xl font-semibold text-white">{money(estimatedCents)}</p>
+            {lineItems.length > 0 && (
+              <p className="mt-0.5 text-xs text-zinc-500">
+                {lineItems.length} line{lineItems.length === 1 ? "" : "s"} · shipping &amp; tax at
+                payment
+              </p>
+            )}
+          </div>
+          <Button
+            type="button"
+            className="w-full shrink-0 uppercase tracking-wider sm:w-auto sm:min-w-[200px]"
+            disabled={loading || !lineItems.length}
+            onClick={() => void checkout()}
+          >
+            {loading ? "Opening checkout…" : "Continue to payment"}
+          </Button>
+        </div>
+        {error && (
+          <p className="mt-3 text-sm text-red-400" role="alert">
+            {error}
+          </p>
+        )}
+      </div>
 
       <div className="mt-10 overflow-x-auto rounded-2xl border border-white/10 bg-zinc-950/50">
         <table className="w-full min-w-[800px] text-left text-sm">
@@ -208,37 +238,11 @@ export function WholesaleSalesSheet() {
         </table>
       </div>
 
-      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-zinc-400">
-          Estimated subtotal:{" "}
-          <strong className="text-white">{money(estimatedCents)}</strong>
-          {lineItems.length > 0 && (
-            <span className="text-zinc-500">
-              {" "}
-              · {lineItems.length} line{lineItems.length === 1 ? "" : "s"}
-            </span>
-          )}
-        </p>
-        <Button
-          type="button"
-          className="uppercase tracking-wider"
-          disabled={loading || !lineItems.length}
-          onClick={() => void checkout()}
-        >
-          {loading ? "Redirecting…" : "Checkout with Stripe"}
-        </Button>
-      </div>
-      {error && (
-        <p className="mt-4 text-sm text-red-400" role="alert">
-          {error}
-        </p>
-      )}
-
       <section className="mt-20 border-t border-white/10 pt-16">
         <h2 className="font-display text-2xl text-white md:text-3xl">Need terms or a PO?</h2>
         <p className="mt-3 max-w-2xl text-zinc-400">
-          Send a note — we’ll reply by email. Or place cases above when your Stripe-ready account is
-          set up on the server (wholesale Product + Price env vars).
+          Send a note for Net-terms, POs, or questions — we’ll reply by email. You can still place
+          cases above anytime.
         </p>
         <form
           onSubmit={(e) => void submitInquiry(e)}

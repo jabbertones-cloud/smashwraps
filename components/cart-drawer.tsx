@@ -170,7 +170,7 @@ export function CartDrawer() {
               disabled={items.length === 0 || loading}
               onClick={checkout}
             >
-              {loading ? "Redirecting…" : "Checkout with Stripe"}
+              {loading ? "Opening checkout…" : "Checkout"}
             </Button>
             {items.length > 0 && (
               <button

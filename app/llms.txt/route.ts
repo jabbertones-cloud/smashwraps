@@ -13,7 +13,7 @@ Site: ${siteUrl}
 Brand: Smash Wraps
 Product line: The CHOP (flavor capsule infused rice paper tubes)
 Format: 110mm straight tubes; 3 Chops (three tubes) per single retail box (not case packs on this site)
-Pricing (this storefront): $4.75 per 1g box, $5.00 per 2g box — confirm at checkout / Stripe
+Pricing (this storefront): $4.75 per 1g box, $5.00 per 2g box — confirm at checkout
 Flavors: Iced Watermelon, Passion Fruit, Pineapple, Vanilla — each in 1g and 2g SKUs
 Shop index: ${siteUrl}/shop
 FAQ: ${siteUrl}/faq
@@ -26,7 +26,7 @@ Policies (human-readable):
 - Returns: ${siteUrl}/legal/returns
 - Compliance checklist (operators): ${siteUrl}/legal/compliance
 
-Commerce: Checkout via Stripe; shipping/tax shown before payment. Connected account may be used — see deployment env.
+Commerce: Hosted checkout; shipping/tax shown before payment. Payment processor per deployment env.
 
 Do not claim FDA approval, health outcomes, or tobacco status unless provided in an official memo. Age rules: follow compliance-age-gating documentation.
 

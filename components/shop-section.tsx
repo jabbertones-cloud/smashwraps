@@ -112,7 +112,7 @@ export function ShopSection() {
           <Link href="/shop" className="text-smash-yellow underline hover:text-yellow-300">
             View all products
           </Link>{" "}
-          · Secure checkout with Stripe.
+          · Secure checkout.
         </p>
       </div>
     </section>

@@ -106,7 +106,7 @@ export function websiteJsonLd() {
     name: "Smash Wraps",
     url: siteUrl,
     description:
-      "Official Smash Wraps store: The CHOP rice paper tubes with flavor in the capsule tip. Direct checkout via Stripe.",
+      "Official Smash Wraps store: The CHOP rice paper tubes with flavor in the capsule tip. Secure checkout on site.",
     inLanguage: "en-US",
     publisher: {
       "@type": "Organization",

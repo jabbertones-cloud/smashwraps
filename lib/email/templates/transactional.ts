@@ -47,11 +47,11 @@ export function buildCartReminderEmailHtml(input: {
   const intro =
     input.reminderSource === "stripe_expired"
       ? isWholesale
-        ? `<p>Your <strong>wholesale checkout session timed out</strong> before payment — <strong>nothing was charged</strong>. Here’s your line summary. Return to the sales sheet to try again; <strong>shipping and tax</strong> appear at secure <strong>Stripe</strong> checkout.</p>`
-        : `<p>Your <strong>checkout session timed out</strong> before payment — <strong>nothing was charged</strong>. Here’s what was in your cart. <strong>Shipping and tax</strong> show at secure <strong>Stripe</strong> checkout.</p>`
+        ? `<p>Your <strong>wholesale checkout session timed out</strong> before payment — <strong>nothing was charged</strong>. Here’s your line summary. Return to the sales sheet to try again; <strong>shipping and tax</strong> appear before you pay.</p>`
+        : `<p>Your <strong>checkout session timed out</strong> before payment — <strong>nothing was charged</strong>. Here’s what was in your cart. <strong>Shipping and tax</strong> show before you pay.</p>`
       : isWholesale
-        ? `<p>You asked for a reminder. Here’s your wholesale line summary. <strong>Shipping and tax</strong> are shown at checkout — payment is <strong>secure (Stripe)</strong>.</p>`
-        : `<p>You asked for a reminder. Here’s what was in your cart. <strong>Shipping and tax</strong> are shown before you pay — checkout is <strong>secure (Stripe)</strong>.</p>`;
+        ? `<p>You asked for a reminder. Here’s your wholesale line summary. <strong>Shipping and tax</strong> are shown at checkout — payment is secure.</p>`
+        : `<p>You asked for a reminder. Here’s what was in your cart. <strong>Shipping and tax</strong> are shown before you pay — checkout is secure.</p>`;
   const body = `
     ${intro}
     <table role="presentation" width="100%" style="margin:12px 0 8px;font-size:14px;">${rows}
@@ -97,7 +97,7 @@ export function buildOrderThankYouEmailHtml(input: {
     )
     .join("");
   const body = `
-    <p><strong>Thank you.</strong> Your payment went through — <strong>Stripe</strong> sends the official receipt to this address.</p>
+    <p><strong>Thank you.</strong> Your payment went through — you’ll receive the official receipt by email at this address.</p>
     ${
       wholesale
         ? `<p style="margin-top:8px;font-size:13px;color:#a1a1aa;">This was a <strong>wholesale master case</strong> order (8× three-packs per case — see sales sheet). Fulfillment follows the same shipping policies unless your account team says otherwise.</p>`
@@ -127,7 +127,7 @@ export function buildWholesaleInquiryThankYouHtml(input: {
   const body = `
     <p>Hi — thanks for reaching out from <strong>${escape(input.businessName)}</strong>.</p>
     <p>We received your wholesale message. A member of our team will follow up by email when we can.</p>
-    <p style="font-size:13px;color:#71717a;">You can also build a case order on our <a href="${url}/wholesale" style="color:#facc15;">wholesale sales sheet</a> when you’re ready (Stripe checkout).</p>
+    <p style="font-size:13px;color:#71717a;">You can also build a case order on our <a href="${url}/wholesale" style="color:#facc15;">wholesale sales sheet</a> when you’re ready.</p>
   `;
   return emailShell({
     title: "Wholesale inquiry received",

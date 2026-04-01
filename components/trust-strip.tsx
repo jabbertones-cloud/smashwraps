@@ -9,7 +9,7 @@ export function TrustStrip() {
     <ul className="mt-8 flex flex-col gap-3 text-sm text-zinc-500 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-2">
       <li className="flex items-center gap-2">
         <Lock className="h-4 w-4 shrink-0 text-smash-yellow" aria-hidden />
-        <span>Secure checkout with Stripe</span>
+        <span>Secure checkout</span>
       </li>
       <li className="flex items-center gap-2">
         <Package className="h-4 w-4 shrink-0 text-smash-yellow" aria-hidden />

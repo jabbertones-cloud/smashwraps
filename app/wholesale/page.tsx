@@ -4,7 +4,7 @@ import { WholesaleSalesSheet } from "@/components/wholesale-sales-sheet";
 export const metadata: Metadata = {
   title: "Wholesale sales sheet",
   description:
-    "B2B master-case pricing: 8× three-packs per case — not linked from search. Licensed retailers; Stripe checkout.",
+    "B2B master-case pricing: 8× three-packs per case — not linked from search. Licensed retailers.",
   robots: { index: false, follow: false },
   openGraph: {
     title: "Wholesale — Smash Wraps",
