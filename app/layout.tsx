@@ -10,11 +10,12 @@ import { CartDrawer } from "@/components/cart-drawer";
 import { AgeGate } from "@/components/age-gate";
 import { SkipLink } from "@/components/skip-link";
 import { ScrollToTop } from "@/components/scroll-to-top";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { Ga4Root } from "@/components/analytics/ga4-root";
 import { shouldSkipAgeGateForUserAgent } from "@/lib/verification-bots";
 import { getCanonicalSiteUrl } from "@/lib/site-url";
 
-const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
+const gaDebugMode = process.env.NEXT_PUBLIC_GA_DEBUG === "1";
 
 const bebas = Bebas_Neue({
   weight: "400",
@@ -92,7 +93,7 @@ export default async function RootLayout({
       >
         <Providers>
           {gaMeasurementId ? (
-            <GoogleAnalytics gaId={gaMeasurementId} />
+            <Ga4Root gaId={gaMeasurementId} debugMode={gaDebugMode} />
           ) : null}
           <ScrollToTop />
           <SkipLink />

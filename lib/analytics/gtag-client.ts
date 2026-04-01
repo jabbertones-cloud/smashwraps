@@ -1,15 +1,17 @@
 "use client";
 
+import { sendGAEvent } from "@next/third-parties/google";
 import type { Ga4Item } from "@/lib/analytics/ga4-ecommerce";
 
-/** GA4 events; `gtag` is injected by `GoogleAnalytics` from `@next/third-parties/google`. */
+/**
+ * GA4 events via `sendGAEvent` (queues on dataLayer like gtag; works once GoogleAnalytics mounted).
+ */
 export function sendGa4Event(
   name: string,
   params?: Record<string, unknown>,
 ): void {
   if (typeof window === "undefined") return;
-  if (typeof window.gtag !== "function") return;
-  window.gtag("event", name, params ?? {});
+  sendGAEvent("event", name, params ?? {});
 }
 
 export function trackViewItemList(items: Ga4Item[], listName: string): void {
@@ -73,12 +75,7 @@ export function trackBeginCheckoutThenRedirect(
     },
   };
 
-  if (typeof window.gtag === "function") {
-    window.gtag("event", "begin_checkout", wrapped);
-  } else {
-    window.clearTimeout(fallback);
-    redirect();
-  }
+  sendGAEvent("event", "begin_checkout", wrapped);
 }
 
 export type PurchasePayload = {
