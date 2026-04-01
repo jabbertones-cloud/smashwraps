@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { CartDrawer } from "@/components/cart-drawer";
 import { AgeGate } from "@/components/age-gate";
 import { SkipLink } from "@/components/skip-link";
+import { ScrollToTop } from "@/components/scroll-to-top";
 
 const bebas = Bebas_Neue({
   weight: "400",
@@ -73,6 +74,7 @@ export default function RootLayout({
         className={`${bebas.variable} ${dm.variable} relative bg-[#050505] font-sans antialiased text-zinc-100 selection:bg-smash-yellow selection:text-black`}
       >
         <Providers>
+          <ScrollToTop />
           <SkipLink />
           <Noise />
           <AgeGate />

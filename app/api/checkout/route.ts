@@ -9,6 +9,7 @@ import {
 import {
   getProductBySlug,
   getStripePriceId,
+  getStripeProductId,
   PRODUCT_SLUGS,
 } from "@/lib/products";
 
@@ -57,10 +58,11 @@ export async function POST(req: Request) {
       );
     }
     const price = getStripePriceId(product);
-    if (!price) {
+    const stripeProductId = getStripeProductId(product);
+    if (!price || !stripeProductId) {
       return NextResponse.json(
         {
-          error: `Stripe Price ID not configured for ${product.slug}. Set ${product.stripePriceEnvKey} in the environment.`,
+          error: `Stripe Product + Price IDs not configured for ${product.slug}. Set ${product.stripeProductEnvKey} (prod_…) and ${product.stripePriceEnvKey} (price_…). Run npm run stripe:seed or paste from Dashboard.`,
         },
         { status: 400 },
       );
@@ -71,6 +73,7 @@ export async function POST(req: Request) {
       const check = await assertStripePriceMatchesCatalog(
         stripe,
         price,
+        stripeProductId,
         product,
         connectOpts,
       );

@@ -5,12 +5,13 @@
  * Uses STRIPE_SECRET_KEY from the environment. If STRIPE_CONNECT_ACCOUNT_ID is set
  * (acct_...), creates objects on that connected account (same as checkout).
  *
+ * Checkout requires BOTH `prod_…` and `price_…` per SKU in env — the server verifies
+ * the Price is attached to that Product (no client-sent amounts).
+ *
  * Usage:
  *   cd smashwraps-retail
- *   # Load keys from .env.local (optional — or export vars yourself)
+ *   npm run stripe:seed:dry
  *   npm run stripe:seed
- *
- *   npm run stripe:seed -- --dry-run
  *
  * Idempotency: POST requests use idempotency keys so a safe re-run does not duplicate
  * products if the first attempt partially succeeded (within Stripe’s window).
@@ -48,49 +49,57 @@ const SKUS = [
     slug: "iced-watermelon-1g",
     name: "The CHOP — Iced Watermelon (1g)",
     priceCents: 475,
-    envKey: "STRIPE_PRICE_ICED_WATERMELON_1G",
+    productEnvKey: "STRIPE_PRODUCT_ICED_WATERMELON_1G",
+    priceEnvKey: "STRIPE_PRICE_ICED_WATERMELON_1G",
   },
   {
     slug: "iced-watermelon-2g",
     name: "The CHOP — Iced Watermelon (2g)",
     priceCents: 500,
-    envKey: "STRIPE_PRICE_ICED_WATERMELON_2G",
+    productEnvKey: "STRIPE_PRODUCT_ICED_WATERMELON_2G",
+    priceEnvKey: "STRIPE_PRICE_ICED_WATERMELON_2G",
   },
   {
     slug: "passion-fruit-1g",
     name: "The CHOP — Passion Fruit (1g)",
     priceCents: 475,
-    envKey: "STRIPE_PRICE_PASSION_FRUIT_1G",
+    productEnvKey: "STRIPE_PRODUCT_PASSION_FRUIT_1G",
+    priceEnvKey: "STRIPE_PRICE_PASSION_FRUIT_1G",
   },
   {
     slug: "passion-fruit-2g",
     name: "The CHOP — Passion Fruit (2g)",
     priceCents: 500,
-    envKey: "STRIPE_PRICE_PASSION_FRUIT_2G",
+    productEnvKey: "STRIPE_PRODUCT_PASSION_FRUIT_2G",
+    priceEnvKey: "STRIPE_PRICE_PASSION_FRUIT_2G",
   },
   {
     slug: "pineapple-1g",
     name: "The CHOP — Pineapple (1g)",
     priceCents: 475,
-    envKey: "STRIPE_PRICE_PINEAPPLE_1G",
+    productEnvKey: "STRIPE_PRODUCT_PINEAPPLE_1G",
+    priceEnvKey: "STRIPE_PRICE_PINEAPPLE_1G",
   },
   {
     slug: "pineapple-2g",
     name: "The CHOP — Pineapple (2g)",
     priceCents: 500,
-    envKey: "STRIPE_PRICE_PINEAPPLE_2G",
+    productEnvKey: "STRIPE_PRODUCT_PINEAPPLE_2G",
+    priceEnvKey: "STRIPE_PRICE_PINEAPPLE_2G",
   },
   {
     slug: "vanilla-1g",
     name: "The CHOP — Vanilla (1g)",
     priceCents: 475,
-    envKey: "STRIPE_PRICE_VANILLA_1G",
+    productEnvKey: "STRIPE_PRODUCT_VANILLA_1G",
+    priceEnvKey: "STRIPE_PRICE_VANILLA_1G",
   },
   {
     slug: "vanilla-2g",
     name: "The CHOP — Vanilla (2g)",
     priceCents: 500,
-    envKey: "STRIPE_PRICE_VANILLA_2G",
+    productEnvKey: "STRIPE_PRODUCT_VANILLA_2G",
+    priceEnvKey: "STRIPE_PRICE_VANILLA_2G",
   },
 ];
 
@@ -124,10 +133,14 @@ async function main() {
   if (DRY) {
     for (const sku of SKUS) {
       console.log(
-        `[dry-run] ${sku.name} — $${(sku.priceCents / 100).toFixed(2)} → ${sku.envKey}`,
+        `[dry-run] ${sku.name} — $${(sku.priceCents / 100).toFixed(2)}`,
       );
+      console.log(`          ${sku.productEnvKey}=prod_…`);
+      console.log(`          ${sku.priceEnvKey}=price_…`);
     }
-    console.log("\nRun without --dry-run after STRIPE_SECRET_KEY is set.");
+    console.log(
+      "\nRun npm run stripe:seed after STRIPE_SECRET_KEY is set (see README).",
+    );
     return;
   }
 
@@ -169,9 +182,11 @@ async function main() {
     console.log(`OK  ${sku.slug}`);
     console.log(`    product: ${product.id}`);
     console.log(`    price:   ${price.id} ($${(sku.priceCents / 100).toFixed(2)})`);
-    console.log(`    ${sku.envKey}=${price.id}\n`);
+    console.log(`    ${sku.productEnvKey}=${product.id}`);
+    console.log(`    ${sku.priceEnvKey}=${price.id}\n`);
 
-    lines.push(`${sku.envKey}=${price.id}`);
+    lines.push(`${sku.productEnvKey}=${product.id}`);
+    lines.push(`${sku.priceEnvKey}=${price.id}`);
   }
 
   if (lines.length) {

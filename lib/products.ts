@@ -14,6 +14,8 @@ export type Product = {
   currency: "usd";
   description: string;
   image: string;
+  /** Env key for Stripe Product id (`prod_…`) — must match the Product attached to the Price. */
+  stripeProductEnvKey: string;
   stripePriceEnvKey: string;
 };
 
@@ -31,6 +33,7 @@ export const PRODUCTS: Product[] = [
     currency: "usd",
     description: `Iced Watermelon flavor. ${pack}`,
     image: chopThreePackImageForSlug("iced-watermelon-1g"),
+    stripeProductEnvKey: "STRIPE_PRODUCT_ICED_WATERMELON_1G",
     stripePriceEnvKey: "STRIPE_PRICE_ICED_WATERMELON_1G",
   },
   {
@@ -43,6 +46,7 @@ export const PRODUCTS: Product[] = [
     currency: "usd",
     description: `Iced Watermelon flavor. ${pack}`,
     image: chopThreePackImageForSlug("iced-watermelon-2g"),
+    stripeProductEnvKey: "STRIPE_PRODUCT_ICED_WATERMELON_2G",
     stripePriceEnvKey: "STRIPE_PRICE_ICED_WATERMELON_2G",
   },
   {
@@ -55,6 +59,7 @@ export const PRODUCTS: Product[] = [
     currency: "usd",
     description: `Passion Fruit flavor. ${pack}`,
     image: chopThreePackImageForSlug("passion-fruit-1g"),
+    stripeProductEnvKey: "STRIPE_PRODUCT_PASSION_FRUIT_1G",
     stripePriceEnvKey: "STRIPE_PRICE_PASSION_FRUIT_1G",
   },
   {
@@ -67,6 +72,7 @@ export const PRODUCTS: Product[] = [
     currency: "usd",
     description: `Passion Fruit flavor. ${pack}`,
     image: chopThreePackImageForSlug("passion-fruit-2g"),
+    stripeProductEnvKey: "STRIPE_PRODUCT_PASSION_FRUIT_2G",
     stripePriceEnvKey: "STRIPE_PRICE_PASSION_FRUIT_2G",
   },
   {
@@ -79,6 +85,7 @@ export const PRODUCTS: Product[] = [
     currency: "usd",
     description: `Pineapple flavor. ${pack}`,
     image: chopThreePackImageForSlug("pineapple-1g"),
+    stripeProductEnvKey: "STRIPE_PRODUCT_PINEAPPLE_1G",
     stripePriceEnvKey: "STRIPE_PRICE_PINEAPPLE_1G",
   },
   {
@@ -91,6 +98,7 @@ export const PRODUCTS: Product[] = [
     currency: "usd",
     description: `Pineapple flavor. ${pack}`,
     image: chopThreePackImageForSlug("pineapple-2g"),
+    stripeProductEnvKey: "STRIPE_PRODUCT_PINEAPPLE_2G",
     stripePriceEnvKey: "STRIPE_PRICE_PINEAPPLE_2G",
   },
   {
@@ -103,6 +111,7 @@ export const PRODUCTS: Product[] = [
     currency: "usd",
     description: `Vanilla flavor. ${pack}`,
     image: chopThreePackImageForSlug("vanilla-1g"),
+    stripeProductEnvKey: "STRIPE_PRODUCT_VANILLA_1G",
     stripePriceEnvKey: "STRIPE_PRICE_VANILLA_1G",
   },
   {
@@ -115,6 +124,7 @@ export const PRODUCTS: Product[] = [
     currency: "usd",
     description: `Vanilla flavor. ${pack}`,
     image: chopThreePackImageForSlug("vanilla-2g"),
+    stripeProductEnvKey: "STRIPE_PRODUCT_VANILLA_2G",
     stripePriceEnvKey: "STRIPE_PRICE_VANILLA_2G",
   },
 ];
@@ -128,6 +138,11 @@ const bySlug = new Map(PRODUCTS.map((p) => [p.slug, p]));
 
 export function getProductBySlug(slug: string): Product | undefined {
   return bySlug.get(slug);
+}
+
+export function getStripeProductId(product: Product): string | undefined {
+  const v = process.env[product.stripeProductEnvKey];
+  return v && v.startsWith("prod_") ? v : undefined;
 }
 
 export function getStripePriceId(product: Product): string | undefined {

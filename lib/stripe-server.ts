@@ -23,16 +23,25 @@ export function getStripeConnectRequestOptions():
 }
 
 /**
- * Confirms the Stripe Price object matches the catalog (amount + one-time USD).
- * Guards against mis-set env vars pointing at the wrong Price in Stripe.
+ * Confirms the Stripe Price belongs to the expected Product, amount, and currency.
+ * Requires both `prod_…` and `price_…` in env so a swapped Price ID cannot point at another Product.
  */
 export async function assertStripePriceMatchesCatalog(
   stripe: Stripe,
   priceId: string,
+  expectedProductId: string,
   product: Product,
   requestOptions?: Stripe.RequestOptions,
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   const price = await stripe.prices.retrieve(priceId, requestOptions);
+  const linkedProductId =
+    typeof price.product === "string" ? price.product : price.product?.id;
+  if (!linkedProductId || linkedProductId !== expectedProductId) {
+    return {
+      ok: false,
+      message: `Stripe Price ${priceId} is not attached to Product ${expectedProductId} (linked: ${linkedProductId ?? "none"}). Fix ${product.stripePriceEnvKey} / ${product.stripeProductEnvKey}.`,
+    };
+  }
   if (price.currency !== "usd") {
     return { ok: false, message: "Stripe price must be USD for this storefront." };
   }
