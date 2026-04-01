@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
-import { CHOP_HERO_ALL_CASE_BOXES } from "@/lib/chop-images";
+import { CHOP_HERO_ALL_CASE_BOXES, CHOP_THREE_PACK_BY_SLUG } from "@/lib/chop-images";
 import { Button } from "@/components/ui/button";
 import { TrustStrip } from "@/components/trust-strip";
+
+const HERO_RETAIL_BOX_EXAMPLE = CHOP_THREE_PACK_BY_SLUG["iced-watermelon-1g"];
 
 export function Hero() {
   return (
@@ -28,15 +30,15 @@ export function Hero() {
             <br />
             <span className="text-white">TUBES</span>
           </h1>
-          <p className="mt-4 text-base font-medium leading-relaxed text-zinc-300 md:text-lg">
-            Flavor lives in the capsule tip — not sprayed on the sheet — so every chop
-            tastes like the label says.
+          <p className="mt-5 max-w-md text-lg font-medium leading-snug text-zinc-200 md:text-xl">
+            Flavor where you want it — in the capsule tip, not sprayed on the sheet. A
+            consistent 110mm ritual: three Chops per box, your blend, your pace.
           </p>
-          <p className="mt-4 text-lg leading-relaxed text-zinc-400 md:text-xl">
-            Straight 110mm rice paper tubes.{" "}
-            <span className="font-medium text-zinc-200">3 Chops per box</span>
-            <span className="mt-2 block text-sm text-zinc-500">
-              Patent pending · Four flavors · 1g or 2g
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-zinc-400 md:text-base">
+            Straight tubes, four flavor-forward profiles, 1g or 2g. This shop sells single
+            retail boxes only — not by the case.
+            <span className="mt-2 block text-xs text-zinc-500">
+              Patent pending · Adults 21+ where required
             </span>
           </p>
 
@@ -63,11 +65,11 @@ export function Hero() {
             </div>
           </div>
           <p className="mt-8 text-xs text-zinc-600">
-            For adults 21+. Follow your local laws.
+            Follow your local laws. Not for sale to minors.
           </p>
         </div>
 
-        <div className="relative flex justify-center md:justify-end">
+        <div className="relative flex flex-col justify-center gap-6 md:justify-end">
           <div
             className="absolute inset-0 -z-10 bg-gradient-to-t from-[#050505] via-transparent to-transparent md:bg-gradient-to-l"
             aria-hidden
@@ -79,15 +81,29 @@ export function Hero() {
             />
             <div className="relative z-10 overflow-hidden rounded-2xl border border-white/15 bg-zinc-900/60 p-3 shadow-2xl ring-1 ring-white/10 md:p-4">
               <AssetImage
-                src={CHOP_HERO_ALL_CASE_BOXES}
-                alt="Smash Wraps The CHOP — all flavors, 1g and 2g retail master cases"
-                width={1024}
-                height={576}
+                src={HERO_RETAIL_BOX_EXAMPLE}
+                alt="Smash Wraps The CHOP — one retail 3-pack box (example flavor); what we ship from this shop"
+                width={800}
+                height={800}
                 className="h-auto w-full rounded-lg object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.85)]"
                 priority
               />
               <p className="mt-3 text-center text-[11px] text-zinc-500">
-                All flavors — 1g &amp; 2g master case displays
+                What you buy here — one 3-pack box (3 Chops), single-flavor retail
+              </p>
+            </div>
+          </div>
+          <div className="relative w-full max-w-md">
+            <div className="relative z-10 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-3 shadow-xl ring-1 ring-white/5 md:p-4">
+              <AssetImage
+                src={CHOP_HERO_ALL_CASE_BOXES}
+                alt="Smash Wraps The CHOP — retail master case displays, all flavors (store reference)"
+                width={1024}
+                height={576}
+                className="h-auto w-full rounded-lg object-contain opacity-95"
+              />
+              <p className="mt-3 text-center text-[11px] text-zinc-500">
+                In stores — master case displays (not sold by the case on this site)
               </p>
             </div>
           </div>

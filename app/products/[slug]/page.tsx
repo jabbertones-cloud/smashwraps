@@ -9,6 +9,11 @@ import { chopMasterCaseImageForSlug } from "@/lib/chop-images";
 import { PRODUCTS, getProductBySlug } from "@/lib/products";
 import { productJsonLd } from "@/lib/json-ld";
 import { getCanonicalSiteUrl } from "@/lib/site-url";
+import { ProductMobileStickyCta } from "@/components/product-mobile-sticky-cta";
+import {
+  RETAIL_FREE_SHIPPING_THRESHOLD_CENTS,
+  RETAIL_SHIPPING_FLAT_CENTS,
+} from "@/lib/shipping";
 
 const siteUrl = getCanonicalSiteUrl();
 
@@ -80,6 +85,11 @@ export default async function ProductPage({ params }: Props) {
     currency: "USD",
   }).format(product.priceCents / 100);
 
+  const freeShipMin = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(RETAIL_FREE_SHIPPING_THRESHOLD_CENTS / 100);
+
   return (
     <>
       <ProductViewTracker product={product} />
@@ -93,7 +103,7 @@ export default async function ProductPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
-      <div className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
+      <div className="mx-auto max-w-6xl px-4 pb-28 pt-12 md:px-6 md:py-16 lg:pb-12">
         <nav className="text-xs text-zinc-500" aria-label="Breadcrumb">
           <ol className="flex flex-wrap gap-2">
             <li>
@@ -115,32 +125,32 @@ export default async function ProductPage({ params }: Props) {
         <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-6">
             <figure className="space-y-2">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 md:aspect-[16/10]">
+              <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
                 <AssetImage
-                  src={masterCaseSrc}
-                  alt={`${product.flavorLabel} — retail master case (${product.grams})`}
+                  src={product.image}
+                  alt={`${product.name} — single 3-pack retail box (what we ship)`}
                   fill
-                  className="object-contain p-4 md:p-6"
+                  className="object-contain p-8"
                   priority
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
               <figcaption className="text-center text-xs text-zinc-500">
-                Master case — {product.flavorLabel} retail display ({product.grams})
+                What you buy — one 3-pack box ({product.grams})
               </figcaption>
             </figure>
             <figure className="space-y-2">
-              <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 md:aspect-[16/10]">
                 <AssetImage
-                  src={product.image}
-                  alt={`${product.name} — single 3-pack retail box`}
+                  src={masterCaseSrc}
+                  alt={`${product.flavorLabel} — retail master case display reference (${product.grams})`}
                   fill
-                  className="object-contain p-8"
+                  className="object-contain p-4 md:p-6"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
               <figcaption className="text-center text-xs text-zinc-500">
-                What you buy here — one 3-pack box ({product.grams})
+                Store display reference — master case (not sold by the case here)
               </figcaption>
             </figure>
           </div>
@@ -148,23 +158,40 @@ export default async function ProductPage({ params }: Props) {
             <p className="font-display text-sm tracking-[0.35em] text-smash-yellow">
               The CHOP
             </p>
-            <h1 className="mt-2 font-display text-4xl text-white md:text-5xl">
+            <h1 className="mt-2 font-display text-4xl leading-tight text-white md:text-5xl">
               {product.flavorLabel} · {product.grams}
             </h1>
-            <p className="mt-4 text-lg text-zinc-400">{product.description}</p>
-            <p className="mt-8 font-mono text-3xl text-white">{price}</p>
-            <p className="mt-2 text-sm text-zinc-500">
-              Shipping and taxes calculated at checkout.
+            <p className="mt-4 max-w-prose text-base leading-relaxed text-zinc-400 md:text-lg">
+              {product.description}
             </p>
-            <div className="mt-8">
+            <p className="mt-6 font-mono text-3xl text-white">{price}</p>
+            <p className="mt-2 text-sm text-zinc-500">
+              US shipping{" "}
+              {new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(RETAIL_SHIPPING_FLAT_CENTS / 100)}{" "}
+              per order · free when subtotal is {freeShipMin} or more. Taxes where applicable
+              at checkout.
+            </p>
+            <p className="mt-3 text-xs text-zinc-600">
+              Patent pending · Flavor in the capsule tip for a consistent profile from first
+              chop to last.
+            </p>
+            <div className="mt-8 hidden lg:block">
               <AddToCartButton slug={product.slug} />
             </div>
             <p className="mt-8 text-xs text-zinc-600">
-              For adults 21+ where required. Follow your local laws.
+              Adults 21+ where required. Follow your local laws.
             </p>
           </div>
         </div>
       </div>
+      <ProductMobileStickyCta
+        slug={product.slug}
+        label={`${product.flavorLabel} · ${product.grams}`}
+        priceFormatted={price}
+      />
     </>
   );
 }

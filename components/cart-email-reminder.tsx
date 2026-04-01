@@ -69,11 +69,12 @@ export function CartEmailReminder() {
           required
           autoComplete="email"
           placeholder="you@email.com"
+          inputMode="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="min-h-10 min-w-0 flex-1 rounded-lg border border-white/15 bg-black/40 px-3 text-xs text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-smash-yellow"
+          className="min-h-11 min-w-0 flex-1 rounded-lg border border-white/15 bg-black/40 px-3 text-base text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-smash-yellow"
         />
-        <Button type="submit" size="sm" disabled={status === "loading"} className="shrink-0 text-xs">
+        <Button type="submit" size="sm" disabled={status === "loading"} className="min-h-11 shrink-0 px-4 text-xs">
           {status === "loading" ? "…" : "Send"}
         </Button>
       </div>

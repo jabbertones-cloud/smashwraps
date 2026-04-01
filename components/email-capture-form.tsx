@@ -74,7 +74,7 @@ export function EmailCaptureForm({
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className={`min-h-[44px] min-w-0 flex-1 rounded-xl border border-white/15 bg-white/[0.04] px-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-smash-yellow focus:ring-offset-2 focus:ring-offset-[#030303] ${compact ? "" : "w-full"}`}
+          className={`min-h-[44px] min-w-0 flex-1 rounded-xl border border-white/15 bg-white/[0.04] px-4 text-base text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-smash-yellow focus:ring-offset-2 focus:ring-offset-[#030303] ${compact ? "" : "w-full"}`}
         />
         <Button type="submit" disabled={status === "loading"} className="shrink-0">
           {status === "loading" ? "…" : "Subscribe"}

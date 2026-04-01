@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
@@ -29,6 +29,15 @@ const dm = DM_Sans({
 
 const siteUrl = getCanonicalSiteUrl();
 
+/** Explicit viewport + notch/home-indicator support (smashcones.com mobile). */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#050505",
+};
+
+/** Favicons: `app/icon.png` + `app/apple-icon.png` (brand logo; see `lib/brand.ts`). */
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -36,7 +45,7 @@ export const metadata: Metadata = {
     template: "%s | Smash Wraps",
   },
   description:
-    "Smash Wraps The CHOP: flavor in the capsule tip — rice paper tubes, 3 Chops per box, 110mm. Iced Watermelon, Passion Fruit, Pineapple, Vanilla. 1g & 2g. Single retail boxes, not by the case.",
+    "Smash Wraps The CHOP — flavor in the capsule tip, not sprayed on the sheet. 110mm rice paper tubes, 3 Chops per box, four flavors, 1g & 2g. Single retail boxes. Adults 21+ where required.",
   keywords: [
     "Smash Wraps",
     "The CHOP",
@@ -52,7 +61,7 @@ export const metadata: Metadata = {
     siteName: "Smash Wraps",
     title: "Smash Wraps — The CHOP",
     description:
-      "Flavor in the tip — Smash Wraps The CHOP. 3 Chops per box · 110mm · four flavors.",
+      "Flavor in the capsule tip — Smash Wraps The CHOP. 3 Chops per box · 110mm · four flavors. Single retail boxes.",
     images: [
       {
         url: `${siteUrl}/images/AllCaseBoxesChops.jpg`,
@@ -66,12 +75,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Smash Wraps — The CHOP",
     description:
-      "Smash Wraps The CHOP — rice paper tubes, flavor in the capsule. 3 Chops per box.",
+      "Smash Wraps The CHOP — rice paper tubes, flavor in the capsule tip. 3 Chops per box. Adults 21+ where required.",
     images: [`${siteUrl}/images/AllCaseBoxesChops.jpg`],
-  },
-  icons: {
-    icon: [{ url: "/images/smash-wraps-logo.png", type: "image/png" }],
-    apple: "/images/smash-wraps-logo.png",
   },
 };
 

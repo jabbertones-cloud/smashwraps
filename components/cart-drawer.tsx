@@ -9,7 +9,11 @@ import { Button } from "@/components/ui/button";
 import { CartEmailReminder } from "@/components/cart-email-reminder";
 import { cartToGa4Items } from "@/lib/analytics/ga4-ecommerce";
 import { trackBeginCheckoutThenRedirect } from "@/lib/analytics/gtag-client";
-import { computeRetailShippingCents } from "@/lib/shipping";
+import {
+  computeRetailShippingCents,
+  RETAIL_FREE_SHIPPING_THRESHOLD_CENTS,
+  RETAIL_SHIPPING_FLAT_CENTS,
+} from "@/lib/shipping";
 
 export function CartDrawer() {
   const {
@@ -78,12 +82,12 @@ export function CartDrawer() {
     <Dialog.Root open={cartOpen} onOpenChange={(o) => !o && closeCart()}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <Dialog.Content className="fixed right-0 top-0 z-[101] flex h-full w-full max-w-md flex-col border-l border-white/10 bg-[#050505] shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right">
+        <Dialog.Content className="fixed right-0 top-0 z-[101] flex h-full w-full max-w-md flex-col border-l border-white/10 bg-[#050505] pt-[env(safe-area-inset-top)] shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right">
           <div className="flex items-center justify-between border-b border-white/10 p-6">
             <Dialog.Title className="font-display text-xl tracking-wider text-white">
               YOUR CART
             </Dialog.Title>
-            <Dialog.Close className="rounded-full p-2 text-zinc-500 hover:bg-white/5 hover:text-white">
+            <Dialog.Close className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-zinc-500 hover:bg-white/5 hover:text-white">
               <span className="sr-only">Close</span>
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -124,7 +128,7 @@ export function CartDrawer() {
                       <div className="mt-2 flex items-center gap-2">
                         <button
                           type="button"
-                          className="rounded border border-white/20 px-2 py-0.5 text-xs text-white hover:bg-white/10"
+                          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded border border-white/20 text-sm text-white hover:bg-white/10"
                           onClick={() =>
                             setQty(product.slug, quantity - 1)
                           }
@@ -136,7 +140,7 @@ export function CartDrawer() {
                         </span>
                         <button
                           type="button"
-                          className="rounded border border-white/20 px-2 py-0.5 text-xs text-white hover:bg-white/10"
+                          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded border border-white/20 text-sm text-white hover:bg-white/10"
                           onClick={() =>
                             setQty(product.slug, quantity + 1)
                           }
@@ -158,7 +162,7 @@ export function CartDrawer() {
             )}
           </div>
 
-          <div className="border-t border-white/10 p-6">
+          <div className="border-t border-white/10 p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
             {items.length > 0 ? (
               <>
                 <div className="mb-2 flex justify-between text-sm text-zinc-400">
@@ -176,8 +180,16 @@ export function CartDrawer() {
                   <span className="font-mono text-white">{formattedTotal}</span>
                 </div>
                 <p className="mb-4 text-xs text-zinc-500">
-                  $4.99 shipping per order; free when subtotal is $50+. Tax shown at payment if
-                  applicable.
+                  {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(RETAIL_SHIPPING_FLAT_CENTS / 100)}{" "}
+                  shipping per order; free when subtotal is{" "}
+                  {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(RETAIL_FREE_SHIPPING_THRESHOLD_CENTS / 100)}
+                  +. Tax at payment if applicable.
                 </p>
               </>
             ) : null}
@@ -196,6 +208,9 @@ export function CartDrawer() {
             >
               {loading ? "Opening checkout…" : "Checkout"}
             </Button>
+            <p className="mt-2 text-center text-[11px] text-zinc-600">
+              Secure checkout with Stripe — no account required.
+            </p>
             {items.length > 0 && (
               <button
                 type="button"

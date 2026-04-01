@@ -30,10 +30,13 @@ export function ShopSection() {
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-zinc-400">
             One box = one flavor, one size (1g or 2g),{" "}
-            <strong className="text-zinc-200">3 Chops</strong> inside.{" "}
+            <strong className="text-zinc-200">3 Chops</strong> per box — what we ship from
+            this shop.{" "}
             <span className="text-zinc-300">$4.75</span> (1g) ·{" "}
-            <span className="text-zinc-300">$5.00</span> (2g) per box — not sold by the
-            case here. Open a product for details.
+            <span className="text-zinc-300">$5.00</span> (2g) — not sold by the case here.{" "}
+            <Link href="/faq" className="text-zinc-500 underline hover:text-zinc-300">
+              FAQ
+            </Link>
           </p>
         </div>
 

@@ -6,7 +6,7 @@ import { BRAND_LOGO_SRC } from "@/lib/brand";
 export function SiteFooter() {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-white/[0.08] bg-[#030303] py-14">
+    <footer className="border-t border-white/[0.08] bg-[#030303] pb-[max(3.5rem,calc(env(safe-area-inset-bottom)+2.5rem))] pt-14">
       <div className="mx-auto max-w-6xl px-4 text-center md:px-6">
         <div className="flex justify-center">
           <AssetImage

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
 import { Button } from "@/components/ui/button";
 import {
@@ -142,6 +143,13 @@ export function WholesaleSalesSheet() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+      <div className="mb-8 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-zinc-400">
+        <span className="text-zinc-200">Buying single retail boxes?</span>{" "}
+        <Link href="/shop" className="text-smash-yellow underline hover:text-yellow-300">
+          Shop the storefront
+        </Link>{" "}
+        — 3-packs only, not master cases.
+      </div>
       <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
         B2B · not indexed
       </p>

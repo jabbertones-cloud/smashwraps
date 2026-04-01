@@ -5,13 +5,20 @@ import { Button } from "@/components/ui/button";
 import { getProductBySlug } from "@/lib/products";
 import { productToGa4Item } from "@/lib/analytics/ga4-ecommerce";
 import { trackAddToCart } from "@/lib/analytics/gtag-client";
+import { cn } from "@/lib/utils";
 
-export function AddToCartButton({ slug }: { slug: string }) {
+export function AddToCartButton({
+  slug,
+  className,
+}: {
+  slug: string;
+  className?: string;
+}) {
   const { add } = useCart();
   return (
     <Button
       type="button"
-      className="min-w-[200px]"
+      className={cn("min-w-[200px]", className)}
       onClick={() => {
         const product = getProductBySlug(slug);
         if (product) {

@@ -12,7 +12,7 @@ export function SiteHeader() {
   const count = items.reduce((n, l) => n + l.quantity, 0);
 
   return (
-    <header className="sticky top-0 z-[100] border-b border-white/[0.08] bg-[#050505]/80 backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-[100] border-b border-white/[0.08] bg-[#050505]/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 md:px-6">
         <Link
           href="/"
@@ -41,7 +41,7 @@ export function SiteHeader() {
             type="button"
             variant="outline"
             size="sm"
-            className="gap-2 border-white/20 uppercase tracking-wider"
+            className="min-h-11 gap-2 border-white/20 uppercase tracking-wider"
             onClick={openCart}
             aria-label={`Open cart${count ? `, ${count} items` : ""}`}
           >

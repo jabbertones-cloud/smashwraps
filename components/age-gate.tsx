@@ -32,19 +32,18 @@ export function AgeGate({ suppress }: { suppress?: boolean }) {
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-end justify-center bg-black/80 p-4 pb-8 backdrop-blur-md sm:items-center sm:p-6"
+      className="fixed inset-0 z-[200] flex items-end justify-center bg-black/80 p-4 pb-[max(2rem,env(safe-area-inset-bottom))] backdrop-blur-md sm:items-center sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="age-gate-title"
     >
       <div className="max-w-lg rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 shadow-2xl">
         <h2 id="age-gate-title" className="font-display text-2xl tracking-wide text-white">
-          Age &amp; eligibility
+          Adults only
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-zinc-400">
-          This site is intended for adults. You must meet the minimum age and eligibility
-          rules for this product where you live. If you are not eligible, please leave
-          this site.
+          This site is for adults. You must meet the age and eligibility rules for this
+          product where you live. If you are not eligible, please leave.
         </p>
         <p className="mt-2 text-xs text-zinc-500">
           More detail:{" "}

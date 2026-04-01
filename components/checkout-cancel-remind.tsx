@@ -62,7 +62,7 @@ export function CheckoutCancelRemind() {
           placeholder="you@email.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="min-h-11 w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-smash-yellow sm:max-w-xs"
+          className="min-h-11 w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 text-base text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-smash-yellow sm:max-w-xs"
         />
         <Button type="submit" disabled={status === "loading"}>
           {status === "loading" ? "…" : "Email me"}
