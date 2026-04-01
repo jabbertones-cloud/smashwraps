@@ -6,6 +6,8 @@ import { AssetImage } from "@/components/asset-image";
 import { useState } from "react";
 import { useCart } from "@/contexts/cart-context";
 import { Button } from "@/components/ui/button";
+import { cartToGa4Items } from "@/lib/analytics/ga4-ecommerce";
+import { trackBeginCheckoutThenRedirect } from "@/lib/analytics/gtag-client";
 
 export function CartDrawer() {
   const {
@@ -40,7 +42,13 @@ export function CartDrawer() {
         return;
       }
       if (data.url) {
-        window.location.href = data.url;
+        trackBeginCheckoutThenRedirect(
+          cartToGa4Items(items),
+          subtotalCents,
+          () => {
+            window.location.href = data.url!;
+          },
+        );
         return;
       }
       setError("No checkout URL returned");

@@ -20,11 +20,12 @@ export function SiteFooter() {
           Patent pending · Flavor capsule infused
         </p>
         <p className="mx-auto mt-6 max-w-md text-xs leading-relaxed text-zinc-600">
-          DTC: single 3-pack boxes on this site. Stores / wholesale / case packs: add your buyer email on{" "}
+          This shop sells individual 3-pack boxes. For retail or wholesale questions, reach
+          out via{" "}
           <Link href="/about" className="text-zinc-500 underline hover:text-zinc-300">
             About
-          </Link>{" "}
-          when you are ready for inbound leads.
+          </Link>
+          .
         </p>
         <nav className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-zinc-500">
           <Link href="/legal/shipping" className="hover:text-zinc-300">

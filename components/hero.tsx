@@ -2,7 +2,6 @@ import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
 import { CHOP_HERO_ALL_CASE_BOXES } from "@/lib/chop-images";
 import { Button } from "@/components/ui/button";
-import { OptionalMediaNote } from "@/components/optional-media-note";
 import { TrustStrip } from "@/components/trust-strip";
 
 export function Hero() {
@@ -64,9 +63,8 @@ export function Hero() {
             </div>
           </div>
           <p className="mt-8 text-xs text-zinc-600">
-            For adults 21+. Follow your local laws. Final age UX per compliance memo.
+            For adults 21+. Follow your local laws.
           </p>
-          <OptionalMediaNote />
         </div>
 
         <div className="relative flex justify-center md:justify-end">

@@ -41,17 +41,16 @@ export function AgeGate() {
           Age &amp; eligibility
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-zinc-400">
-          This site is intended for adults. Product eligibility, age requirements, and
-          marketing claims are defined by your{" "}
-          <strong className="text-zinc-200">compliance memo</strong> — replace this copy
-          with counsel-approved language before launch.
+          This site is intended for adults. You must meet the minimum age and eligibility
+          rules for this product where you live. If you are not eligible, please leave
+          this site.
         </p>
         <p className="mt-2 text-xs text-zinc-500">
-          See{" "}
+          More detail:{" "}
           <Link href="/legal/compliance" className="text-smash-yellow underline">
-            Compliance checklist
-          </Link>{" "}
-          for counsel and Stripe steps before launch.
+            Compliance
+          </Link>
+          .
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <Button type="button" className="flex-1" onClick={confirm}>

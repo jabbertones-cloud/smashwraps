@@ -4,6 +4,7 @@ import { AssetImage } from "@/components/asset-image";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import { AddToCartButton } from "@/components/add-to-cart-button";
+import { ProductViewTracker } from "@/components/analytics/product-view-tracker";
 import { chopMasterCaseImageForSlug } from "@/lib/chop-images";
 import { PRODUCTS, getProductBySlug } from "@/lib/products";
 import { productJsonLd } from "@/lib/json-ld";
@@ -81,6 +82,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
+      <ProductViewTracker product={product} />
       <Script
         id="ld-product"
         type="application/ld+json"
@@ -158,8 +160,7 @@ export default async function ProductPage({ params }: Props) {
               <AddToCartButton slug={product.slug} />
             </div>
             <p className="mt-8 text-xs text-zinc-600">
-              For adults 21+ where required. Product classification and claims per
-              compliance memo — not legal advice on this page.
+              For adults 21+ where required. Follow your local laws.
             </p>
           </div>
         </div>

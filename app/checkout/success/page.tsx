@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { GaPurchaseTracker } from "@/components/analytics/ga-purchase-tracker";
 
 export const metadata: Metadata = {
   title: "Order confirmed",
@@ -14,6 +15,7 @@ export default async function CheckoutSuccessPage({ searchParams }: Props) {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-24 text-center md:px-6">
+      <GaPurchaseTracker sessionId={sessionId} />
       <p className="font-display text-sm tracking-[0.35em] text-smash-yellow">
         Thank you
       </p>

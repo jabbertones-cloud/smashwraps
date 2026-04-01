@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
 import { FLAVOR_LOGO } from "@/lib/chop-images";
 import { PRODUCTS } from "@/lib/products";
+import { ShopItemListTracker } from "@/components/analytics/shop-item-list-tracker";
 
 export const metadata: Metadata = {
   title: "Shop — Single 3-pack boxes",
@@ -25,6 +26,7 @@ function priceLabel(cents: number) {
 export default function ShopPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+      <ShopItemListTracker products={PRODUCTS} />
       <h1 className="font-display text-4xl text-white md:text-5xl">Shop</h1>
       <p className="mt-3 max-w-2xl text-zinc-400">
         Every SKU is a dedicated product page with structured data for search and

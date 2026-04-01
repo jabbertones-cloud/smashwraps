@@ -62,7 +62,7 @@ Headlines use **Bebas Neue** and body **DM Sans** via `next/font` (Google). For 
 
 ## Optional media
 
-Hero and How tiles can swap to video or lifestyle photography when assets exist (`optional-media-note.tsx`, `how-section.tsx`).
+Hero and How tiles can swap to video or lifestyle photography when assets exist (`how-section.tsx`).
 
 ## Docs
 

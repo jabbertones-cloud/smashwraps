@@ -6,7 +6,7 @@ import { faqPageJsonLd } from "@/lib/json-ld";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Answers about The CHOP, checkout, shipping, returns, and eligibility — replace with counsel-approved copy.",
+    "Answers about The CHOP, checkout, shipping, returns, and eligibility — Smash Wraps.",
   openGraph: { title: "FAQ — Smash Wraps" },
 };
 
@@ -24,8 +24,7 @@ export default function FaqPage() {
           Frequently asked questions
         </h1>
         <p className="mt-4 text-zinc-400">
-          Structured FAQPage schema is included for SEO/AEO. Replace placeholder answers
-          with counsel-approved language.
+          Quick answers about products, checkout, and policies.
         </p>
         <dl className="mt-12 space-y-10">
           {FAQ_ITEMS.map((item) => (
