@@ -114,7 +114,7 @@ export default async function ProductPage({ params }: Props) {
             <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
               <AssetImage
                 src={product.image}
-                alt={`${product.name} — case pack`}
+                alt={`${product.name} — single box (3-pack)`}
                 fill
                 className="object-contain p-8"
                 priority

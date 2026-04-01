@@ -33,7 +33,7 @@ npm run dev
 
 ## Images
 
-Copy the **13 PNG files** from your pack (`png/3d files/1 & 2 Gram chop/`) into **`public/images/`** using the exact names listed in **`public/images/ASSET-FILENAMES.txt`**. Paths are defined in **`lib/chop-images.ts`**: hero = `AllCaseBoxesChops.png`; each SKU uses its case image; PDPs also show the flavor “flat” chop shot (`IcedWatermelonChops.png`, etc.).
+**Product images:** The repo includes **placeholder PNGs** (900×900) for all paths in **`lib/chop-images.ts`** so nothing 404s. Replace them in **`public/images/`** with your photography (**same filenames**), or run `npm run images:placeholders` to regenerate neutral placeholders. See **`public/images/ASSET-FILENAMES.txt`** for the list.
 
 ## Fonts (brand-font todo)
 

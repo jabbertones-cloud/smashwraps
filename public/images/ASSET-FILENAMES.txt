@@ -1,4 +1,6 @@
-Copy these 13 PNG files from your asset folder into this directory (public/images/):
+Committed placeholders (900×900 neutral PNG) — replace with your photography, same filenames:
+
+Or copy from your asset folder into this directory (public/images/):
 
 1. AllCaseBoxesChops.png
 2. 1gCasePassionFruitChops.png

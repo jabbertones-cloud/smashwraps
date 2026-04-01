@@ -81,7 +81,7 @@ export function Hero() {
             />
             <AssetImage
               src={CHOP_HERO_ALL_CASE_BOXES}
-              alt="Smash Wraps The CHOP — all case boxes, four flavors"
+              alt="Smash Wraps The CHOP — four flavors, single 3-pack boxes"
               width={640}
               height={640}
               className="relative z-10 h-auto w-full drop-shadow-[0_25px_60px_rgba(0,0,0,0.85)]"
