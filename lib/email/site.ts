@@ -1,8 +1,8 @@
+import { getCanonicalSiteUrl } from "@/lib/site-url";
+
 /** Canonical site URL for email links and OG. */
 export function getSiteUrl(): string {
-  return (
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://smashwraps.com"
-  );
+  return getCanonicalSiteUrl();
 }
 
 /** Resend requires a verified domain; format: "Name <orders@yourdomain.com>". */

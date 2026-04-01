@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Create Stripe Products + Prices for wholesale cases (matches lib/wholesale-products.ts).
- * One case = 12 retail units. Same Connect / env pattern as stripe-seed-chop-products.mjs.
+ * Create Stripe Products + Prices for wholesale master cases (matches lib/wholesale-products.ts).
+ * One master case = 8 retail three-packs (24 Chops). WS $19 (1g) / $20 (2g) per case, all flavors.
+ * Price idempotency key includes v3 — re-run after a price change creates new Price objects; point env at new price_ ids from `npm run stripe:print-env:wholesale`.
  */
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -30,64 +31,68 @@ function loadEnvFiles() {
   }
 }
 
+/** Must match `name` in lib/wholesale-products.ts exactly (used by print-stripe-wholesale-env). */
 const SKUS = [
   {
-    slug: "wholesale-case-iced-watermelon-1g",
-    name: "The CHOP — Iced Watermelon (1g) — Case (12 units)",
-    priceCents: 4200,
+    slug: "wholesale-iced-watermelon-1g",
+    name: "The CHOP — Iced Watermelon (1g) — Master case (8× three-packs, 24 Chops)",
+    priceCents: 1900,
     productEnvKey: "STRIPE_WHOLESALE_PRODUCT_ICED_WATERMELON_1G",
     priceEnvKey: "STRIPE_WHOLESALE_PRICE_ICED_WATERMELON_1G",
   },
   {
-    slug: "wholesale-case-iced-watermelon-2g",
-    name: "The CHOP — Iced Watermelon (2g) — Case (12 units)",
-    priceCents: 4500,
+    slug: "wholesale-iced-watermelon-2g",
+    name: "The CHOP — Iced Watermelon (2g) — Master case (8× three-packs, 24 Chops)",
+    priceCents: 2000,
     productEnvKey: "STRIPE_WHOLESALE_PRODUCT_ICED_WATERMELON_2G",
     priceEnvKey: "STRIPE_WHOLESALE_PRICE_ICED_WATERMELON_2G",
   },
   {
-    slug: "wholesale-case-passion-fruit-1g",
-    name: "The CHOP — Passion Fruit (1g) — Case (12 units)",
-    priceCents: 4200,
+    slug: "wholesale-passion-fruit-1g",
+    name: "The CHOP — Passion Fruit (1g) — Master case (8× three-packs, 24 Chops)",
+    priceCents: 1900,
     productEnvKey: "STRIPE_WHOLESALE_PRODUCT_PASSION_FRUIT_1G",
     priceEnvKey: "STRIPE_WHOLESALE_PRICE_PASSION_FRUIT_1G",
   },
   {
-    slug: "wholesale-case-passion-fruit-2g",
-    name: "The CHOP — Passion Fruit (2g) — Case (12 units)",
-    priceCents: 4500,
+    slug: "wholesale-passion-fruit-2g",
+    name: "The CHOP — Passion Fruit (2g) — Master case (8× three-packs, 24 Chops)",
+    priceCents: 2000,
     productEnvKey: "STRIPE_WHOLESALE_PRODUCT_PASSION_FRUIT_2G",
     priceEnvKey: "STRIPE_WHOLESALE_PRICE_PASSION_FRUIT_2G",
   },
   {
-    slug: "wholesale-case-pineapple-1g",
-    name: "The CHOP — Pineapple (1g) — Case (12 units)",
-    priceCents: 4200,
+    slug: "wholesale-pineapple-1g",
+    name: "The CHOP — Pineapple (1g) — Master case (8× three-packs, 24 Chops)",
+    priceCents: 1900,
     productEnvKey: "STRIPE_WHOLESALE_PRODUCT_PINEAPPLE_1G",
     priceEnvKey: "STRIPE_WHOLESALE_PRICE_PINEAPPLE_1G",
   },
   {
-    slug: "wholesale-case-pineapple-2g",
-    name: "The CHOP — Pineapple (2g) — Case (12 units)",
-    priceCents: 4500,
+    slug: "wholesale-pineapple-2g",
+    name: "The CHOP — Pineapple (2g) — Master case (8× three-packs, 24 Chops)",
+    priceCents: 2000,
     productEnvKey: "STRIPE_WHOLESALE_PRODUCT_PINEAPPLE_2G",
     priceEnvKey: "STRIPE_WHOLESALE_PRICE_PINEAPPLE_2G",
   },
   {
-    slug: "wholesale-case-vanilla-1g",
-    name: "The CHOP — Vanilla (1g) — Case (12 units)",
-    priceCents: 4200,
+    slug: "wholesale-vanilla-1g",
+    name: "The CHOP — Vanilla (1g) — Master case (8× three-packs, 24 Chops)",
+    priceCents: 1900,
     productEnvKey: "STRIPE_WHOLESALE_PRODUCT_VANILLA_1G",
     priceEnvKey: "STRIPE_WHOLESALE_PRICE_VANILLA_1G",
   },
   {
-    slug: "wholesale-case-vanilla-2g",
-    name: "The CHOP — Vanilla (2g) — Case (12 units)",
-    priceCents: 4500,
+    slug: "wholesale-vanilla-2g",
+    name: "The CHOP — Vanilla (2g) — Master case (8× three-packs, 24 Chops)",
+    priceCents: 2000,
     productEnvKey: "STRIPE_WHOLESALE_PRODUCT_VANILLA_2G",
     priceEnvKey: "STRIPE_WHOLESALE_PRICE_VANILLA_2G",
   },
 ];
+
+const PRODUCT_DESCRIPTION =
+  "Wholesale master case: 8 retail three-pack boxes (24 Chops). $19/case (1g) or $20/case (2g).";
 
 const DRY = process.argv.includes("--dry-run");
 
@@ -119,7 +124,7 @@ async function main() {
   if (DRY) {
     for (const sku of SKUS) {
       console.log(
-        `[dry-run] ${sku.name} — $${(sku.priceCents / 100).toFixed(2)} / case`,
+        `[dry-run] ${sku.name} — $${(sku.priceCents / 100).toFixed(2)} / master case`,
       );
       console.log(`          ${sku.productEnvKey}=prod_…`);
       console.log(`          ${sku.priceEnvKey}=price_…`);
@@ -137,11 +142,12 @@ async function main() {
 
   for (const sku of SKUS) {
     const idemProduct = `smashwraps-wholesale-seed-product-${sku.slug}`;
-    const idemPrice = `smashwraps-wholesale-seed-price-${sku.slug}`;
+    const idemPrice = `smashwraps-wholesale-seed-price-${sku.slug}-v3-mc`;
 
     const product = await stripe.products.create(
       {
         name: sku.name,
+        description: PRODUCT_DESCRIPTION,
         metadata: {
           smashwraps_slug: sku.slug,
           storefront: "smashwraps-retail",
@@ -149,6 +155,15 @@ async function main() {
         },
       },
       { ...requestOptions, idempotencyKey: idemProduct },
+    );
+
+    await stripe.products.update(
+      product.id,
+      {
+        name: sku.name,
+        description: PRODUCT_DESCRIPTION,
+      },
+      requestOptions,
     );
 
     const price = await stripe.prices.create(

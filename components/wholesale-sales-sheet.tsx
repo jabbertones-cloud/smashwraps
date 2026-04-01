@@ -3,8 +3,13 @@
 import { useMemo, useState } from "react";
 import { AssetImage } from "@/components/asset-image";
 import { Button } from "@/components/ui/button";
-import { FLAVOR_LOGO } from "@/lib/chop-images";
-import { WHOLESALE_PRODUCTS, type WholesaleProduct } from "@/lib/wholesale-products";
+import {
+  CHOPS_PER_MASTER_CASE,
+  RETAIL_THREE_PACK_BOXES_PER_MASTER_CASE,
+  TUBES_PER_RETAIL_BOX,
+  WHOLESALE_PRODUCTS,
+  type WholesaleProduct,
+} from "@/lib/wholesale-products";
 
 function money(cents: number) {
   return new Intl.NumberFormat("en-US", {
@@ -50,7 +55,7 @@ export function WholesaleSalesSheet() {
   async function checkout() {
     setError(null);
     if (!lineItems.length) {
-      setError("Add at least one case with quantity 1 or more.");
+      setError("Add at least one master case with quantity 1 or more.");
       return;
     }
     setLoading(true);
@@ -130,21 +135,26 @@ export function WholesaleSalesSheet() {
         Wholesale sales sheet
       </h1>
       <p className="mt-4 max-w-3xl text-zinc-400">
-        One <strong className="text-zinc-200">case</strong> ={" "}
-        <strong className="text-zinc-200">12 retail boxes</strong> (12 three-packs / 36 Chops per
-        case). Prices are per case. Checkout is Stripe — same compliance stack as retail; this page
-        is intentionally omitted from the public sitemap.
+        One <strong className="text-zinc-200">master case</strong> ={" "}
+        <strong className="text-zinc-200">
+          {RETAIL_THREE_PACK_BOXES_PER_MASTER_CASE} retail three-pack boxes
+        </strong>{" "}
+        ({RETAIL_THREE_PACK_BOXES_PER_MASTER_CASE} × {TUBES_PER_RETAIL_BOX} tubes ={" "}
+        {CHOPS_PER_MASTER_CASE} Chops). Wholesale: <strong className="text-zinc-200">$19</strong>{" "}
+        per master case (1g) and <strong className="text-zinc-200">$20</strong> (2g), all flavors.
+        MOQ: confirm with your rep — checkout allows quantity per line below. Stripe checkout; this
+        page is not indexed.
       </p>
 
       <div className="mt-10 overflow-x-auto rounded-2xl border border-white/10 bg-zinc-950/50">
-        <table className="w-full min-w-[720px] text-left text-sm">
+        <table className="w-full min-w-[800px] text-left text-sm">
           <thead>
             <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-zinc-500">
               <th className="px-4 py-3">SKU</th>
               <th className="px-4 py-3">Flavor / size</th>
-              <th className="px-4 py-3">WS / case</th>
-              <th className="px-4 py-3">Suggested retail / case</th>
-              <th className="px-4 py-3 text-right">Cases</th>
+              <th className="px-4 py-3">WS / master case</th>
+              <th className="px-4 py-3">Suggested retail / master case</th>
+              <th className="px-4 py-3 text-right">Qty (master cases)</th>
             </tr>
           </thead>
           <tbody>
@@ -154,23 +164,26 @@ export function WholesaleSalesSheet() {
                 className="border-b border-white/[0.06] transition hover:bg-white/[0.02]"
               >
                 <td className="px-4 py-4 align-middle font-mono text-xs text-zinc-500">
-                  {p.slug.replace("wholesale-case-", "")}
+                  {p.slug.replace(/^wholesale-/, "")}
                 </td>
                 <td className="px-4 py-4 align-middle">
                   <div className="flex items-center gap-3">
-                    <div className="shrink-0 rounded-lg border border-white/10 bg-zinc-950/60 p-1.5">
+                    <div className="shrink-0 overflow-hidden rounded-lg border border-white/10 bg-zinc-950/60">
                       <AssetImage
-                        src={FLAVOR_LOGO[p.flavorId]}
+                        src={p.image}
                         alt=""
-                        width={40}
-                        height={40}
-                        className="h-8 w-8 object-contain"
+                        width={64}
+                        height={64}
+                        className="h-14 w-14 object-cover"
                         aria-hidden
                       />
                     </div>
                     <div>
                       <div className="font-medium text-white">{p.flavorLabel}</div>
-                      <div className="text-xs text-zinc-500">{p.grams} · 12 units</div>
+                      <div className="text-xs text-zinc-500">
+                        {p.grams} · {RETAIL_THREE_PACK_BOXES_PER_MASTER_CASE}× three-packs ·{" "}
+                        {CHOPS_PER_MASTER_CASE} Chops
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -186,7 +199,7 @@ export function WholesaleSalesSheet() {
                     value={qty[p.slug] ?? 0}
                     onChange={(e) => setQtyFor(p.slug, Number(e.target.value))}
                     className="w-16 rounded-lg border border-white/15 bg-black/50 px-2 py-1.5 text-center text-white"
-                    aria-label={`Cases for ${p.name}`}
+                    aria-label={`Master cases for ${p.name}`}
                   />
                 </td>
               </tr>

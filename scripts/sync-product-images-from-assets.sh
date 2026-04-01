@@ -34,16 +34,16 @@ copy() {
   echo "ok $dest"
 }
 
-# Hero strip + PDP master cases (JPEG → .jpg; lib/chop-images.ts)
+# Hero strip (still JPEG for home hero) + PDP / wholesale master cases (PNG; lib/chop-images.ts)
 copy "AllCaseBoxesChops_2-06b5f723-5238-4e3f-8cc0-1b3bd80d883b.png" "AllCaseBoxesChops.jpg"
-copy "1gIcedWatermelonChopsCase-b1982a98-921d-444b-ac2b-b6b31d0e31e6.png" "1gIcedWatermelonChopsCase.jpg"
-copy "2gIcedWatermelonChopsCase-c15846c4-7e69-459e-b72c-076281f9a84f.png" "2gIcedWatermelonChopsCase.jpg"
-copy "1gCasePassionFruitChops-3556e936-c59d-4606-8a0a-38e027e172a3.png" "1gCasePassionFruitChops.jpg"
-copy "2gCasePassionFruitChops-45932d90-df7b-4d17-bd4c-e93296c8c41c.png" "2gCasePassionFruitChops.jpg"
-copy "1gCasePineappleChops-5b1b5907-08dd-424c-a2da-0dc13080ef08.png" "1gCasePineappleChops.jpg"
-copy "2gCasePineappleChops-ef2a5a1e-20ac-4fc8-895a-46ef9b77ae2c.png" "2gCasePineappleChops.jpg"
-copy "1gCaseVanillaChops-9753df2c-6334-4387-bb63-3ee866b9752c.png" "1gCaseVanillaChops.jpg"
-copy "2gCaseVanillaChops-008eb0ef-8737-4876-be97-4455e2e8f0ca.png" "2gCaseVanillaChops.jpg"
+copy "1gIcedWatermelonChopsCase-9c6b1b01-0e58-42d3-82ba-a48f8d59730f.png" "1gIcedWatermelonChopsCase.png"
+copy "2gIcedWatermelonChopsCase-3c89188f-a6e5-4a96-83bd-e3e7f35f1729.png" "2gIcedWatermelonChopsCase.png"
+copy "1gCasePassionFruitChops-1abf6746-fb7b-4fd7-974e-538e055785e9.png" "1gCasePassionFruitChops.png"
+copy "2gCasePassionFruitChops-08f232b6-254b-48c3-bccf-64ae8576e14a.png" "2gCasePassionFruitChops.png"
+copy "1gCasePineappleChops-5d8b8b02-33a6-4384-b452-0e900872bde6.png" "1gCasePineappleChops.png"
+copy "2gCasePineappleChops-18d23da1-cc23-491a-a54b-54d11728b9f9.png" "2gCasePineappleChops.png"
+copy "1gCaseVanillaChops-c73961ae-c54b-4966-81a7-a521b182026d.png" "1gCaseVanillaChops.png"
+copy "2gCaseVanillaChops-855e0f2f-3276-4980-bba2-9a8bfe4c33e2.png" "2gCaseVanillaChops.png"
 
 # 3-pack box shots (single unit the customer buys)
 copy "IcedWatermelonChops-aa20dc6c-5a40-4bdc-93bd-cf4620686a5f.png" "IcedWatermelonChops.png"

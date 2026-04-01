@@ -11,5 +11,5 @@ if [[ ! -f .env.local ]] && [[ -z "${STRIPE_SECRET_KEY:-}" ]]; then
   exit 1
 fi
 
-echo "Seeding Stripe wholesale: 8 case products + 8 prices (see lib/wholesale-products.ts)..."
+echo "Seeding Stripe wholesale: 8 master-case products + 8 prices (see lib/wholesale-products.ts)..."
 exec node scripts/stripe-seed-wholesale-products.mjs "$@"

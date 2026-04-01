@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
-
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://smashwraps.com";
+import { getCanonicalSiteUrl } from "@/lib/site-url";
 
 /**
  * GEO / AEO: canonical facts for LLM crawlers — do not invent discounts, medical claims,
  * or legal classification; point to compliance memo for age and product class.
  */
 export function GET() {
+  const siteUrl = getCanonicalSiteUrl();
   const body = `# Smash Wraps — llms.txt
 
 Site: ${siteUrl}

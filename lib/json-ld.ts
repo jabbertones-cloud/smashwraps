@@ -1,6 +1,5 @@
 import type { Product } from "@/lib/products";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://smashwraps.com";
+import { getCanonicalSiteUrl } from "@/lib/site-url";
 
 function parseOrgSameAs(raw: string | undefined): string[] {
   if (!raw?.trim()) return [];
@@ -51,6 +50,7 @@ function buildOrgContactPoint():
 }
 
 export function productJsonLd(product: Product) {
+  const siteUrl = getCanonicalSiteUrl();
   const url = `${siteUrl}/products/${product.slug}`;
   return {
     "@context": "https://schema.org",
@@ -77,6 +77,7 @@ export function productJsonLd(product: Product) {
 }
 
 export function organizationJsonLd() {
+  const siteUrl = getCanonicalSiteUrl();
   const sameAs = parseOrgSameAs(process.env.NEXT_PUBLIC_ORG_SAME_AS);
   const contactPoint = buildOrgContactPoint();
 
@@ -98,6 +99,7 @@ export function organizationJsonLd() {
 
 /** Home page — pairs with Organization for SEO/AEO. */
 export function websiteJsonLd() {
+  const siteUrl = getCanonicalSiteUrl();
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",

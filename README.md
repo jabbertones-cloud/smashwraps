@@ -45,7 +45,7 @@ npm run stripe:images       # PATCH each Product.images on Stripe (STRIPE_SECRET
 
 **Not in the sitemap** — page uses `robots: { index: false }` and is omitted from `app/sitemap.ts` (share link / buyers only). UI matches the rest of the site (dark, Bebas, flavor logos); the Skyn Patch repo was not in this workspace, so layout follows the existing retail shop patterns.
 
-- **Catalog:** `lib/wholesale-products.ts` — 8 case SKUs (12 retail boxes per case). Example wholesale: **$42 / case (1g)**, **$45 / case (2g)**; suggested retail / case shown for reference.
+- **Catalog:** `lib/wholesale-products.ts` — 8 master-case SKUs. One master case = **8 retail three-pack boxes** (24 Chops). Wholesale: **$19 / master case (1g)**, **$20 / master case (2g)** (all flavors); suggested retail / master case = 8× DTC three-pack MSRP.
 - **Stripe:** `STRIPE_WHOLESALE_PRODUCT_*` + `STRIPE_WHOLESALE_PRICE_*` in `.env.example`. Create with:
   - `npm run stripe:seed:wholesale:dry` / `npm run stripe:seed:wholesale` (or `npm run stripe:seed:wholesale:all` — checks `.env.local`)
   - `npm run stripe:print-env:wholesale` — dump IDs from an existing account

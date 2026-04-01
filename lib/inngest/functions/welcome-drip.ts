@@ -6,6 +6,7 @@ import { sendResendEmail } from "@/lib/email/send-resend";
 import { buildDripEmailHtml } from "@/lib/email/templates/drips";
 import { createUnsubscribeToken } from "@/lib/email/unsubscribe-token";
 import { inngest } from "@/lib/inngest/client";
+import { getCanonicalSiteUrl } from "@/lib/site-url";
 
 type DripStep = Extract<EmailContactKind, "drip_1h" | "drip_24h" | "drip_72h">;
 
@@ -40,7 +41,7 @@ async function sendOneDrip(input: {
   if (existing) return { sent: false, reason: "already_sent" };
 
   const unsubTok = createUnsubscribeToken(input.contactId);
-  const site = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://smashcones.com";
+  const site = getCanonicalSiteUrl();
   const unsubscribeUrl =
     unsubTok != null ? `${site}/api/email/unsubscribe?t=${encodeURIComponent(unsubTok)}` : null;
 

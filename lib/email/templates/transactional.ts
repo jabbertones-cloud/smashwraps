@@ -100,7 +100,7 @@ export function buildOrderThankYouEmailHtml(input: {
     <p><strong>Thank you.</strong> Your payment went through — <strong>Stripe</strong> sends the official receipt to this address.</p>
     ${
       wholesale
-        ? `<p style="margin-top:8px;font-size:13px;color:#a1a1aa;">This was a <strong>wholesale case</strong> order (see sales sheet for unit/case definitions). Fulfillment follows the same shipping policies unless your account team says otherwise.</p>`
+        ? `<p style="margin-top:8px;font-size:13px;color:#a1a1aa;">This was a <strong>wholesale master case</strong> order (8× three-packs per case — see sales sheet). Fulfillment follows the same shipping policies unless your account team says otherwise.</p>`
         : ""
     }
     <p style="margin-top:12px;">Order summary:</p>

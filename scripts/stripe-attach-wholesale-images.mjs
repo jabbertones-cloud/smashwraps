@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Point Stripe wholesale Product `images` at the same live `/images/...` URLs as the storefront (already hosted on your public origin).
- * See stripe-attach-product-images.mjs for behavior; this file maps wholesale SKUs to those paths.
+ * Point Stripe wholesale Product `images` at master case photography (same paths as
+ * `CHOP_MASTER_CASE_BY_SLUG` in lib/chop-images.ts — live `/images/...` on your origin).
  */
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -30,30 +30,35 @@ function loadEnvFiles() {
   }
 }
 
+/** Wholesale slug → retail SKU image path (master case JPEGs). Sync with lib/chop-images.ts. */
 const IMAGE_PATH_BY_SLUG = {
-  "wholesale-case-iced-watermelon-1g": "/images/IcedWatermelonChops.png",
-  "wholesale-case-iced-watermelon-2g": "/images/IcedWatermelonChops.png",
-  "wholesale-case-passion-fruit-1g": "/images/PassionFruitChops.png",
-  "wholesale-case-passion-fruit-2g": "/images/PassionFruitChops.png",
-  "wholesale-case-pineapple-1g": "/images/PineappleChops.png",
-  "wholesale-case-pineapple-2g": "/images/PineappleChops.png",
-  "wholesale-case-vanilla-1g": "/images/VanillaChops.png",
-  "wholesale-case-vanilla-2g": "/images/VanillaChops.png",
+  "wholesale-iced-watermelon-1g": "/images/1gIcedWatermelonChopsCase.png",
+  "wholesale-iced-watermelon-2g": "/images/2gIcedWatermelonChopsCase.png",
+  "wholesale-passion-fruit-1g": "/images/1gCasePassionFruitChops.png",
+  "wholesale-passion-fruit-2g": "/images/2gCasePassionFruitChops.png",
+  "wholesale-pineapple-1g": "/images/1gCasePineappleChops.png",
+  "wholesale-pineapple-2g": "/images/2gCasePineappleChops.png",
+  "wholesale-vanilla-1g": "/images/1gCaseVanillaChops.png",
+  "wholesale-vanilla-2g": "/images/2gCaseVanillaChops.png",
 };
 
 const CATALOG_NAMES = {
-  "wholesale-case-iced-watermelon-1g":
-    "The CHOP — Iced Watermelon (1g) — Case (12 units)",
-  "wholesale-case-iced-watermelon-2g":
-    "The CHOP — Iced Watermelon (2g) — Case (12 units)",
-  "wholesale-case-passion-fruit-1g":
-    "The CHOP — Passion Fruit (1g) — Case (12 units)",
-  "wholesale-case-passion-fruit-2g":
-    "The CHOP — Passion Fruit (2g) — Case (12 units)",
-  "wholesale-case-pineapple-1g": "The CHOP — Pineapple (1g) — Case (12 units)",
-  "wholesale-case-pineapple-2g": "The CHOP — Pineapple (2g) — Case (12 units)",
-  "wholesale-case-vanilla-1g": "The CHOP — Vanilla (1g) — Case (12 units)",
-  "wholesale-case-vanilla-2g": "The CHOP — Vanilla (2g) — Case (12 units)",
+  "wholesale-iced-watermelon-1g":
+    "The CHOP — Iced Watermelon (1g) — Master case (8× three-packs, 24 Chops)",
+  "wholesale-iced-watermelon-2g":
+    "The CHOP — Iced Watermelon (2g) — Master case (8× three-packs, 24 Chops)",
+  "wholesale-passion-fruit-1g":
+    "The CHOP — Passion Fruit (1g) — Master case (8× three-packs, 24 Chops)",
+  "wholesale-passion-fruit-2g":
+    "The CHOP — Passion Fruit (2g) — Master case (8× three-packs, 24 Chops)",
+  "wholesale-pineapple-1g":
+    "The CHOP — Pineapple (1g) — Master case (8× three-packs, 24 Chops)",
+  "wholesale-pineapple-2g":
+    "The CHOP — Pineapple (2g) — Master case (8× three-packs, 24 Chops)",
+  "wholesale-vanilla-1g":
+    "The CHOP — Vanilla (1g) — Master case (8× three-packs, 24 Chops)",
+  "wholesale-vanilla-2g":
+    "The CHOP — Vanilla (2g) — Master case (8× three-packs, 24 Chops)",
 };
 
 async function listAllProducts(stripe, requestOptions) {
@@ -176,7 +181,7 @@ async function main() {
       continue;
     }
 
-    const idem = `smashwraps-wholesale-product-images-${slug}`;
+    const idem = `smashwraps-wholesale-product-images-${slug}-mc`;
     await stripe.products.update(
       prod.id,
       { images: [url] },

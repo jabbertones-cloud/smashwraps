@@ -10,15 +10,15 @@ Home hero (full strip — all four flavors, 1g + 2g master cases):
   AllCaseBoxesChops.jpg
   (sync: AllCaseBoxesChops_2-06b5f723-… → AllCaseBoxesChops.jpg)
 
-PDP top image — per-SKU retail master case (JPEG, use .jpg extension):
-  1gIcedWatermelonChopsCase.jpg
-  2gIcedWatermelonChopsCase.jpg
-  1gCasePassionFruitChops.jpg
-  2gCasePassionFruitChops.jpg
-  1gCasePineappleChops.jpg
-  2gCasePineappleChops.jpg
-  1gCaseVanillaChops.jpg
-  2gCaseVanillaChops.jpg
+PDP top image — per-SKU retail master case (PNG renders, 8 packs × 3 Chops):
+  1gIcedWatermelonChopsCase.png
+  2gIcedWatermelonChopsCase.png
+  1gCasePassionFruitChops.png
+  2gCasePassionFruitChops.png
+  1gCasePineappleChops.png
+  2gCasePineappleChops.png
+  1gCaseVanillaChops.png
+  2gCaseVanillaChops.png
 
 PDP second image / shop / cart — single 3-pack box:
   IcedWatermelonChops.png

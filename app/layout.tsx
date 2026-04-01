@@ -12,6 +12,7 @@ import { SkipLink } from "@/components/skip-link";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { shouldSkipAgeGateForUserAgent } from "@/lib/verification-bots";
+import { getCanonicalSiteUrl } from "@/lib/site-url";
 
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
@@ -28,8 +29,7 @@ const dm = DM_Sans({
   display: "swap",
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://smashwraps.com";
+const siteUrl = getCanonicalSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

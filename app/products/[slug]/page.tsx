@@ -8,9 +8,9 @@ import { ProductViewTracker } from "@/components/analytics/product-view-tracker"
 import { chopMasterCaseImageForSlug } from "@/lib/chop-images";
 import { PRODUCTS, getProductBySlug } from "@/lib/products";
 import { productJsonLd } from "@/lib/json-ld";
+import { getCanonicalSiteUrl } from "@/lib/site-url";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://smashwraps.com";
+const siteUrl = getCanonicalSiteUrl();
 
 type Props = { params: Promise<{ slug: string }> };
 

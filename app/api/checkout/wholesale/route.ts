@@ -10,8 +10,10 @@ import {
   getWholesaleProductBySlug,
   getWholesaleStripePriceId,
   getWholesaleStripeProductId,
+  normalizeWholesaleSlug,
   WHOLESALE_PRODUCT_SLUGS,
 } from "@/lib/wholesale-products";
+import { getCheckoutSiteOrigin } from "@/lib/site-url";
 
 const bodySchema = z.object({
   lineItems: z.array(
@@ -25,7 +27,15 @@ const bodySchema = z.object({
 export async function POST(req: Request) {
   let parsed: z.infer<typeof bodySchema>;
   try {
-    const json = await req.json();
+    const json = (await req.json()) as {
+      lineItems?: { slug: string; quantity: number }[];
+    };
+    if (json?.lineItems?.length) {
+      json.lineItems = json.lineItems.map((li) => ({
+        ...li,
+        slug: normalizeWholesaleSlug(li.slug),
+      }));
+    }
     parsed = bodySchema.parse(json);
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
@@ -42,7 +52,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = getCheckoutSiteOrigin();
   const lineItems: { price: string; quantity: number }[] = [];
 
   const stripe = getStripe();

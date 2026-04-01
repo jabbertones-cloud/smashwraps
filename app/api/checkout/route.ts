@@ -12,6 +12,7 @@ import {
   getStripeProductId,
   PRODUCT_SLUGS,
 } from "@/lib/products";
+import { getCheckoutSiteOrigin } from "@/lib/site-url";
 
 const bodySchema = z.object({
   lineItems: z.array(
@@ -42,7 +43,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = getCheckoutSiteOrigin();
   const lineItems: { price: string; quantity: number }[] = [];
 
   const stripe = getStripe();
