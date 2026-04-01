@@ -1,0 +1,17 @@
+Copy these 13 PNG files from your asset folder into this directory (public/images/):
+
+1. AllCaseBoxesChops.png
+2. 1gCasePassionFruitChops.png
+3. 1gCasePineappleChops.png
+4. 1gCaseVanillaChops.png
+5. 1gIcedWatermelonChopsCase.png
+6. 2gCasePassionFruitChops.png
+7. 2gCasePineappleChops.png
+8. 2gCaseVanillaChops.png
+9. 2gIcedWatermelonChopsCase.png
+10. IcedWatermelonChops.png
+11. PassionFruitChops.png
+12. PineappleChops.png
+13. VanillaChops.png
+
+Filenames must match exactly (case-sensitive on Vercel).

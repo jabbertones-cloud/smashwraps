@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
+import { CHOP_HERO_ALL_CASE_BOXES } from "@/lib/chop-images";
 import { Button } from "@/components/ui/button";
 import { OptionalMediaNote } from "@/components/optional-media-note";
 import { TrustStrip } from "@/components/trust-strip";
@@ -79,8 +80,8 @@ export function Hero() {
               aria-hidden
             />
             <AssetImage
-              src="/images/hero-all-flavors.svg"
-              alt="Smash Wraps The CHOP — four flavor retail displays"
+              src={CHOP_HERO_ALL_CASE_BOXES}
+              alt="Smash Wraps The CHOP — all case boxes, four flavors"
               width={640}
               height={640}
               className="relative z-10 h-auto w-full drop-shadow-[0_25px_60px_rgba(0,0,0,0.85)]"

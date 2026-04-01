@@ -1,3 +1,5 @@
+import { chopPackImageForSlug } from "@/lib/chop-images";
+
 export type FlavorId = "iced-watermelon" | "passion-fruit" | "pineapple" | "vanilla";
 export type GramSize = "1g" | "2g";
 
@@ -27,7 +29,7 @@ export const PRODUCTS: Product[] = [
     priceCents: 1200,
     currency: "usd",
     description: `Iced Watermelon flavor. ${pack}`,
-    image: "/images/iced-watermelon-1g-2g-packs.svg",
+    image: chopPackImageForSlug("iced-watermelon-1g"),
     stripePriceEnvKey: "STRIPE_PRICE_ICED_WATERMELON_1G",
   },
   {
@@ -39,7 +41,7 @@ export const PRODUCTS: Product[] = [
     priceCents: 1400,
     currency: "usd",
     description: `Iced Watermelon flavor. ${pack}`,
-    image: "/images/iced-watermelon-1g-2g-packs.svg",
+    image: chopPackImageForSlug("iced-watermelon-2g"),
     stripePriceEnvKey: "STRIPE_PRICE_ICED_WATERMELON_2G",
   },
   {
@@ -51,7 +53,7 @@ export const PRODUCTS: Product[] = [
     priceCents: 1200,
     currency: "usd",
     description: `Passion Fruit flavor. ${pack}`,
-    image: "/images/passion-fruit-1g-2g-packs.svg",
+    image: chopPackImageForSlug("passion-fruit-1g"),
     stripePriceEnvKey: "STRIPE_PRICE_PASSION_FRUIT_1G",
   },
   {
@@ -63,7 +65,7 @@ export const PRODUCTS: Product[] = [
     priceCents: 1400,
     currency: "usd",
     description: `Passion Fruit flavor. ${pack}`,
-    image: "/images/passion-fruit-1g-2g-packs.svg",
+    image: chopPackImageForSlug("passion-fruit-2g"),
     stripePriceEnvKey: "STRIPE_PRICE_PASSION_FRUIT_2G",
   },
   {
@@ -75,7 +77,7 @@ export const PRODUCTS: Product[] = [
     priceCents: 1200,
     currency: "usd",
     description: `Pineapple flavor. ${pack}`,
-    image: "/images/pineapple-1g-2g-packs.svg",
+    image: chopPackImageForSlug("pineapple-1g"),
     stripePriceEnvKey: "STRIPE_PRICE_PINEAPPLE_1G",
   },
   {
@@ -87,7 +89,7 @@ export const PRODUCTS: Product[] = [
     priceCents: 1400,
     currency: "usd",
     description: `Pineapple flavor. ${pack}`,
-    image: "/images/pineapple-1g-2g-packs.svg",
+    image: chopPackImageForSlug("pineapple-2g"),
     stripePriceEnvKey: "STRIPE_PRICE_PINEAPPLE_2G",
   },
   {
@@ -99,7 +101,7 @@ export const PRODUCTS: Product[] = [
     priceCents: 1200,
     currency: "usd",
     description: `Vanilla flavor. ${pack}`,
-    image: "/images/vanilla-1g-2g-packs.svg",
+    image: chopPackImageForSlug("vanilla-1g"),
     stripePriceEnvKey: "STRIPE_PRICE_VANILLA_1G",
   },
   {
@@ -111,7 +113,7 @@ export const PRODUCTS: Product[] = [
     priceCents: 1400,
     currency: "usd",
     description: `Vanilla flavor. ${pack}`,
-    image: "/images/vanilla-1g-2g-packs.svg",
+    image: chopPackImageForSlug("vanilla-2g"),
     stripePriceEnvKey: "STRIPE_PRICE_VANILLA_2G",
   },
 ];

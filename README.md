@@ -33,7 +33,7 @@ npm run dev
 
 ## Images
 
-Placeholder SVGs live under `public/images/`. Replace with pack photography; keep paths or update `lib/products.ts`.
+Copy the **13 PNG files** from your pack (`png/3d files/1 & 2 Gram chop/`) into **`public/images/`** using the exact names listed in **`public/images/ASSET-FILENAMES.txt`**. Paths are defined in **`lib/chop-images.ts`**: hero = `AllCaseBoxesChops.png`; each SKU uses its case image; PDPs also show the flavor “flat” chop shot (`IcedWatermelonChops.png`, etc.).
 
 ## Fonts (brand-font todo)
 
