@@ -1,6 +1,6 @@
 /**
- * One-time / maintenance: writes valid PNG placeholders into public/images/
- * so the site never 404s before real photography is copied in (replace files, same names).
+ * Dev-only: writes neutral PNG placeholders into public/images/.
+ * Do NOT run in a repo that already has real brand PNGs — back up first.
  */
 const sharp = require("sharp");
 const path = require("path");
@@ -26,12 +26,13 @@ const FILES = [
 async function main() {
   for (const name of FILES) {
     const outPath = path.join(outDir, name);
+    // Visible on dark UI (#050505): old r:18 was nearly invisible — reads as “broken”
     await sharp({
       create: {
         width: 900,
         height: 900,
         channels: 3,
-        background: { r: 18, g: 18, b: 22 },
+        background: { r: 58, g: 58, b: 66 },
       },
     })
       .png({ compressionLevel: 9 })

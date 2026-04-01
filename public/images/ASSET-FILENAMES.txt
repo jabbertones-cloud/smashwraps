@@ -20,3 +20,6 @@ Filenames must match exactly (case-sensitive on Vercel).
 
 Brand logo (header, footer, favicon — see lib/brand.ts):
   smash-wraps-logo.png
+
+How-it-works illustration (see lib/chop-images.ts HOW_SMASH_CAPSULE):
+  how-smash-capsule.png

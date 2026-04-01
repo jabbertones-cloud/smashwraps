@@ -1,8 +1,11 @@
 /**
- * Product art paths — PNGs in `public/images/` (committed placeholders OK; replace with final photography).
- * Filenames match the asset pack from `png/3d files/1 & 2 Gram chop/` (case-sensitive on Linux/Vercel).
+ * Product art paths — PNGs in `public/images/` (case-sensitive on Linux/Vercel).
+ * Replace files in place to update photography; paths stay stable for SEO and PDPs.
  */
 export const CHOP_HERO_ALL_CASE_BOXES = "/images/AllCaseBoxesChops.png";
+
+/** Educational graphic: crush capsule in filter (brand art). */
+export const HOW_SMASH_CAPSULE = "/images/how-smash-capsule.png";
 
 /** Box / product shot per product slug (1g vs 2g); filenames from legacy asset names. */
 export const CHOP_PACK_IMAGE_BY_SLUG: Record<string, string> = {
