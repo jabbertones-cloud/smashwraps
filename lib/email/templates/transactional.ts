@@ -120,6 +120,50 @@ export function buildOrderThankYouEmailHtml(input: {
   });
 }
 
+/** Internal fulfillment copy — sent to shop ops (not the buyer). */
+export function buildOrderFulfillmentNotifyHtml(input: {
+  lines: { title: string; quantity: number; lineTotal: string }[];
+  subtotal: string;
+  sessionId: string;
+  orderKind: "retail" | "wholesale";
+  customerEmail: string;
+  customerName: string | null | undefined;
+  customerPhone: string | null | undefined;
+  /** Pre-rendered HTML for shipping / customer address lines */
+  addressBlockHtml: string;
+}): string {
+  const wholesale = input.orderKind === "wholesale";
+  const rows = input.lines
+    .map(
+      (l) =>
+        `<tr><td style="padding:8px 0;border-bottom:1px solid #27272a;color:#fafafa;">${escape(l.title)} × ${l.quantity}</td><td align="right" style="padding:8px 0;border-bottom:1px solid #27272a;">${escape(l.lineTotal)}</td></tr>`,
+    )
+    .join("");
+  const body = `
+    <p style="font-size:12px;color:#71717a;">Stripe Checkout completed · payment confirmed</p>
+    <p><strong>${wholesale ? "Wholesale (master cases)" : "Retail"}</strong></p>
+    <p style="font-size:13px;color:#a1a1aa;margin-top:16px;">Buyer</p>
+    <p style="margin-top:4px;">
+      ${input.customerName ? `<strong>${escape(input.customerName)}</strong><br/>` : ""}
+      <a href="mailto:${escape(input.customerEmail)}">${escape(input.customerEmail)}</a>
+      ${input.customerPhone ? `<br/>${escape(input.customerPhone)}` : ""}
+    </p>
+    <p style="font-size:13px;color:#a1a1aa;margin-top:16px;">Ship to</p>
+    <p style="margin-top:4px;line-height:1.5;">${input.addressBlockHtml}</p>
+    <p style="margin-top:20px;font-size:13px;color:#a1a1aa;">Line items</p>
+    <table role="presentation" width="100%" style="margin:8px 0 0;font-size:14px;">${rows}
+    <tr><td style="padding-top:12px;font-weight:600;">Total paid</td><td align="right" style="padding-top:12px;font-weight:600;">${escape(input.subtotal)}</td></tr>
+    </table>
+    <p style="font-size:11px;color:#52525b;margin-top:16px;word-break:break-all;">Stripe session: ${escape(input.sessionId)}</p>
+    <p style="font-size:12px;color:#71717a;">Reply to this message uses the customer’s email (if your client supports it).</p>
+  `;
+  return emailShell({
+    title: wholesale ? "Fulfill wholesale order" : "Fulfill retail order",
+    preheader: `Order ${input.sessionId.slice(0, 12)}…`,
+    bodyHtml: body,
+  });
+}
+
 export function buildWholesaleInquiryThankYouHtml(input: {
   businessName: string;
 }): string {

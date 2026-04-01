@@ -1,7 +1,10 @@
 import "server-only";
 import type Stripe from "stripe";
 import { sendResendEmail } from "@/lib/email/send-resend";
-import { buildOrderThankYouEmailHtml } from "@/lib/email/templates/transactional";
+import {
+  buildOrderFulfillmentNotifyHtml,
+  buildOrderThankYouEmailHtml,
+} from "@/lib/email/templates/transactional";
 import { findProductByStripePriceId } from "@/lib/products";
 import { findWholesaleProductByStripePriceId } from "@/lib/wholesale-products";
 
@@ -9,6 +12,41 @@ const fmt = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
 });
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Ship-to from Checkout (shipping_details preferred). */
+function formatAddressBlockHtml(session: Stripe.Checkout.Session): string {
+  const ship = session.shipping_details;
+  if (ship?.address) {
+    return addressLinesHtml(ship.name, ship.address);
+  }
+  const cd = session.customer_details;
+  if (cd?.address) {
+    return addressLinesHtml(cd.name ?? null, cd.address);
+  }
+  return "<em>No address on this session — check Stripe Dashboard for details.</em>";
+}
+
+function addressLinesHtml(
+  name: string | null | undefined,
+  addr: Stripe.Address,
+): string {
+  const parts: string[] = [];
+  if (name) parts.push(`<strong>${escapeHtml(name)}</strong>`);
+  if (addr.line1) parts.push(escapeHtml(addr.line1));
+  if (addr.line2) parts.push(escapeHtml(addr.line2));
+  const cityState = [addr.city, addr.state, addr.postal_code].filter(Boolean).join(" ");
+  if (cityState) parts.push(escapeHtml(cityState));
+  if (addr.country) parts.push(escapeHtml(addr.country));
+  return parts.join("<br/>");
+}
 
 /**
  * Branded thank-you email after Stripe reports a paid checkout (webhook).
@@ -107,4 +145,31 @@ export async function sendPostPurchaseThankYou(input: {
       ? `stripe_evt_${input.stripeEventId}_post_purchase`
       : `post_purchase_session_${input.session.id}`,
   });
+
+  const fulfillmentTo = process.env.ORDER_FULFILLMENT_NOTIFY_EMAIL?.trim();
+  if (fulfillmentTo) {
+    const fulfillHtml = buildOrderFulfillmentNotifyHtml({
+      lines,
+      subtotal,
+      sessionId: full.id,
+      orderKind: anyWholesale ? "wholesale" : "retail",
+      customerEmail: email,
+      customerName: full.customer_details?.name,
+      customerPhone: full.customer_details?.phone,
+      addressBlockHtml: formatAddressBlockHtml(full),
+    });
+    await sendResendEmail({
+      to: fulfillmentTo,
+      subject: `[Smash Wraps] New ${anyWholesale ? "wholesale" : "retail"} order — ${full.id.slice(-8)}`,
+      html: fulfillHtml,
+      tags: [
+        { name: "category", value: "transactional" },
+        { name: "type", value: "fulfillment_notify" },
+      ],
+      idempotencyKey: input.stripeEventId
+        ? `stripe_evt_${input.stripeEventId}_fulfillment`
+        : `fulfillment_session_${full.id}`,
+      replyTo: email,
+    });
+  }
 }
