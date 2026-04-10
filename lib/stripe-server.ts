@@ -15,7 +15,23 @@ export function getStripe(): Stripe {
   if (!key) {
     throw new Error("STRIPE_SECRET_KEY is not set");
   }
-  return new Stripe(key, { apiVersion: "2025-02-24.acacia", typescript: true });
+
+  // CRITICAL: Validate key mode matches environment
+  const isProduction = process.env.NODE_ENV === "production";
+  if (isProduction && key.startsWith("sk_test_")) {
+    throw new Error(
+      "FATAL: Using test Stripe key (sk_test_*) in production. Set STRIPE_SECRET_KEY to sk_live_* immediately."
+    );
+  }
+  if (!isProduction && key.startsWith("sk_live_")) {
+    console.warn("WARNING: Using live Stripe key in non-production environment");
+  }
+
+  return new Stripe(key, {
+    typescript: true,
+    apiVersion: "2024-12-18.acacia",
+    maxNetworkRetries: 2,
+  });
 }
 
 /**

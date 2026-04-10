@@ -22,6 +22,13 @@ export async function POST(req: Request) {
   const verified = constructStripeEventOrResponse(body, sig, whSecret);
   if ("response" in verified) return verified.response;
 
-  await handleStripeWebhookEvent(verified.event);
+  // CRITICAL: Return 200 immediately — do NOT await processing.
+  // Stripe marks the endpoint as failed after ~30s. Email, DB, and any
+  // downstream side-effects can easily exceed that budget.
+  // Same pattern as the primary webhook handler.
+  handleStripeWebhookEvent(verified.event).catch((err) => {
+    console.error("[stripe-webhook-thin] async event processing failed", err);
+  });
+
   return NextResponse.json({ received: true });
 }

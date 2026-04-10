@@ -145,7 +145,7 @@ async function main() {
   }
 
   const stripe = new Stripe(secret, {
-    apiVersion: "2025-02-24.acacia",
+    apiVersion: "2025-06-30",
     typescript: false,
   });
 

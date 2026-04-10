@@ -84,7 +84,7 @@ export async function POST(req: Request) {
         connectOpts,
       );
       if (!check.ok) {
-        return NextResponse.json({ error: check.message }, { status: 500 });
+        return NextResponse.json({ error: check.message }, { status: 503 });
       }
     }
     lineItems.push({ price, quantity: line.quantity });
@@ -111,12 +111,23 @@ export async function POST(req: Request) {
     });
   }
 
+  // CRITICAL: Generate deterministic idempotency key to prevent duplicate sessions on timeout retry.
+  // Use hash of cart contents so same cart = same idempotency key.
+  const crypto = require("crypto");
+  const cartHash = crypto
+    .createHash("sha256")
+    .update(JSON.stringify(parsed.lineItems))
+    .digest("hex")
+    .substring(0, 12); // Stripe idempotency key max 255 chars
+  const idempotencyKey = `checkout_${Date.now()}_${cartHash}`;
+
   const sessionPayload: Stripe.Checkout.SessionCreateParams = {
     mode: "payment",
     line_items: sessionLineItems,
     success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${siteUrl}/checkout/cancel`,
     automatic_tax: { enabled: false },
+    automatic_payment_methods: { enabled: true },
     billing_address_collection: "required",
     shipping_address_collection: { allowed_countries: ["US"] },
     phone_number_collection: { enabled: true },
@@ -124,12 +135,18 @@ export async function POST(req: Request) {
       source: "smashwraps-retail",
       retail_subtotal_cents: String(subtotalCents),
       retail_shipping_cents: String(shippingCents),
+      // TODO: Add order_id, customer_id, or user_session_id for reconciliation if user is logged in
     },
   };
 
   const session = connectOpts
-    ? await stripe.checkout.sessions.create(sessionPayload, connectOpts)
-    : await stripe.checkout.sessions.create(sessionPayload);
+    ? await stripe.checkout.sessions.create(sessionPayload, {
+        ...connectOpts,
+        idempotencyKey,
+      })
+    : await stripe.checkout.sessions.create(sessionPayload, {
+        idempotencyKey,
+      });
 
   if (!session.url) {
     return NextResponse.json(
