@@ -127,6 +127,7 @@ export async function POST(req: Request) {
   const sessionPayload: Stripe.Checkout.SessionCreateParams = {
     mode: "payment",
     line_items: sessionLineItems,
+    automatic_payment_methods: { enabled: true },
     success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${siteUrl}/wholesale`,
     automatic_tax: { enabled: false },
@@ -141,9 +142,18 @@ export async function POST(req: Request) {
     },
   };
 
+  // Deterministic idempotency key prevents duplicate sessions on network timeout retry
+  const crypto = require("crypto");
+  const cartHash = crypto
+    .createHash("sha256")
+    .update(JSON.stringify(parsed.lineItems.map(li => `${li.slug}:${li.quantity}`).sort()))
+    .digest("hex")
+    .substring(0, 16);
+  const idempotencyKey = `wholesale_${cartHash}`;
+
   const session = connectOpts
-    ? await stripe.checkout.sessions.create(sessionPayload, connectOpts)
-    : await stripe.checkout.sessions.create(sessionPayload);
+    ? await stripe.checkout.sessions.create(sessionPayload, { ...connectOpts, idempotencyKey })
+    : await stripe.checkout.sessions.create(sessionPayload, { idempotencyKey });
 
   if (!session.url) {
     return NextResponse.json(
