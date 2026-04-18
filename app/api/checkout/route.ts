@@ -111,22 +111,37 @@ export async function POST(req: Request) {
     });
   }
 
-  // CRITICAL: Generate deterministic idempotency key to prevent duplicate sessions on timeout retry.
-  // Use hash of cart contents so same cart = same idempotency key.
+  // CRITICAL: Deterministic idempotency key. Hash the cart contents *including*
+  // shipping and subtotal so the same cart always produces the same key — a
+  // retry of the same request dedupes, a modified cart produces a new session.
+  // Do NOT include Date.now() here: that defeats idempotency (every retry would
+  // bill separately if Stripe's response was lost mid-flight).
   const crypto = require("crypto");
   const cartHash = crypto
     .createHash("sha256")
-    .update(JSON.stringify(parsed.lineItems))
+    .update(
+      JSON.stringify({
+        lineItems: parsed.lineItems,
+        subtotalCents,
+        shippingCents,
+      }),
+    )
     .digest("hex")
-    .substring(0, 12); // Stripe idempotency key max 255 chars
-  const idempotencyKey = `checkout_${Date.now()}_${cartHash}`;
+    .substring(0, 24);
+  const idempotencyKey = `checkout_retail_${cartHash}_v1`;
 
   const sessionPayload: Stripe.Checkout.SessionCreateParams = {
     mode: "payment",
     line_items: sessionLineItems,
     success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${siteUrl}/checkout/cancel`,
-    automatic_tax: { enabled: false },
+    // Section 15 (stripe-guru v2): automatic_tax must be ON for every revenue
+    // path. Retail wraps ship cross-state; without Stripe Tax computing the
+    // destination tax we're out of compliance in every registered state.
+    // Prerequisite: the Product rows this checkout references must have
+    // `tax_code` set (e.g. `txcd_99999999` general tangible) and all non-zero
+    // Prices must have `tax_behavior` ("exclusive" or "inclusive").
+    automatic_tax: { enabled: true },
     automatic_payment_methods: { enabled: true },
     billing_address_collection: "required",
     shipping_address_collection: { allowed_countries: ["US"] },

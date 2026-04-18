@@ -124,13 +124,36 @@ export async function POST(req: Request) {
     });
   }
 
+  // Deterministic idempotency key — same cart (SKUs, quantities, master cases,
+  // shipping) always produces the same key. A network retry of the same
+  // request will dedupe at Stripe; a modified cart produces a new session.
+  const crypto = require("crypto");
+  const wholesaleCartHash = crypto
+    .createHash("sha256")
+    .update(
+      JSON.stringify({
+        lineItems: parsed.lineItems,
+        masterCaseCount,
+        shippingCents,
+      }),
+    )
+    .digest("hex")
+    .substring(0, 24);
+  const idempotencyKey = `checkout_wholesale_${wholesaleCartHash}_v1`;
+
   const sessionPayload: Stripe.Checkout.SessionCreateParams = {
     mode: "payment",
     line_items: sessionLineItems,
     automatic_payment_methods: { enabled: true },
     success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${siteUrl}/wholesale`,
-    automatic_tax: { enabled: false },
+    // Section 15 (stripe-guru v2): automatic_tax on every revenue path. B2B
+    // resale customers typically supply a resale exemption certificate via
+    // Stripe's customer_tax_exempt flow; that still requires automatic_tax to
+    // be enabled so Stripe can honor the exemption. Disabling it is never the
+    // right answer — tax-exempt customers still need zero-rate tax lines in
+    // the invoice so downstream accounting reconciles cleanly.
+    automatic_tax: { enabled: true },
     billing_address_collection: "required",
     shipping_address_collection: { allowed_countries: ["US"] },
     phone_number_collection: { enabled: true },
@@ -142,17 +165,11 @@ export async function POST(req: Request) {
     },
   };
 
-  // Deterministic idempotency key prevents duplicate sessions on network timeout retry
-  const crypto = require("crypto");
-  const cartHash = crypto
-    .createHash("sha256")
-    .update(JSON.stringify(parsed.lineItems.map(li => `${li.slug}:${li.quantity}`).sort()))
-    .digest("hex")
-    .substring(0, 16);
-  const idempotencyKey = `wholesale_${cartHash}`;
-
   const session = connectOpts
-    ? await stripe.checkout.sessions.create(sessionPayload, { ...connectOpts, idempotencyKey })
+    ? await stripe.checkout.sessions.create(sessionPayload, {
+        ...connectOpts,
+        idempotencyKey,
+      })
     : await stripe.checkout.sessions.create(sessionPayload, { idempotencyKey });
 
   if (!session.url) {
