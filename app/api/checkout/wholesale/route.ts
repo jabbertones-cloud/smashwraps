@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { z } from "zod";
@@ -127,7 +128,6 @@ export async function POST(req: Request) {
   // Deterministic idempotency key — same cart (SKUs, quantities, master cases,
   // shipping) always produces the same key. A network retry of the same
   // request will dedupe at Stripe; a modified cart produces a new session.
-  const crypto = require("crypto");
   const wholesaleCartHash = crypto
     .createHash("sha256")
     .update(
@@ -141,7 +141,7 @@ export async function POST(req: Request) {
     .substring(0, 24);
   const idempotencyKey = `checkout_wholesale_${wholesaleCartHash}_v1`;
 
-  const sessionPayload: Stripe.Checkout.SessionCreateParams = {
+  const sessionPayload = {
     mode: "payment",
     line_items: sessionLineItems,
     automatic_payment_methods: { enabled: true },
@@ -163,7 +163,7 @@ export async function POST(req: Request) {
       wholesale_master_cases: String(masterCaseCount),
       wholesale_shipping_cents: String(shippingCents),
     },
-  };
+  } as Stripe.Checkout.SessionCreateParams;
 
   const session = connectOpts
     ? await stripe.checkout.sessions.create(sessionPayload, {

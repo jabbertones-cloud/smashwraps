@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { z } from "zod";
@@ -116,7 +117,6 @@ export async function POST(req: Request) {
   // retry of the same request dedupes, a modified cart produces a new session.
   // Do NOT include Date.now() here: that defeats idempotency (every retry would
   // bill separately if Stripe's response was lost mid-flight).
-  const crypto = require("crypto");
   const cartHash = crypto
     .createHash("sha256")
     .update(
@@ -130,7 +130,7 @@ export async function POST(req: Request) {
     .substring(0, 24);
   const idempotencyKey = `checkout_retail_${cartHash}_v1`;
 
-  const sessionPayload: Stripe.Checkout.SessionCreateParams = {
+  const sessionPayload = {
     mode: "payment",
     line_items: sessionLineItems,
     success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
@@ -152,7 +152,7 @@ export async function POST(req: Request) {
       retail_shipping_cents: String(shippingCents),
       // TODO: Add order_id, customer_id, or user_session_id for reconciliation if user is logged in
     },
-  };
+  } as Stripe.Checkout.SessionCreateParams;
 
   const session = connectOpts
     ? await stripe.checkout.sessions.create(sessionPayload, {

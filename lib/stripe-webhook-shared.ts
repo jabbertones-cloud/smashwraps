@@ -4,7 +4,7 @@ import type Stripe from "stripe";
 import { sendAbandonedStripeCheckoutEmail } from "@/lib/email/abandoned-checkout-notify";
 import { sendPostPurchaseThankYou } from "@/lib/email/post-order-notify";
 import { getStripe } from "@/lib/stripe-server";
-import { sql } from "@vercel/postgres";
+import { Pool } from "@neondatabase/serverless";
 
 /**
  * CRITICAL: Database-backed idempotency for webhook events.
@@ -18,6 +18,15 @@ import { sql } from "@vercel/postgres";
  * - Stripe notifies at stripe@example.com after 3 days of webhook delivery failures
  * - Track processed event count as a health metric (should grow steadily, not flat)
  */
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+function sql(strings: TemplateStringsArray, ...values: unknown[]) {
+  const text = strings.reduce((query, part, index) => {
+    return `${query}${part}${index < values.length ? `$${index + 1}` : ""}`;
+  }, "");
+  return pool.query(text, values);
+}
 
 /**
  * Ensure the webhook deduplication table exists (idempotent, safe on every startup).
@@ -141,7 +150,9 @@ export async function handleStripeWebhookEvent(event: Stripe.Event): Promise<voi
         amount_cents: dispute.amount,
         currency: dispute.currency,
         status: dispute.status,
-        evidence_due_by: new Date(dispute.evidence_due_by * 1000).toISOString(),
+        evidence_due_by: dispute.evidence_details?.due_by
+          ? new Date(dispute.evidence_details.due_by * 1000).toISOString()
+          : null,
       });
       // CRITICAL: Alert payment team and ops. Disputes require evidence submission within deadline.
       // TODO: Integrate with Slack/PagerDuty for immediate notification.

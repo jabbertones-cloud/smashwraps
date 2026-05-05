@@ -29,7 +29,7 @@ export function getStripe(): Stripe {
 
   return new Stripe(key, {
     typescript: true,
-    apiVersion: "2024-12-18.acacia",
+    apiVersion: "2025-02-24.acacia",
     maxNetworkRetries: 2,
   });
 }

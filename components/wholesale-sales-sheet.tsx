@@ -416,7 +416,7 @@ export function WholesaleSalesSheet() {
             Need terms or a PO?
           </h2>
           <p className="mt-3 max-w-2xl text-zinc-400">
-            Send a note for Net-terms, POs, or questions — we'll reply by email.
+            Send a note for Net-terms, POs, or questions — we&apos;ll reply by email.
             You can still place cases above anytime.
           </p>
           <form
