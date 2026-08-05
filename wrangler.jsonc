@@ -1,0 +1,38 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "smashwraps-retail",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-05-09",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://smashcones.com",
+    "NEXT_PUBLIC_GA_MEASUREMENT_ID": "G-LPNJ7WF9LH"
+  },
+  "routes": [
+    { "pattern": "smashcones.com/robots.txt", "zone_name": "smashcones.com" },
+    { "pattern": "smashcones.com/sitemap.xml", "zone_name": "smashcones.com" },
+    { "pattern": "smashcones.com/llms.txt", "zone_name": "smashcones.com" },
+    { "pattern": "smashcones.com/shop*", "zone_name": "smashcones.com" },
+    { "pattern": "smashcones.com/wholesale*", "zone_name": "smashcones.com" },
+    { "pattern": "smashcones.com/products/*", "zone_name": "smashcones.com" },
+    { "pattern": "smashcones.com/checkout/*", "zone_name": "smashcones.com" },
+    { "pattern": "smashcones.com/api/*", "zone_name": "smashcones.com" },
+    { "pattern": "smashcones.com/_next/*", "zone_name": "smashcones.com" },
+    { "pattern": "www.smashcones.com/robots.txt", "zone_name": "smashcones.com" },
+    { "pattern": "www.smashcones.com/sitemap.xml", "zone_name": "smashcones.com" },
+    { "pattern": "www.smashcones.com/llms.txt", "zone_name": "smashcones.com" },
+    { "pattern": "www.smashcones.com/shop*", "zone_name": "smashcones.com" },
+    { "pattern": "www.smashcones.com/wholesale*", "zone_name": "smashcones.com" },
+    { "pattern": "www.smashcones.com/products/*", "zone_name": "smashcones.com" },
+    { "pattern": "www.smashcones.com/checkout/*", "zone_name": "smashcones.com" },
+    { "pattern": "www.smashcones.com/api/*", "zone_name": "smashcones.com" },
+    { "pattern": "www.smashcones.com/_next/*", "zone_name": "smashcones.com" }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
