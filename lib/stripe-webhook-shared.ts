@@ -46,6 +46,66 @@ async function ensureWebhookDeduplicationTable(): Promise<void> {
   }
 }
 
+
+/**
+ * Ops alerting for payment events that need human attention.
+ *
+ * Configured via env (all optional — alerts are fail-soft and log-only when unset):
+ *   SLACK_WEBHOOK_URL        — incoming webhook; posts a formatted message
+ *   PAGERDUTY_ROUTING_KEY    — Events API v2 routing key; fires a P2 incident
+ *
+ * Call for: critical payment failures, disputes (7-day evidence window).
+ */
+export async function notifyOps(args: {
+  severity: "warning" | "critical";
+  title: string;
+  details: Record<string, unknown>;
+}): Promise<void> {
+  const slackUrl = process.env.SLACK_WEBHOOK_URL;
+  const pdKey = process.env.PAGERDUTY_ROUTING_KEY;
+  if (!slackUrl && !pdKey) {
+    console.warn("[stripe-webhook] ops alert (no channel configured):", args.title, args.details);
+    return;
+  }
+  const detailLines = Object.entries(args.details)
+    .map(([k, v]) => `${k}: ${String(v)}`)
+    .join("\n");
+  const text = `*[${args.severity.toUpperCase()}] ${args.title}*\n${detailLines}`;
+  if (slackUrl) {
+    try {
+      const res = await fetch(slackUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) console.error("[stripe-webhook] slack alert failed:", res.status);
+    } catch (e) {
+      console.error("[stripe-webhook] slack alert error:", e);
+    }
+  }
+  if (pdKey) {
+    try {
+      const res = await fetch("https://events.pagerduty.com/v2/enqueue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          routing_key: pdKey,
+          event_action: "trigger",
+          payload: {
+            summary: args.title,
+            severity: args.severity === "critical" ? "critical" : "warning",
+            source: "smashwraps-stripe-webhook",
+            custom_details: args.details,
+          },
+        }),
+      });
+      if (!res.ok) console.error("[stripe-webhook] pagerduty alert failed:", res.status);
+    } catch (e) {
+      console.error("[stripe-webhook] pagerduty alert error:", e);
+    }
+  }
+}
+
 /**
  * Shared handler after `constructEvent` — main and `/thin` webhook routes use the same logic.
  */
@@ -138,7 +198,21 @@ export async function handleStripeWebhookEvent(event: Stripe.Event): Promise<voi
         last_error_type: pi.last_payment_error?.type,
         charge_id: pi.last_payment_error?.charge,
       });
-      // TODO: Send alert to ops/payment team if critical failure type
+      const criticalFailureTypes = new Set(["card_declined", "fraudulent", "lost", "stolen"]);
+      if (criticalFailureTypes.has(pi.last_payment_error?.type ?? "")) {
+        await notifyOps({
+          severity: "critical",
+          title: `Stripe payment failed (${pi.last_payment_error?.type})`,
+          details: {
+            payment_intent_id: pi.id,
+            customer_id: String(pi.customer ?? "n/a"),
+            amount_cents: pi.amount,
+            currency: pi.currency,
+            error_code: pi.last_payment_error?.code ?? "n/a",
+            error_message: pi.last_payment_error?.message ?? "n/a",
+          },
+        });
+      }
       break;
     }
     case "charge.dispute.created": {
@@ -155,7 +229,20 @@ export async function handleStripeWebhookEvent(event: Stripe.Event): Promise<voi
           : null,
       });
       // CRITICAL: Alert payment team and ops. Disputes require evidence submission within deadline.
-      // TODO: Integrate with Slack/PagerDuty for immediate notification.
+      await notifyOps({
+        severity: "critical",
+        title: `Chargeback dispute created (${dispute.id})`,
+        details: {
+          dispute_id: dispute.id,
+          charge_id: String(dispute.charge),
+          amount_cents: dispute.amount,
+          currency: dispute.currency,
+          status: dispute.status,
+          evidence_due_by: dispute.evidence_details?.due_by
+            ? new Date(dispute.evidence_details.due_by * 1000).toISOString()
+            : "unknown",
+        },
+      });
       break;
     }
     case "payment_intent.canceled": {
