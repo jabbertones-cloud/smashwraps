@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "smashwraps",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-05-09",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+    "run_worker_first": false
+  },
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://smashcones.com",
+    "NEXT_PUBLIC_GA_MEASUREMENT_ID": "G-LPNJ7WF9LH"
+  }
+}
