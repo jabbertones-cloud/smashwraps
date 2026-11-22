@@ -14,10 +14,11 @@ const monorepoTracing =
 
 const nextConfig: NextConfig = {
   ...monorepoTracing,
-  // The zone's legacy /_next/* route belongs to the separate retail Worker.
-  // Load this Worker's hashed assets directly from its stable Cloudflare origin
-  // so landing/informational pages never request the retail Worker's manifest.
-  assetPrefix: "https://smashwraps.smatdesigns.workers.dev",
+  // Fallback pages must use their own Worker assets; the retail Worker's
+  // /_next/* route is hosted on smashcones.com and serves its own manifest.
+  assetPrefix: process.env.SMASHCONES_WORKER_ROLE === "retail"
+    ? undefined
+    : "https://smashwraps.smatdesigns.workers.dev",
   images: {
     remotePatterns: [],
   },
