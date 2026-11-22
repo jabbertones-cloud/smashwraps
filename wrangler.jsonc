@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "smashwraps",
+  "keep_vars": true,
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-05-09",
   "compatibility_flags": ["nodejs_compat"],

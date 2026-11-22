@@ -23,11 +23,11 @@ Adjust the goal text per sprint (GEO facts, GSC queries, competitor SERP).
 
 1. Index / search symbols in `smashwraps-retail` (jCodeMunch) for `app/`, `components/`, `lib/`.
 2. Run research agents for SERP/PAA if needed; merge findings into `docs/seo-research-brief.md`.
-3. Ship copy/structured data changes in the Next app; redeploy Vercel from Git.
+3. Ship copy/structured data changes in the Next app; build OpenNext and deploy through Wrangler after binding preflight.
 
-## 4) Vercel + GitHub
+## 4) Cloudflare Workers + GitHub
 
 - **Repo:** [github.com/jabbertones-cloud/smashwraps](https://github.com/jabbertones-cloud/smashwraps) — push this app root (see `DEPLOY-GITHUB.md`).
-- **Env:** Set `NEXT_PUBLIC_SITE_URL`, Stripe keys, `STRIPE_CONNECT_ACCOUNT_ID`, webhooks on the Vercel project linked to that repo.
+- **Env:** Set `NEXT_PUBLIC_SITE_URL`, Stripe keys, `STRIPE_CONNECT_ACCOUNT_ID`, webhooks on the existing route-owning Cloudflare Worker.
 
 Do **not** commit API keys or webhook secrets.

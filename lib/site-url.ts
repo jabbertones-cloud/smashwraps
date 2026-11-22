@@ -1,5 +1,5 @@
 /**
- * NEXT_PUBLIC_SITE_URL is often set to a bare hostname (e.g. smashcones.com) in Vercel.
+ * NEXT_PUBLIC_SITE_URL is often set to a bare hostname (e.g. smashcones.com) on the Cloudflare Worker.
  * `new URL()` and metadataBase require a full origin with scheme.
  */
 

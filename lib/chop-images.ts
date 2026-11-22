@@ -1,7 +1,7 @@
 import type { FlavorId } from "@/lib/products";
 
 /**
- * Product art paths — PNGs in `public/images/` (case-sensitive on Linux/Vercel).
+ * Product art paths — PNGs in `public/images/` (case-sensitive on Linux/Cloudflare Workers).
  * Replace files in place to update photography; paths stay stable for SEO and PDPs.
  */
 

@@ -31,6 +31,7 @@
     "worker:preview": "opennextjs-cloudflare preview",
     "worker:upload": "opennextjs-cloudflare upload",
     "worker:deploy": "opennextjs-cloudflare deploy",
+    "test:hosting": "node --test test/cloudflare-hosting.test.mjs",
     "test:catalog-config": "node --test test/stripe-catalog-config.test.mjs"
   },
   "dependencies": {
@@ -39,7 +40,6 @@
     "@radix-ui/react-dialog": "^1.1.4",
     "@radix-ui/react-slot": "^1.1.1",
     "@stripe/stripe-js": "^5.5.0",
-    "@vercel/analytics": "^1.4.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.2",
