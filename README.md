@@ -1,6 +1,6 @@
 # Smash Wraps — retail (Next.js)
 
-Custom storefront for **The CHOP** — Next.js App Router on Vercel, Stripe Checkout, Product/FAQ JSON-LD, `sitemap.xml`, `robots.txt`, and `llms.txt`.
+Custom storefront for **The CHOP** — Next.js App Router on Cloudflare Workers, Stripe Checkout, Product/FAQ JSON-LD, `sitemap.xml`, `robots.txt`, and `llms.txt`.
 
 ## Setup
 
@@ -28,7 +28,7 @@ npm run stripe:seed
 npm run stripe:seed:all
 ```
 
-The script creates one Product + one one-time USD Price per SKU (1g = $4.75, 2g = $5.00), prints **`STRIPE_PRODUCT_*=prod_…`** and **`STRIPE_PRICE_*=price_…`** for Vercel or `.env.local`, and uses idempotency keys so a partial failure can be retried safely.
+The script creates one Product + one one-time USD Price per SKU (1g = $4.75, 2g = $5.00), prints **`STRIPE_PRODUCT_*=prod_…`** and **`STRIPE_PRICE_*=price_…`** for the Cloudflare retail Worker or `.env.local`, and uses idempotency keys so a partial failure can be retried safely.
 
 **Product images on Stripe:** All art paths in `lib/chop-images.ts` resolve to **live, public `https://…/images/...` URLs** on your deployed site. `npm run stripe:images` sets each Stripe Product’s `images` field to those exact URLs (same files the PDP and shop load). Set **`NEXT_PUBLIC_SITE_URL`** to that deployed origin (or **`STRIPE_IMAGE_SITE_URL`** if the image host differs).
 
@@ -41,7 +41,7 @@ npm run stripe:images       # PATCH each Product.images on Stripe (STRIPE_SECRET
 
 ### Wholesale (`/wholesale`)
 
-**Wholesale Stripe objects are not created by `npm run stripe:seed` (retail only).** You must run **`npm run stripe:seed:wholesale`** once with `STRIPE_SECRET_KEY` (+ `STRIPE_CONNECT_ACCOUNT_ID` if you use Connect), then **`npm run stripe:print-env:wholesale`** and add the printed `STRIPE_WHOLESALE_*` vars to Vercel / `.env.local`. Until those env vars are set, `/wholesale` checkout returns 400.
+**Wholesale Stripe objects are not created by `npm run stripe:seed` (retail only).** You must run **`npm run stripe:seed:wholesale`** once with `STRIPE_SECRET_KEY` (+ `STRIPE_CONNECT_ACCOUNT_ID` if you use Connect), then **`npm run stripe:print-env:wholesale`** and add the printed `STRIPE_WHOLESALE_*` vars to the Cloudflare retail Worker / `.env.local`. Until those env vars are set, `/wholesale` checkout returns 400.
 
 **Not in the sitemap** — page uses `robots: { index: false }` and is omitted from `app/sitemap.ts` (share link / buyers only). UI matches the rest of the site (dark, Bebas, flavor logos); the Skyn Patch repo was not in this workspace, so layout follows the existing retail shop patterns.
 
@@ -68,14 +68,24 @@ npm install
 npm run dev
 ```
 
-## Deploy (Vercel)
+## Deploy (Cloudflare Workers only)
 
-**First-time setup:** see **`docs/VERCEL-SETUP.md`** — connect the `jabbertones-cloud` GitHub org to Vercel, import `jabbertones-cloud/smashwraps`, add env vars. The app is configured with root **`vercel.json`**; Cursor/IDE only pushes to GitHub; Vercel deploys from Git.
+**Production:** `smashcones.com` is served by Cloudflare Workers. See
+`docs/CLOUDFLARE-SMASHCONES.md` and `DEPLOY-GITHUB.md` before changing any
+Worker. The site uses separate `smashwraps` informational and
+`smashwraps-retail` storefront/checkout Workers with different runtime bindings.
 
-- Set `NEXT_PUBLIC_SITE_URL` to the production URL (on Vercel: `https://smashwraps.vercel.app` until a custom domain is attached).
-- Optional E-E-A-T (Organization JSON-LD on home): `NEXT_PUBLIC_ORG_SAME_AS` (comma-separated URLs), and any of `NEXT_PUBLIC_ORG_CONTACT_EMAIL`, `NEXT_PUBLIC_ORG_CONTACT_PHONE`, `NEXT_PUBLIC_ORG_CONTACT_URL`, `NEXT_PUBLIC_ORG_CONTACT_TYPE`. Redeploy after changing env so static pages pick up the new values.
-- Add `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_CONNECT_ACCOUNT_ID`, all retail `STRIPE_PRICE_*` variables, and wholesale `STRIPE_WHOLESALE_*` if you use `/wholesale`.
-- Configure a **platform** webhook pointing to `https://<your-domain>/api/webhooks/stripe` and use its signing secret as `STRIPE_WEBHOOK_SECRET`. Subscribe at least to **`checkout.session.completed`** and **`checkout.session.expired`** (abandoned Checkout email). In the webhook destination settings, enable events from **connected accounts** if you want those events for Connect checkouts (see Stripe Connect webhook docs).
+- Set `NEXT_PUBLIC_SITE_URL=https://smashcones.com` for the target build.
+- The informational Worker uses `npm run worker:build` and the existing
+  `wrangler.jsonc`; preserve the proven `assetPrefix` and `/_next/*` routes.
+- Before releasing storefront changes, audit the existing retail Worker
+  bindings and secrets for Stripe, email, checkout, product prices and webhooks.
+- Require exact-HEAD build, exact-MAIN rebuild, intended Worker deployment and
+  live page/asset/route acceptance. A Git push alone is not a deployment.
+- Optional E-E-A-T Organization JSON-LD variables include
+  `NEXT_PUBLIC_ORG_SAME_AS`, `NEXT_PUBLIC_ORG_CONTACT_EMAIL`,
+  `NEXT_PUBLIC_ORG_CONTACT_PHONE`, `NEXT_PUBLIC_ORG_CONTACT_URL` and
+  `NEXT_PUBLIC_ORG_CONTACT_TYPE`.
 
 ## Images
 
@@ -103,5 +113,5 @@ Optional but recommended for launch: **welcome** (footer + success page), **cart
 - `docs/MIROFISH-TRIBEV2-AUDIT.md` — design/copy case study vs MiroFish + TRIBE v2 framework
 - `docs/SWARM-SEO-RUNBOOK.md` — Mission Control / goal-based SEO research from claw-architect
 - `DEPLOY-GITHUB.md` — push to [jabbertones-cloud/smashwraps](https://github.com/jabbertones-cloud/smashwraps)
-- `docs/VERCEL-SETUP.md` — import repo on Vercel, env vars, webhook, domain
-- `docs/CLOUDFLARE-SMASHCONES.md` — DNS + SSL for `smashcones.com` on Cloudflare with Vercel
+- `docs/CLOUDFLARE-SMASHCONES.md` — Workers, route split, bindings and release gate
+- `docs/CLOUDFLARE-SMASHCONES.md` — Cloudflare route/asset ownership and safe release

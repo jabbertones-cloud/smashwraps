@@ -17,13 +17,13 @@ Templates in `lib/email/templates/transactional.ts` are written for the same **w
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL for links in email (`?cart=` recovery, shop links). |
 | `DATABASE_URL` | Optional — Neon Postgres; enables contact storage + drips. |
 | `INNGEST_EVENT_KEY` | Optional — schedule welcome drips; sync app URL to Inngest (`/api/inngest`). |
-| `INNGEST_SIGNING_KEY` | Inngest Cloud verifies requests to `/api/inngest` (set in Vercel). |
+| `INNGEST_SIGNING_KEY` | Inngest Cloud verifies requests to `/api/inngest` (set on the Cloudflare Worker). |
 | `EMAIL_UNSUBSCRIBE_SECRET` | Optional — HMAC for one-click unsubscribe in drip emails. |
 | `EMAIL_AB_SALT` | Optional — change A/B assignment salt without code deploy. |
 
 See root `docs/EMAIL_RESEND_MIGRATION.md` for domain verification.
 
-**Delivery webhooks:** `POST /api/webhooks/resend` verifies **Svix** signatures using `RESEND_WEBHOOK_SECRET` (`whsec_…` from the Resend webhook). Add the same URL in Resend (e.g. `https://smashcones.com/api/webhooks/resend`) and set the secret in Vercel env. Do not commit secrets.
+**Delivery webhooks:** `POST /api/webhooks/resend` verifies **Svix** signatures using `RESEND_WEBHOOK_SECRET` (`whsec_…` from the Resend webhook). Add the same URL in Resend (e.g. `https://smashcones.com/api/webhooks/resend`) and set the secret in Cloudflare retail Worker secrets. Do not commit secrets.
 
 ## Flow map
 

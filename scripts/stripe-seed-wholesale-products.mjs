@@ -191,7 +191,7 @@ async function main() {
   }
 
   if (lines.length) {
-    console.log("--- Add these to Vercel (or .env.local) ---\n");
+    console.log("--- Add these to the Cloudflare retail Worker (or .env.local) ---\n");
     console.log(lines.join("\n"));
     console.log("");
   }

@@ -4,7 +4,7 @@
  * see the same HTML users get after confirming — not a blank modal state.
  *
  * Stripe does not publish a fixed User-Agent; this list is conservative (known crawlers +
- * common HTTP clients). If verification still fails, fix DNS/SSL first (see VERCEL-SETUP.md).
+ * common HTTP clients). If verification still fails, fix DNS/SSL first (see CLOUDFLARE-SMASHCONES.md).
  */
 export function shouldSkipAgeGateForUserAgent(
   userAgent: string | null | undefined,

@@ -1,40 +1,48 @@
-# Cloudflare + Vercel for `smashcones.com`
+# Smashcones Cloudflare Workers deployment and route authority
 
-Open your zone in the Cloudflare dashboard: **Websites** → **smashcones.com**.
+`https://smashcones.com` and `https://www.smashcones.com` are served through
+Cloudflare Workers and managed DNS/TLS. Maintain the existing route table.
 
-## 1. Add the domain in Vercel first
+## Live route ownership (verified November 2026)
 
-1. Open [Vercel → smashwraps → Settings → Domains](https://vercel.com/scott-mantheys-projects/smashwraps/settings/domains).
-2. Add **`smashcones.com`** and **`www.smashcones.com`**.
-3. Vercel will show the exact DNS records to create (prefer those over generic examples below).
+| URLs | Existing Worker | Safe deployment boundary |
+| --- | --- | --- |
+| `/`, `/faq`, `/about` and fallback pages | `smashwraps` | Existing `wrangler.jsonc` |
+| `/shop*`, `/products/*`, `/wholesale`, `/checkout/*`, `/api/*`, `/_next/*` | `smashwraps-retail` | **Separate release requiring binding audit** |
 
-## 2. DNS in Cloudflare
+The two Workers were built with different hashed Next assets. The `smashwraps`
+Next.js `assetPrefix` intentionally requests its own CSS/JS directly from
+`https://smashwraps.smatdesigns.workers.dev/_next/static/*`. The retail
+Worker owns direct `https://smashcones.com/_next/static/*` requests.
+Do not remove this routing exception until the two runtimes have been
+consolidated with checkout and webhook regression coverage.
 
-Go to **smashcones.com** → **DNS** → **Records**.
+## Binding and rollout preflight
 
-Typical setup (confirm against what Vercel displays for your project):
+1. Read the current version and route inventory using Wrangler. Record version IDs.
+2. Compare the existing Worker bindings to the candidate's explicit variables.
+   The last inspected retail Worker had `ASSETS`, site/GA variables and a
+   protected `STRIPE_WEBHOOK_SECRET` secret. That **does not prove** checkout,
+   email, product-price or tax configuration is complete. Investigate before deploying.
+3. Keep existing dashboard variables with `keep_vars=true` where configured.
+   Cloudflare documents that secrets survive a Worker deployment, but binding
+   changes and accidentally targeting a different Worker still require review.
+4. Build the exact PR HEAD with `npm ci` and `npm run worker:build`, including
+   the matching `.open-next/assets` manifest. Do not cross-mix Worker assets.
+5. Run the bundle preview and test CSS/JS, navigation, product images, age gate,
+   mobile 390px layout and error pages. Read-only GETs against checkout and
+   webhooks must not make live Stripe sessions or trigger order updates.
+6. After merge, rebuild exact MAIN, upload/deploy only the intended named
+   Worker after release gates, and verify the new Cloudflare version and live
+   CSS/JS referenced by the matching HTML. Keep an explicit rollback version.
 
-| Type | Name | Target | Proxy |
-|------|------|--------|--------|
-| **A** | `@` | `76.76.21.21` | DNS only (grey cloud) recommended for apex, or Proxied if you need Cloudflare features |
-| **CNAME** | `www` | `cname.vercel-dns.com` | Often Proxied is OK |
+## Verified source references
 
-**Note:** Vercel sometimes shows a **CNAME** for the apex via “CNAME flattening” depending on flow—use the records Vercel gives you after you add the domain.
+- Cloudflare Wrangler configuration: https://developers.cloudflare.com/workers/wrangler/configuration/
+- Cloudflare versioned static assets: https://developers.cloudflare.com/workers/static-assets/
+- Official OpenNext adapter: https://opennext.js.org/cloudflare/howtos/assets
+- Initial route incident: `2026-11-20-smashcones-assets-incident.md`
 
-- If you use **Proxied** (orange cloud): **SSL/TLS** → set mode to **Full (strict)** so the browser → Cloudflare → Vercel chain is encrypted end-to-end.
-- If something mis-resolves, temporarily set records to **DNS only** (grey), verify the site loads on Vercel, then re-enable proxy.
-
-## 3. After DNS propagates
-
-1. In Vercel, wait until the domain shows **Valid Configuration**.
-2. Set **`NEXT_PUBLIC_SITE_URL`** to `https://smashcones.com` (or `https://www.smashcones.com` if that’s canonical—pick one and redirect the other in Vercel **Domains**).
-3. **Redeploy** the project so metadata, OG URLs, and sitemap use the new host.
-4. In **Stripe** (checkout success/cancel URLs) and **webhooks**, update any hardcoded `smashwraps.vercel.app` URLs if you added them manually.
-
-## 4. Optional Cloudflare tweaks for Next.js
-
-- **Speed → Optimization:** Rocket Loader can conflict with React; keep it **off** for this site.
-- **SSL/TLS → Edge Certificates:** enable **Always Use HTTPS**.
-- **Caching:** For HTML, avoid aggressive cache rules that serve stale document shells; static assets on `/_next/static/` are safe to cache.
-
-We cannot log into your Cloudflare or Vercel account from the repo—apply the steps above in those dashboards.
+Production deployment does not originate from an editor or a generic Git push.
+GitHub is source control; Cloudflare Worker builds and deployments require an
+explicit authorized release and live readback.

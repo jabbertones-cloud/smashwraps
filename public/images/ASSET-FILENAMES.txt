@@ -26,7 +26,7 @@ PDP second image / shop / cart — single 3-pack box:
   PineappleChops.png
   VanillaChops.png
 
-Filenames must match exactly (case-sensitive on Vercel).
+Filenames must match exactly (case-sensitive on Cloudflare Workers).
 
 Retail master-case drop (matches apply-product-drop-20260401.sh):
   npm run images:apply-retail-boxes

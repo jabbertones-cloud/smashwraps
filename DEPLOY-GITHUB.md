@@ -1,63 +1,27 @@
-# Deploy to GitHub + Vercel
+# Smashcones Cloudflare release runbook
 
-Target remote: **[jabbertones-cloud/smashwraps](https://github.com/jabbertones-cloud/smashwraps)** (currently may be empty).
+Source: `jabbertones-cloud/smashwraps` (GitHub). The repository exists;
+source control and deployment are separate.
 
-## SSH: use the Jabbertones host alias
+## Cloudflare Workers deployment
 
-This machine’s default `Host github.com` may point at another GitHub user’s key. **Use the Jabbertones key** via `~/.ssh/config`:
+`smashcones.com` uses existing Cloudflare Worker routes, not a single universal Worker.
+The fallback `smashwraps` Worker owns landing pages, FAQ, and About. The separate
+`smashwraps-retail` Worker owns Shop, products, checkout, API and `/_next/*`.
+Do not redirect, delete, or replace retail routes to publish a landing-page edit.
 
-```sshconfig
-Host github.com-jabbertones
-  HostName github.com
-  User git
-  IdentityFile ~/.ssh/id_ed25519_jabbertones_github
-  IdentitiesOnly yes
-```
+1. Merge a reviewed, tested PR to `main` and record the exact Git SHA.
+2. On the authorized build runner, run `npm ci` and `npm run worker:build`.
+3. Read live Worker bindings and routes **by name** before upload; compare with
+   required runtime variables and the previous version. Never print secret values.
+4. Publish only the correct Worker after verifying that its configuration preserves
+   bindings and that `/_next` references resolve to the correct asset manifest.
+5. Check the version in Cloudflare and HTTP 200 for each CSS/JS URL referenced by
+   live HTML, plus homepage, Shop, product, checkout and API read-only behavior.
+6. Keep the previous Worker version as rollback; do not transact real payments in tests.
 
-**Remote URL** (required for pushes to this org):
-
-```bash
-git remote set-url origin git@github.com-jabbertones:jabbertones-cloud/smashwraps.git
-```
-
-If you use plain `git@github.com:...`, GitHub may authenticate as a different user and push can fail with “verify your email” or permission errors.
-
-## One-time: push this folder as the repo root
-
-From **this directory** (`smashwraps-retail`):
-
-```bash
-git init
-git branch -M main
-git remote add origin git@github.com-jabbertones:jabbertones-cloud/smashwraps.git
-
-git add .
-git commit -m "feat: Smash Wraps Next.js storefront, MiroFish/TRIBE v2 audit pass, SEO/AEO/GEO"
-git push -u origin main
-```
-
-If the remote was added as HTTPS, you can keep HTTPS and use `gh auth login`, or switch to SSH with the alias above:
-
-```bash
-git remote set-url origin git@github.com-jabbertones:jabbertones-cloud/smashwraps.git
-```
-
-If push fails with **“You must verify your email address”**, you are likely authenticating as the wrong GitHub user (wrong SSH key). Fix the remote URL to use `github.com-jabbertones` as above, or confirm your email at [github.com/settings/emails](https://github.com/settings/emails) for the account that owns the key in use.
-
-If the remote already has a README commit:
-
-```bash
-git pull origin main --rebase
-git push -u origin main
-```
-
-## Vercel
-
-Repo includes **`vercel.json`** (Next.js build). Full checklist: **`docs/VERCEL-SETUP.md`** (GitHub app for `jabbertones-cloud`, import `smashwraps`, env vars, Stripe webhook, domain).
-
-1. **Import** the GitHub repo in the [Vercel dashboard](https://vercel.com/new).
-2. Root directory: **`.`** (repository root = Next app).
-3. Environment variables: copy from `.env.example` and set production values (see `README.md`).
-4. Production domain: set `NEXT_PUBLIC_SITE_URL` to the live URL.
-
-Cursor (or any IDE) is **not** the deploy target: push to GitHub, Vercel builds from the repo.
+**Release blocker:** This repo's `wrangler.jsonc` targets `smashwraps`, **not**
+`smashwraps-retail`. A plain `npm run worker:deploy` therefore cannot be assumed
+safe for the retail routes. See `docs/CLOUDFLARE-SMASHCONES.md` for split-route
+preflight and the existing runtime-secret inventory. Never copy a webhook secret
+from one Worker to another or substitute a guessed value.
