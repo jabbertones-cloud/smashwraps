@@ -20,6 +20,7 @@ import {
 import { getCheckoutSiteOrigin } from "@/lib/site-url";
 
 const bodySchema = z.object({
+  checkoutAttemptId: z.string().uuid(),
   lineItems: z.array(
     z.object({
       slug: z.enum(PRODUCT_SLUGS),
@@ -112,15 +113,15 @@ export async function POST(req: Request) {
     });
   }
 
-  // CRITICAL: Deterministic idempotency key. Hash the cart contents *including*
-  // shipping and subtotal so the same cart always produces the same key — a
-  // retry of the same request dedupes, a modified cart produces a new session.
+  // Preserve the deployed v2 contract: stable attempt ID for retries, plus
+  // cart, subtotal and shipping. A fresh checkout attempt gets a fresh key.
   // Do NOT include Date.now() here: that defeats idempotency (every retry would
   // bill separately if Stripe's response was lost mid-flight).
   const cartHash = crypto
     .createHash("sha256")
     .update(
       JSON.stringify({
+        checkoutAttemptId: parsed.checkoutAttemptId,
         lineItems: parsed.lineItems,
         subtotalCents,
         shippingCents,
@@ -128,7 +129,7 @@ export async function POST(req: Request) {
     )
     .digest("hex")
     .substring(0, 24);
-  const idempotencyKey = `checkout_retail_${cartHash}_v1`;
+  const idempotencyKey = `checkout_retail_${cartHash}_v2`;
 
   const sessionPayload = {
     mode: "payment",
@@ -142,12 +143,12 @@ export async function POST(req: Request) {
     // `tax_code` set (e.g. `txcd_99999999` general tangible) and all non-zero
     // Prices must have `tax_behavior` ("exclusive" or "inclusive").
     automatic_tax: { enabled: true },
-    automatic_payment_methods: { enabled: true },
     billing_address_collection: "required",
     shipping_address_collection: { allowed_countries: ["US"] },
     phone_number_collection: { enabled: true },
     metadata: {
       source: "smashwraps-retail",
+      checkout_attempt_id: parsed.checkoutAttemptId,
       retail_subtotal_cents: String(subtotalCents),
       retail_shipping_cents: String(shippingCents),
       // TODO: Add order_id, customer_id, or user_session_id for reconciliation if user is logged in

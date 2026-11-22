@@ -144,7 +144,6 @@ export async function POST(req: Request) {
   const sessionPayload = {
     mode: "payment",
     line_items: sessionLineItems,
-    automatic_payment_methods: { enabled: true },
     success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${siteUrl}/wholesale`,
     // Section 15 (stripe-guru v2): automatic_tax on every revenue path. B2B

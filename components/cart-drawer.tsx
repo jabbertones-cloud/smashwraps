@@ -3,7 +3,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useCart } from "@/contexts/cart-context";
 import { Button } from "@/components/ui/button";
 import { CartEmailReminder } from "@/components/cart-email-reminder";
@@ -27,15 +27,18 @@ export function CartDrawer() {
   } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const checkoutAttemptId = useRef<string | null>(null);
 
   async function checkout() {
     setError(null);
     setLoading(true);
     try {
+      checkoutAttemptId.current ??= crypto.randomUUID();
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          checkoutAttemptId: checkoutAttemptId.current,
           lineItems: items.map((i) => ({
             slug: i.product.slug,
             quantity: i.quantity,
@@ -48,6 +51,7 @@ export function CartDrawer() {
         return;
       }
       if (data.url) {
+        checkoutAttemptId.current = null;
         trackBeginCheckoutThenRedirect(
           cartToGa4Items(items),
           orderTotalCents,

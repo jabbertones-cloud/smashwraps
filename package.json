@@ -35,7 +35,8 @@
     "test:catalog-config": "node --test test/stripe-catalog-config.test.mjs",
     "test:retail-role": "node --test test/cloudflare-retail-role.test.mjs",
     "worker:build:retail": "SMASHCONES_WORKER_ROLE=retail opennextjs-cloudflare build",
-    "worker:preview:retail": "wrangler dev --config wrangler.retail.jsonc"
+    "worker:preview:retail": "wrangler dev --config wrangler.retail.jsonc",
+    "test:checkout-parity": "node --test test/retail-checkout-live-parity.test.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",

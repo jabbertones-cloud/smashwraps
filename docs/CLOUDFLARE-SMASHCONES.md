@@ -67,3 +67,25 @@ without completing the authorized payment review in issue #28.
 Use `wrangler versions deploy` only after exact-MAIN verification and record
 both the previous retail Worker version and the new one for rollback. The
 informational Worker must remain on its independently verified version.
+
+## Retail checkout compatibility recovered from live Cloudflare code
+
+Before activating a new retail Worker, the August 5, 2026 active version
+`0d9b682d-ccef-45bc-90d5-80dee14323d1` was downloaded with authorized
+Cloudflare Worker Script Read access and inspected locally (the raw Worker
+bundle, ~9.2 MB, is intentionally **not** committed). SHA-256 of the raw
+multipart API response: `d6eba32b5b330bdb94295e438567e272cc8f4a3724446bf8f847a42b6316d605`.
+
+Its retail checkout requires `checkoutAttemptId` as a UUID, reuses a browser
+`crypto.randomUUID()` value on retry, includes that value in the cart/subtotal/
+shipping SHA-256 idempotency fingerprint, labels the resulting Stripe key
+`checkout_retail_<hash>_v2`, resets the attempt after a successful redirect,
+and includes `checkout_attempt_id` in metadata. Its wholesale flow retains
+`checkout_wholesale_<hash>_v1`. The production payloads do not include an
+`automatic_payment_methods` field. The source repository had diverged to
+retail v1 without the attempt ID; `test:checkout-parity` prevents reversion.
+
+The code-parity check **does not** establish that Stripe can accept charges.
+The existing live account reports `chargesEnabled=false`, and the retail
+Worker has no `STRIPE_SECRET_KEY`. Keep Stripe setup and merchant review in
+issue #28 and do not create any production payment session for release testing.
