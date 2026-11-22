@@ -34,9 +34,10 @@
     "test:hosting": "node --test test/cloudflare-hosting.test.mjs",
     "test:catalog-config": "node --test test/stripe-catalog-config.test.mjs",
     "test:retail-role": "node --test test/cloudflare-retail-role.test.mjs",
-    "worker:build:retail": "SMASHCONES_WORKER_ROLE=retail opennextjs-cloudflare build",
+    "worker:build:retail": "SMASHCONES_WORKER_ROLE=retail opennextjs-cloudflare build && node scripts/retain-retail-legacy-assets.mjs && npm run test:legacy-assets",
     "worker:preview:retail": "wrangler dev --config wrangler.retail.jsonc",
-    "test:checkout-parity": "node --test test/retail-checkout-live-parity.test.mjs"
+    "test:checkout-parity": "node --test test/retail-checkout-live-parity.test.mjs",
+    "test:legacy-assets": "node --test test/retail-legacy-assets.test.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",

@@ -89,3 +89,24 @@ The code-parity check **does not** establish that Stripe can accept charges.
 The existing live account reports `chargesEnabled=false`, and the retail
 Worker has no `STRIPE_SECRET_KEY`. Keep Stripe setup and merchant review in
 issue #28 and do not create any production payment session for release testing.
+
+## Legacy hashed static-asset continuity (2026-11-22)
+
+Cloudflare version skew can break browser tabs opened before a new Worker version
+takes over: https://developers.cloudflare.com/workers/versions-and-deployments/version-skew/
+The active August 5 retail HTML across Shop, Wholesale, checkout and eight
+product pages references 22 distinct hashed assets (JS, CSS and fonts).
+The exact allowlisted URLs, byte counts, and SHA-256 hashes are recorded in
+scripts/retail-legacy-assets.json (795,866 bytes total). The dedicated retail
+build runs official OpenNext, then scripts/retain-retail-legacy-assets.mjs,
+and verifies every preserved file. The downloaded bytes come only from the
+existing Cloudflare-hosted smashcones.com origin, and are checked against
+the committed manifest. No old executable Worker code or secrets are copied
+into source control.
+
+Cloudflare asset manifests are per version. Keeping old hashed assets in the
+new version supports already-open tabs. It does not eliminate propagation
+risk for new HTML briefly served by a different edge during deployment.
+Do not claim zero version skew without a two-phase manifest rollout.
+Record old/new asset HTTP status during live acceptance and retain rollback.
+The informational Worker has a separate asset origin.
