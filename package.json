@@ -30,7 +30,8 @@
     "worker:build": "opennextjs-cloudflare build",
     "worker:preview": "opennextjs-cloudflare preview",
     "worker:upload": "opennextjs-cloudflare upload",
-    "worker:deploy": "opennextjs-cloudflare deploy"
+    "worker:deploy": "opennextjs-cloudflare deploy",
+    "test:hosting": "node --test test/cloudflare-hosting.test.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
