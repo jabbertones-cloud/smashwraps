@@ -110,3 +110,15 @@ risk for new HTML briefly served by a different edge during deployment.
 Do not claim zero version skew without a two-phase manifest rollout.
 Record old/new asset HTTP status during live acceptance and retain rollback.
 The informational Worker has a separate asset origin.
+
+## M1-native release gates (GitHub Actions not used)
+
+GitHub Actions is intentionally disabled for this repository. Do not enable it
+or add a new workflow to release the site. From the M1 Mac mini, after a clean
+`npm ci`, run `npm run verify:retail` to check native tests, TypeScript,
+targeted ESLint, retail asset preservation, an OpenNext build, and Wrangler
+`--dry-run`. For the informational Worker, use `npm run verify:info`.
+These commands **never deploy**; production still requires exact-HEAD merge,
+exact-MAIN verification, `wrangler versions upload` with retained bindings,
+read-only version inspection, rollout, live acceptance, and rollback receipt.
+Do not run a payment creation endpoint while Stripe charges are disabled.
