@@ -20,8 +20,10 @@ import {
   WHOLESALE_SHIPPING_LINE_NAME,
 } from "@/lib/shipping";
 import { getCheckoutSiteOrigin } from "@/lib/site-url";
+import { isSmashWrapsAccountContextConfigured } from "@/lib/stripe-account-guard";
 
 const bodySchema = z.object({
+  checkoutAttemptId: z.string().uuid(),
   lineItems: z.array(
     z.object({
       slug: z.enum(WHOLESALE_PRODUCT_SLUGS),
@@ -34,6 +36,7 @@ export async function POST(req: Request) {
   let parsed: z.infer<typeof bodySchema>;
   try {
     const json = (await req.json()) as {
+      checkoutAttemptId?: string;
       lineItems?: { slug: string; quantity: number }[];
     };
     if (json?.lineItems?.length) {
@@ -56,6 +59,10 @@ export async function POST(req: Request) {
       { error: "Payments not configured (STRIPE_SECRET_KEY)" },
       { status: 503 },
     );
+  }
+
+  if (!isSmashWrapsAccountContextConfigured(process.env.STRIPE_CONNECT_ACCOUNT_ID)) {
+    return NextResponse.json({ error: "Payments not configured (STRIPE_CONNECT_ACCOUNT_ID)" }, { status: 503 });
   }
 
   const siteUrl = getCheckoutSiteOrigin();
@@ -125,13 +132,13 @@ export async function POST(req: Request) {
     });
   }
 
-  // Deterministic idempotency key — same cart (SKUs, quantities, master cases,
-  // shipping) always produces the same key. A network retry of the same
-  // request will dedupe at Stripe; a modified cart produces a new session.
+  // Attempt-scoped idempotency: retrying one buyer's attempt dedupes; a
+  // different buyer with the same cart gets a distinct Stripe Checkout Session.
   const wholesaleCartHash = crypto
     .createHash("sha256")
     .update(
       JSON.stringify({
+        checkoutAttemptId: parsed.checkoutAttemptId,
         lineItems: parsed.lineItems,
         masterCaseCount,
         shippingCents,
@@ -139,7 +146,7 @@ export async function POST(req: Request) {
     )
     .digest("hex")
     .substring(0, 24);
-  const idempotencyKey = `checkout_wholesale_${wholesaleCartHash}_v1`;
+  const idempotencyKey = `checkout_wholesale_${wholesaleCartHash}_v2`;
 
   const sessionPayload = {
     mode: "payment",
@@ -159,17 +166,16 @@ export async function POST(req: Request) {
     metadata: {
       source: "smashwraps-retail",
       channel: "wholesale",
+      checkout_attempt_id: parsed.checkoutAttemptId,
       wholesale_master_cases: String(masterCaseCount),
       wholesale_shipping_cents: String(shippingCents),
     },
   } as Stripe.Checkout.SessionCreateParams;
 
-  const session = connectOpts
-    ? await stripe.checkout.sessions.create(sessionPayload, {
-        ...connectOpts,
-        idempotencyKey,
-      })
-    : await stripe.checkout.sessions.create(sessionPayload, { idempotencyKey });
+  const session = await stripe.checkout.sessions.create(sessionPayload, {
+    ...connectOpts,
+    idempotencyKey,
+  });
 
   if (!session.url) {
     return NextResponse.json(

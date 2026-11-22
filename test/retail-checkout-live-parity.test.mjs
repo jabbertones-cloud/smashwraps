@@ -20,8 +20,15 @@ test("cart client reuses a native UUID on retry, resets after redirect", () => {
   assert.match(client, /checkoutAttemptId\.current\s*=\s*null/);
 });
 
-test("wholesale retains separately deployed v1 idempotency contract", () => {
+test("wholesale uses buyer-attempt-scoped v2 idempotency", () => {
   const api = source("app/api/checkout/wholesale/route.ts");
-  assert.match(api, /checkout_wholesale_\$\{wholesaleCartHash\}_v1/);
+  assert.match(api, /checkoutAttemptId:\s*z\.string\(\)\.uuid\(\)/);
+  assert.match(api, /checkoutAttemptId:\s*parsed\.checkoutAttemptId/);
+  assert.match(api, /checkout_wholesale_\$\{wholesaleCartHash\}_v2/);
+  assert.match(api, /checkout_attempt_id:\s*parsed\.checkoutAttemptId/);
   assert.doesNotMatch(api, /automatic_payment_methods/);
+  const client = source("components/wholesale-sales-sheet.tsx");
+  assert.match(client, /checkoutAttemptId\.current\s*\?\?=\s*crypto\.randomUUID\(\)/);
+  assert.match(client, /checkoutAttemptId:\s*checkoutAttemptId\.current/);
+  assert.match(client, /checkoutAttemptId\.current\s*=\s*null/);
 });

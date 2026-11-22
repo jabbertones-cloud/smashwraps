@@ -18,6 +18,7 @@ import {
   RETAIL_SHIPPING_LINE_NAME,
 } from "@/lib/shipping";
 import { getCheckoutSiteOrigin } from "@/lib/site-url";
+import { isSmashWrapsAccountContextConfigured } from "@/lib/stripe-account-guard";
 
 const bodySchema = z.object({
   checkoutAttemptId: z.string().uuid(),
@@ -47,6 +48,10 @@ export async function POST(req: Request) {
       { error: "Payments not configured (STRIPE_SECRET_KEY)" },
       { status: 503 },
     );
+  }
+
+  if (!isSmashWrapsAccountContextConfigured(process.env.STRIPE_CONNECT_ACCOUNT_ID)) {
+    return NextResponse.json({ error: "Payments not configured (STRIPE_CONNECT_ACCOUNT_ID)" }, { status: 503 });
   }
 
   const siteUrl = getCheckoutSiteOrigin();
@@ -155,14 +160,10 @@ export async function POST(req: Request) {
     },
   } as Stripe.Checkout.SessionCreateParams;
 
-  const session = connectOpts
-    ? await stripe.checkout.sessions.create(sessionPayload, {
-        ...connectOpts,
-        idempotencyKey,
-      })
-    : await stripe.checkout.sessions.create(sessionPayload, {
-        idempotencyKey,
-      });
+  const session = await stripe.checkout.sessions.create(sessionPayload, {
+    ...connectOpts,
+    idempotencyKey,
+  });
 
   if (!session.url) {
     return NextResponse.json(
