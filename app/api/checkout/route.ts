@@ -19,6 +19,8 @@ import {
 } from "@/lib/shipping";
 import { getCheckoutSiteOrigin } from "@/lib/site-url";
 
+const MAX_CHECKOUT_BODY_BYTES = 16 * 1024;
+
 const bodySchema = z.object({
   checkoutAttemptId: z.string().uuid(),
   lineItems: z.array(
@@ -26,14 +28,37 @@ const bodySchema = z.object({
       slug: z.enum(PRODUCT_SLUGS),
       quantity: z.number().int().min(1).max(99),
     }),
-  ),
+  ).max(PRODUCT_SLUGS.length),
 });
 
 export async function POST(req: Request) {
   let parsed: z.infer<typeof bodySchema>;
   try {
-    const json = await req.json();
-    parsed = bodySchema.parse(json);
+    const length = Number(req.headers.get("content-length"));
+    if (length > MAX_CHECKOUT_BODY_BYTES) {
+      return NextResponse.json({ error: "Request body too large" }, { status: 413 });
+    }
+    const reader = req.body?.getReader();
+    if (!reader) throw new Error("Missing body");
+    const chunks: Uint8Array[] = [];
+    let size = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > MAX_CHECKOUT_BODY_BYTES) {
+        await reader.cancel();
+        return NextResponse.json({ error: "Request body too large" }, { status: 413 });
+      }
+      chunks.push(value);
+    }
+    const body = new Uint8Array(size);
+    let offset = 0;
+    for (const chunk of chunks) {
+      body.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    parsed = bodySchema.parse(JSON.parse(new TextDecoder().decode(body)));
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
