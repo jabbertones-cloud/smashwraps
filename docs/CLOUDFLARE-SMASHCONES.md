@@ -46,3 +46,24 @@ consolidated with checkout and webhook regression coverage.
 Production deployment does not originate from an editor or a generic Git push.
 GitHub is source control; Cloudflare Worker builds and deployments require an
 explicit authorized release and live readback.
+
+## Retail-only release role (two independent Workers)
+
+The informational build defaults to `smashwraps` and retains its own
+`assetPrefix`. Retail uses `SMASHCONES_WORKER_ROLE=retail npm run worker:build`
+(or `npm run worker:build:retail`) and `wrangler.retail.jsonc`, which targets
+only `smashwraps-retail`. The runtime route `/_next/*`
+belongs to the retail Worker. Never deploy a retail build to `smashwraps`,
+or an informational build to `smashwraps-retail`.
+
+Before a retail rollout, compare its remote bindings and existing live version,
+run both regression suites and the 390px browser smoke, verify that the retail
+HTML references only retail assets, and upload a tagged Worker version with
+`--strict --keep-vars` for preview. Uploading is not activation. Preserve the
+existing `STRIPE_WEBHOOK_SECRET` without viewing or copying its value. Do not
+change Stripe account bindings, enable charges, or make a real Checkout session
+without completing the authorized payment review in issue #28.
+
+Use `wrangler versions deploy` only after exact-MAIN verification and record
+both the previous retail Worker version and the new one for rollback. The
+informational Worker must remain on its independently verified version.

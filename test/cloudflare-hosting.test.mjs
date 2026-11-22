@@ -22,6 +22,6 @@ test("only Cloudflare deployment configuration is retained", () => {
 });
 
 test("informational assets stay bound to their own Worker", () => {
-  assert.match(text("next.config.ts"), /assetPrefix: "https:\/\/smashwraps\.smatdesigns\.workers\.dev"/);
+  assert.match(text("next.config.ts"), /\?\s*undefined\s*:\s*"https:\/\/smashwraps\.smatdesigns\.workers\.dev"/);
   assert.match(text("docs/CLOUDFLARE-SMASHCONES.md"), /smashwraps-retail/);
 });
