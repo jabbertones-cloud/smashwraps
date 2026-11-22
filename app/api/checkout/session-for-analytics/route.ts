@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { getStripe, getStripeConnectRequestOptions } from "@/lib/stripe-server";
+import { isSmashWrapsAccountContextConfigured } from "@/lib/stripe-account-guard";
 
 /**
  * Returns GA4-safe purchase fields from a completed Checkout Session.
@@ -13,6 +14,10 @@ export async function GET(req: Request) {
   }
 
   if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json({ error: "Not configured" }, { status: 503 });
+  }
+
+  if (!isSmashWrapsAccountContextConfigured(process.env.STRIPE_CONNECT_ACCOUNT_ID)) {
     return NextResponse.json({ error: "Not configured" }, { status: 503 });
   }
 
