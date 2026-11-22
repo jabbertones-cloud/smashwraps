@@ -31,7 +31,8 @@
     "worker:preview": "opennextjs-cloudflare preview",
     "worker:upload": "opennextjs-cloudflare upload",
     "worker:deploy": "opennextjs-cloudflare deploy",
-    "test:hosting": "node --test test/cloudflare-hosting.test.mjs"
+    "test:hosting": "node --test test/cloudflare-hosting.test.mjs",
+    "test:catalog-config": "node --test test/stripe-catalog-config.test.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
