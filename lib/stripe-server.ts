@@ -1,6 +1,7 @@
 import "server-only";
 import type { Product } from "@/lib/products";
 import Stripe from "stripe";
+import { requireSmashWrapsAccountContext } from "@/lib/stripe-account-guard";
 
 /** Shared shape for retail + wholesale catalog rows validated against Stripe Price. */
 export type StripeCatalogRow = {
@@ -38,12 +39,8 @@ export function getStripe(): Stripe {
  * Stripe Connect: when set, pass this as the second argument to API methods so they
  * run in the context of the Smash Wraps connected account (products/prices live there).
  */
-export function getStripeConnectRequestOptions():
-  | Stripe.RequestOptions
-  | undefined {
-  const id = process.env.STRIPE_CONNECT_ACCOUNT_ID?.trim();
-  if (!id || !id.startsWith("acct_")) return undefined;
-  return { stripeAccount: id };
+export function getStripeConnectRequestOptions(): Stripe.RequestOptions {
+  return { stripeAccount: requireSmashWrapsAccountContext(process.env.STRIPE_CONNECT_ACCOUNT_ID) };
 }
 
 /**
