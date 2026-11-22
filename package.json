@@ -37,7 +37,10 @@
     "worker:build:retail": "SMASHCONES_WORKER_ROLE=retail opennextjs-cloudflare build && node scripts/retain-retail-legacy-assets.mjs && npm run test:legacy-assets",
     "worker:preview:retail": "wrangler dev --config wrangler.retail.jsonc",
     "test:checkout-parity": "node --test test/retail-checkout-live-parity.test.mjs",
-    "test:legacy-assets": "node --test test/retail-legacy-assets.test.mjs"
+    "test:legacy-assets": "node --test test/retail-legacy-assets.test.mjs",
+    "verify:source": "node --test test/cloudflare-hosting.test.mjs test/stripe-catalog-config.test.mjs test/cloudflare-retail-role.test.mjs test/retail-checkout-live-parity.test.mjs && tsc --noEmit && eslint next.config.ts app/api/checkout/route.ts app/api/checkout/wholesale/route.ts components/cart-drawer.tsx",
+    "verify:retail": "npm run verify:source && npm run worker:build:retail && wrangler deploy --config wrangler.retail.jsonc --keep-vars --dry-run",
+    "verify:info": "npm run verify:source && npm run worker:build && wrangler deploy --config wrangler.jsonc --keep-vars --dry-run"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
