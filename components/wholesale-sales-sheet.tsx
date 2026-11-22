@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AssetImage } from "@/components/asset-image";
 import { Button } from "@/components/ui/button";
@@ -56,6 +56,7 @@ export function WholesaleSalesSheet() {
   const [qty, setQty] = useState<QtyMap>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const checkoutAttemptId = useRef<string | null>(null);
 
   const [inquiry, setInquiry] = useState({
     businessName: "",
@@ -102,10 +103,11 @@ export function WholesaleSalesSheet() {
     }
     setLoading(true);
     try {
+      checkoutAttemptId.current ??= crypto.randomUUID();
       const res = await fetch("/api/checkout/wholesale", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lineItems }),
+        body: JSON.stringify({ checkoutAttemptId: checkoutAttemptId.current, lineItems }),
       });
       const data = (await res.json()) as { url?: string; error?: string };
       if (!res.ok) {
@@ -113,6 +115,7 @@ export function WholesaleSalesSheet() {
         return;
       }
       if (data.url) {
+        checkoutAttemptId.current = null;
         window.location.href = data.url;
         return;
       }
